@@ -9,12 +9,11 @@ abstract: >-
   with adversarial robustness and null-model diagnostics.
 type: software
 authors:
-  - family-names: "Ramirez Ovalle"
-    given-names: "Carlos"
+  - name: "Anonymous (author details omitted for double-anonymized review)"
 version: "1.0.0"
 date-released: "2026-07-09"
 license: MIT
-repository-code: "https://github.com/cero1979/BisimulationMol"
+repository-code: "https://anonymous.4open.science/r/BisimulationMol-4E13/"
 keywords:
   - Petri nets
   - weak bisimulation
@@ -28,8 +27,7 @@ preferred-citation:
     A concurrency-theoretic method for behavioural comparison of conserved
     molecular modules across species: an Arabidopsis-animal cancer case study
   authors:
-    - family-names: "Ramirez Ovalle"
-      given-names: "Carlos"
+    - name: "Anonymous (author details omitted for double-anonymized review)"
   journal: "BioSystems"
   year: 2026
   notes: "Submitted / under review."

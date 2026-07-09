@@ -12,8 +12,8 @@ hallmarks.
 > to Elsevier *BioSystems*. It contains only what is needed to **replicate the
 > results** reported in the paper; the manuscript itself is intentionally **not**
 > included. Start with [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) for a
-> step-by-step, reviewer-oriented guide. Canonical location:
-> <https://github.com/cero1979/BisimulationMol>.
+> step-by-step, reviewer-oriented guide. Anonymized mirror for peer review:
+> <https://anonymous.4open.science/r/BisimulationMol-4E13/>.
 
 The method is grounded in:
 
