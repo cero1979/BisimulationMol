@@ -1,0 +1,18 @@
+# The formal core (src/concurrent_biomodels.py) needs only the Python standard
+# library. These dependencies are used by make_figures.py and the Jupyter
+# notebook to render figures and write CSV/LaTeX tables.
+#
+# Version floors below are conservative; the pipeline was last verified with
+# Python 3.11, numpy 1.26, pandas 3.0, matplotlib 3.10, networkx 3.3, pydot 4.0
+# and system Graphviz 12.
+numpy>=1.23
+pandas>=1.5
+matplotlib>=3.6
+networkx>=3.0
+pydot>=2.0
+notebook>=6.5
+nbconvert>=7.0
+#
+# System dependency (NOT installable via pip): Graphviz -> provides the `dot`
+# binary. Install with `brew install graphviz` (macOS) or
+# `sudo apt-get install graphviz` (Debian/Ubuntu).

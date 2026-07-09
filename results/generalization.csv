@@ -1,0 +1,5 @@
+reference,organism,strong_bisimilar,weak_bisimilar,other_simulated_by_ref,ref_simulated_by_other,distance,verdict
+Human,Mouse,True,True,True,True,0.0,Comparable (strong: near-identical core)
+Human,Yeast,False,True,True,True,0.0,Comparable (weak bisimulation)
+Human,Arabidopsis,False,True,True,True,0.0,Comparable (weak bisimulation)
+Human,Scrambled-control,False,False,False,False,0.9230769230769231,Not comparable

@@ -1,0 +1,36 @@
+\begin{longtable}{@{}p{1.4cm}p{4.5cm}p{7.2cm}p{1.8cm}@{}}
+\caption{Transition-level provenance for all curated modules. Each Petri-net transition name is named at least once in this table; this coverage is checked by the notebook and the \texttt{provenance\_coverage} function.}\\
+\toprule
+Module & Transition(s) & Biological event modelled & Evidence \\
+\midrule
+\endfirsthead
+\toprule
+Module & Transition(s) & Biological event modelled & Evidence \\
+\midrule
+\endhead
+GIM & sense\_DSB & ATM senses double-strand breaks & CB2023 \\
+GIM & sense\_SSB & ATR senses single-strand breaks & CB2023 \\
+GIM & ATM\_CHK2 / ATR\_CHK1 / ATM\_sig / ATR\_sig / CHK\_signal & signal transduction to checkpoint mediators & CB2023 \\
+GIM & CHK\_p53 / p53\_p21\_arrest / WEE1\_arrest & cell-cycle arrest (p53-p21-CDK / WEE1) & CB2023 \\
+GIM & repair\_HR\_NHEJ / repair\_BER\_NER & conserved DSB and excision repair & CB2023 \\
+GIM & repair\_ok / repair\_fail & successful restoration or irreparable damage & CB2023 \\
+GIM & apoptosis (animal) & canonical apoptotic exit & CB2023 \\
+GIM & SMR\_induction + differentiation (plant) & SMR-driven differentiation/endoreduplication replaces apoptosis & CB2023 \\
+DCE & glucose\_uptake / glycolysis & conserved glycolysis & CB2023 \\
+DCE & respiration / oxphos & TCA cycle and oxidative phosphorylation & CB2023 \\
+DCE & fermentation\_LDH / warburg\_atp & lactate dehydrogenase present in both species (Warburg-like) & CB2023 \\
+DCE & redox\_buffer (plant) & chloroplastic/redox integration (internal) & CB2023 \\
+SPS & mitogen / RB\_E2F\_G1S & conserved RB-E2F control of G1-S & CB2023 \\
+SPS & ORC\_MCM\_licensing & conserved ORC/MCM origin licensing & CB2023, Q2012 \\
+SPS & S\_phase / G2M / division & replication and division & CB2023 \\
+SPS & restriction\_tune (plant) & plant restriction-point tuning (internal) & Q2012 \\
+RCD & stress\_ROS / mTOR\_off & ROS-driven TOR inhibition & CB2023 \\
+RCD & autophagy & conserved autophagy (TOR-SnRK1, ATG genes) & CB2023 \\
+RCD & survive / commit\_PCD & survival branch or commitment to programmed cell death & CB2023 \\
+RCD & caspase\_execution (animal) & canonical caspase-dependent apoptosis & CB2023 \\
+RCD & metacaspase\_exec (plant) & metacaspase execution; no canonical caspase observable & CB2023 \\
+AID & recognition / innate\_MAPK / effectors & conserved innate immunity (convergent) & CB2023 \\
+AID & clonal\_selection / immune\_memory (animal) & adaptive immunity (absent in plants) & CB2023 \\
+AID & cell\_wall\_SAR (plant) & plant-specific defence with no animal counterpart & CB2023 \\
+\bottomrule
+\end{longtable}

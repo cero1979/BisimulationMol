@@ -1,0 +1,6 @@
+module,base_verdict,frac_bisim_preserved,frac_verdict_preserved,n
+GIM,Comparable (weak bisimulation),1.0,1.0,300
+DCE,Comparable (weak bisimulation),1.0,1.0,300
+SPS,Comparable (weak bisimulation),1.0,1.0,300
+RCD,Partial: sub-mechanism simulated (plant ⊑ animal),1.0,1.0,300
+AID,Not comparable,1.0,1.0,300

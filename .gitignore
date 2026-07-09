@@ -1,0 +1,49 @@
+# ---------------------------------------------------------------------------
+# Manuscript is NOT part of this repository.
+# The article is submitted to Elsevier BioSystems and is kept out of the repo
+# on purpose; this repository only contains what is needed to REPLICATE the
+# results reported in the paper.
+# ---------------------------------------------------------------------------
+paper/
+
+# Elsevier LaTeX template bundle (only used to typeset the manuscript)
+els-cas-templates/
+els-cas-templates.zip
+
+# Any PDF (base article, compiled manuscript, exported figures, ...)
+*.pdf
+
+# Regenerated figures: produced deterministically by `make figures`
+figs/
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# ---------------------------------------------------------------------------
+# Editors / OS
+# ---------------------------------------------------------------------------
+.DS_Store
+.vscode/
+.idea/
+
+# ---------------------------------------------------------------------------
+# Stray LaTeX auxiliaries (in case a .tex is ever compiled inside the repo)
+# ---------------------------------------------------------------------------
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+build*.log

@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the software and the article."
+title: "BisimulationMol: behavioural comparison of conserved molecular modules across species"
+abstract: >-
+  Reproducible implementation of a concurrency-theoretic method that encodes
+  conserved molecular modules as labelled Petri nets over a shared observational
+  interface and decides partial cross-species comparability using weak
+  bisimulation, simulation preorders and a trace-based behavioural distance,
+  with adversarial robustness and null-model diagnostics.
+type: software
+authors:
+  - family-names: "Ramirez Ovalle"
+    given-names: "Carlos"
+version: "1.0.0"
+date-released: "2026-07-09"
+license: MIT
+repository-code: "https://github.com/cero1979/BisimulationMol"
+keywords:
+  - Petri nets
+  - weak bisimulation
+  - concurrency theory
+  - cross-species comparison
+  - cancer hallmarks
+  - Arabidopsis thaliana
+preferred-citation:
+  type: article
+  title: >-
+    A concurrency-theoretic method for behavioural comparison of conserved
+    molecular modules across species: an Arabidopsis-animal cancer case study
+  authors:
+    - family-names: "Ramirez Ovalle"
+      given-names: "Carlos"
+  journal: "BioSystems"
+  year: 2026
+  notes: "Submitted / under review."

@@ -1,0 +1,26 @@
+module,label,base_verdict,base_distance,perturbed_verdict,perturbed_distance,delta_distance,weak_bisimilar_after,verdict_changed
+GIM,checkpoint,Comparable (weak bisimulation),0.0,Not comparable,0.8,0.8,False,True
+GIM,damage,Comparable (weak bisimulation),0.0,Not comparable,0.9090909090909091,0.9090909090909091,False,True
+GIM,exit_cycle,Comparable (weak bisimulation),0.0,Not comparable,0.2857142857142857,0.2857142857142857,False,True
+GIM,repair,Comparable (weak bisimulation),0.0,Not comparable,0.6666666666666667,0.6666666666666667,False,True
+GIM,restored,Comparable (weak bisimulation),0.0,Not comparable,0.2857142857142857,0.2857142857142857,False,True
+DCE,atp,Comparable (weak bisimulation),0.0,Not comparable,0.4444444444444444,0.4444444444444444,False,True
+DCE,branch_resp,Comparable (weak bisimulation),0.0,Not comparable,0.4444444444444444,0.4444444444444444,False,True
+DCE,glycolysis,Comparable (weak bisimulation),0.0,Not comparable,0.8333333333333334,0.8333333333333334,False,True
+DCE,reprogram,Comparable (weak bisimulation),0.0,Not comparable,0.4444444444444444,0.4444444444444444,False,True
+DCE,uptake,Comparable (weak bisimulation),0.0,Not comparable,0.9230769230769231,0.9230769230769231,False,True
+SPS,division,Comparable (weak bisimulation),0.0,Not comparable,0.25,0.25,False,True
+SPS,g1s,Comparable (weak bisimulation),0.0,Not comparable,0.8333333333333334,0.8333333333333334,False,True
+SPS,g2m,Comparable (weak bisimulation),0.0,Not comparable,0.4444444444444444,0.4444444444444444,False,True
+SPS,licensing,Comparable (weak bisimulation),0.0,Not comparable,0.7272727272727273,0.7272727272727273,False,True
+SPS,mitogen,Comparable (weak bisimulation),0.0,Not comparable,0.9230769230769231,0.9230769230769231,False,True
+SPS,sphase,Comparable (weak bisimulation),0.0,Not comparable,0.6,0.6,False,True
+RCD,autophagy,Partial: sub-mechanism simulated (plant ⊑ animal),0.1428571428571429,Not comparable,0.7,0.557142857142857,False,True
+RCD,mtor_off,Partial: sub-mechanism simulated (plant ⊑ animal),0.1428571428571429,Not comparable,0.8181818181818181,0.6753246753246752,False,True
+RCD,pcd_commit,Partial: sub-mechanism simulated (plant ⊑ animal),0.1428571428571429,Not comparable,0.375,0.2321428571428571,False,True
+RCD,stress,Partial: sub-mechanism simulated (plant ⊑ animal),0.1428571428571429,Not comparable,0.9166666666666666,0.7738095238095237,False,True
+RCD,survive,Partial: sub-mechanism simulated (plant ⊑ animal),0.1428571428571429,Not comparable,0.375,0.2321428571428571,False,True
+AID,cell_wall,Not comparable,0.4285714285714286,Not comparable,0.4285714285714286,0.0,False,False
+AID,effector,Not comparable,0.4285714285714286,Not comparable,0.625,0.1964285714285714,False,False
+AID,innate_signal,Not comparable,0.4285714285714286,Not comparable,0.7777777777777778,0.3492063492063492,False,False
+AID,recognition,Not comparable,0.4285714285714286,Not comparable,0.9,0.4714285714285714,False,False

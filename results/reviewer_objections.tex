@@ -1,0 +1,19 @@
+\begin{longtable}{@{}p{4.2cm}p{6.7cm}p{3.1cm}@{}}
+\caption{Adversarial reviewer-objection matrix.}\\
+\toprule
+Hostile objection & Response built into the study & Evidence \\
+\midrule
+\endfirsthead
+\toprule
+Hostile objection & Response built into the study & Evidence \\
+\midrule
+\endhead
+The Petri nets are hand-built and may be tuned to the desired result. & Every transition is tied to a provenance row; coverage is audited; verdicts are invariant under 300 silent refinements per module. & Appendix provenance; robustness.csv; notebook coverage assert \\
+The observational interface may determine the answer. & The interface is declared as the hypothesis, tested by global label permutation and by targeted single-label mismatch. & nullbaseline.csv; interface\_necessity.csv \\
+Trace distance is not equivalent to bisimulation. & Branching-time bisimulation/simulation is the primary verdict; trace distance is only a ranking and null-test statistic. & Preliminaries and Phase 6 rule \\
+The null test may be seed-dependent or inflated by multiple testing. & The family of five tests is corrected by Benjamini-Hochberg q-values and repeated across five seeds. & nullbaseline and seed-sensitivity CSVs \\
+The models are too compact to validate biology globally. & The claim is narrowed to partial module comparability under a declared interface, with explicit threats to validity. & Discussion and conclusion \\
+The generalisation beyond Arabidopsis is only rhetorical. & The same organism-agnostic routine is applied to human, mouse, yeast and Arabidopsis cell-cycle models, and rejects a scrambled same-alphabet control. & generalization.csv and Fig. generalisation \\
+The immune negative control could be a post-hoc failure case. & AID is pre-declared from non-prioritised immune destruction; it remains non-comparable and non-significant under the null. & Phase 1; AID q=0.154 \\
+\bottomrule
+\end{longtable}

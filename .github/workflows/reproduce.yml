@@ -1,0 +1,44 @@
+name: reproduce
+
+# Continuous-integration proof of reproducibility: on every push / PR this
+# workflow installs the pinned environment, runs the analysis, regenerates all
+# figures and tables, and fails if any tracked result changed.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install system Graphviz (dot)
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Print per-module verdicts and diagnostics
+        run: python src/concurrent_biomodels.py
+
+      - name: Regenerate all figures and tables
+        run: python make_figures.py
+
+      - name: Verify determinism of tracked results
+        run: git diff --exit-code -- results
+
+      - name: Upload regenerated figures as an artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: figures
+          path: figs/

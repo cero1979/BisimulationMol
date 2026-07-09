@@ -1,0 +1,6 @@
+module,hallmark,strong_bisimilar,weak_bisimilar,plant_simulated_by_animal,animal_simulated_by_plant,distance,verdict,n_states_animal,n_states_plant
+GIM,Genome Instability & Mutation (DNA repair),False,True,True,True,0.0,Comparable (weak bisimulation),13,14
+DCE,Deregulating Cellular Energetics (metabolism),False,True,True,True,0.0,Comparable (weak bisimulation),6,7
+SPS,Sustaining Proliferative Signaling / Replicative Immortality,False,True,True,True,0.0,Comparable (weak bisimulation),6,7
+RCD,Resisting Cell Death (cell death / autophagy),False,False,True,False,0.1428571428571429,Partial: sub-mechanism simulated (plant ⊑ animal),7,7
+AID,Avoiding Immune Destruction (negative control),False,False,False,False,0.4285714285714286,Not comparable,6,5
