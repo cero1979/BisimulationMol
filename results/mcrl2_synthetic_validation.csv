@@ -1,0 +1,7 @@
+case,python_strong_bisimilar,python_weak_bisimilar,mcrl2_strong_bisimilar,mcrl2_weak_bisimilar,mcrl2_weak_trace_equivalent,python_mcrl2_strong_agree,python_mcrl2_weak_agree,mcrl2_trace_matches_predeclared,mcrl2_version
+identity,True,True,True,True,True,True,True,True,ltscompare mCRL2 toolset 202607.0 (Release)
+silent refinement,False,True,False,True,True,True,True,True,ltscompare mCRL2 toolset 202607.0 (Release)
+label mismatch,False,False,False,False,False,True,True,True,ltscompare mCRL2 toolset 202607.0 (Release)
+label order swap,False,False,False,False,False,True,True,True,ltscompare mCRL2 toolset 202607.0 (Release)
+added branch,False,False,False,False,False,True,True,True,ltscompare mCRL2 toolset 202607.0 (Release)
+trace-equivalent branching,False,False,False,False,True,True,True,True,ltscompare mCRL2 toolset 202607.0 (Release)

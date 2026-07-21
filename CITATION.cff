@@ -1,33 +1,37 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite both the software and the article."
-title: "BisimulationMol: behavioural comparison of conserved molecular modules across species"
+title: "BisimulationMol: observational comparison of qualitative biological network models"
 abstract: >-
-  Reproducible implementation of a concurrency-theoretic method that encodes
-  conserved molecular modules as labelled Petri nets over a shared observational
-  interface and decides partial cross-species comparability using weak
-  bisimulation, simulation preorders and a trace-based behavioural distance,
-  with adversarial robustness and null-model diagnostics.
+  Reproducible implementation of a Petri-net framework that compares explicit
+  qualitative biological network models under a declared observational
+  interface using strong and weak bisimulation, simulation preorders and a
+  trace-based distance. The package includes construction-ground-truth
+  benchmarks, transparent baselines, scalability measurements and a curated
+  Arabidopsis-animal illustration.
 type: software
 authors:
-  - name: "Anonymous (author details omitted for double-anonymized review)"
-version: "1.0.0"
-date-released: "2026-07-09"
+  - family-names: "Ramirez Ovalle"
+    given-names: "Carlos"
+version: "2.0.0"
+date-released: "2026-07-15"
 license: MIT
-repository-code: "https://anonymous.4open.science/r/BisimulationMol-4E13/"
+repository-code: "https://github.com/cero1979/BisimulationMol"
+url: "https://github.com/cero1979/BisimulationMol"
 keywords:
+  - biological network modelling
   - Petri nets
   - weak bisimulation
-  - concurrency theory
-  - cross-species comparison
-  - cancer hallmarks
-  - Arabidopsis thaliana
+  - model comparison
+  - systems bioinformatics
+  - reproducible research
 preferred-citation:
   type: article
   title: >-
-    A concurrency-theoretic method for behavioural comparison of conserved
-    molecular modules across species: an Arabidopsis-animal cancer case study
+    Observational comparison of qualitative biological network models: a
+    reproducible Petri-net framework
   authors:
-    - name: "Anonymous (author details omitted for double-anonymized review)"
-  journal: "BioSystems"
+    - family-names: "Ramirez Ovalle"
+      given-names: "Carlos"
+  journal: "Network Modeling Analysis in Health Informatics and Bioinformatics"
   year: 2026
-  notes: "Submitted / under review."
+  notes: "Manuscript prepared for submission."

@@ -1,0 +1,12 @@
+{
+  "n_model_pair_conditions": 9,
+  "n_conditions": 3,
+  "formal_class_spearman_rho": 0.09128709291752768,
+  "formal_class_exact_permutation_p_one_sided": 0.1111111111111111,
+  "trace_distance_spearman_rho": -0.595879571531124,
+  "trace_distance_exact_permutation_p_one_sided": 0.5555555555555556,
+  "null_permutations": 216,
+  "primary_formal_metric": "ordinal formal class",
+  "secondary_formal_metric": "weak observable trace Jaccard distance at k=6",
+  "experimental_metric": "RMSE over common post-zero held-out values"
+}

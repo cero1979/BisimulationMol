@@ -1,0 +1,11 @@
+{
+  "runner_sha256": "cbe9c8a97729543bff3258273925701fdcc861fc47e7fd5f665e6128998385ed",
+  "python": "3.11.15",
+  "caspo": "4.0.3",
+  "caspots": "0.3",
+  "clingo": "5.8.0",
+  "repeats": 2,
+  "all_scores_deterministic": true,
+  "historical_header_normalization": "TR:mTOR_pS2448I -> TR:mTOR_pS2448i for MCF7",
+  "selection_warning": "retrospective_family_oracle uses held-out response and is not a blind estimate"
+}

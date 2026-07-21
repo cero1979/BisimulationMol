@@ -4,9 +4,9 @@ make_figures.py
 
 Runs the full methodology (Phases 1-6) plus the diagnostic experiments and
 regenerates, reproducibly, every figure and table consumed by the LaTeX
-article (``figs/`` and ``results/``). No network access or external database is
-required: everything derives from the curated models in
-``src/concurrent_biomodels.py``.
+article (``figs/`` and ``results/``). No network access is required after the
+two hash-pinned public GINsim models have been fetched. The independent formal
+cross-check requires the ``ltscompare`` executable from mCRL2.
 
     python make_figures.py
 """
@@ -14,6 +14,7 @@ required: everything derives from the curated models in
 from __future__ import annotations
 
 import os
+import shutil
 import sys
 
 import matplotlib
@@ -28,6 +29,9 @@ import pydot
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 import concurrent_biomodels as cbm  # noqa: E402
+import hpn_dream_validation as hpn  # noqa: E402
+import method_benchmark as mb  # noqa: E402
+import public_validation as pv  # noqa: E402
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 FIG = os.path.join(ROOT, "figs")
@@ -38,7 +42,9 @@ os.makedirs(RES, exist_ok=True)
 plt.rcParams.update(
     {
         "figure.dpi": 150,
-        "savefig.dpi": 150,
+        "savefig.dpi": 300,
+        "pdf.fonttype": 42,
+        "ps.fonttype": 42,
         "font.size": 10,
         "axes.titlesize": 11,
         "axes.spines.top": False,
@@ -51,6 +57,12 @@ C_PLANT = "#4a9b5e"
 C_TAU = "#9a9a9a"
 C_GOLD = "#c9a227"
 C_RED = "#b5563b"
+
+
+def save_artwork(fig, png_path: str) -> None:
+    """Write a high-resolution preview and an editable vector counterpart."""
+    fig.savefig(png_path, dpi=300)
+    fig.savefig(os.path.splitext(png_path)[0] + ".pdf")
 
 
 # ---------------------------------------------------------------------------
@@ -127,39 +139,41 @@ def fig_phase2():
 # ---------------------------------------------------------------------------
 # Phase 4 : Petri-net drawings (Graphviz/dot layout)
 # ---------------------------------------------------------------------------
-def draw_petri(net: cbm.PetriNet, path: str, title: str):
+def draw_petri(net: cbm.PetriNet, path: str, _title: str):
     g = pydot.Dot(graph_type="digraph", rankdir="LR", splines="spline",
-                  nodesep="0.35", ranksep="0.7", fontname="Helvetica",
-                  label=title, labelloc="t", fontsize="16")
-    g.set_dpi("150")
+                  nodesep="0.25", ranksep="0.45", fontname="Helvetica")
     bullet = "\u25cf"
     for p in net.places:
         tokens = net.init.get(p, 0)
-        lbl = p if not tokens else f"{p}\n{bullet * tokens}"
+        display_place = p.replace("_", "\n")
+        lbl = display_place if not tokens else f"{display_place}\n{bullet * tokens}"
         g.add_node(pydot.Node(
             f"p_{p}", shape="circle", style="filled",
             fillcolor="#eaf1fb", color="#3b6fb5", penwidth="1.8",
-            fontsize="11", label=lbl))
+            fontsize="12", label=lbl))
     for t in net.transitions:
         is_tau = t.label == cbm.TAU
         tsym = "\u03c4" if is_tau else t.label
-        lbl = f"{t.name}\n[{tsym}]"
+        display_transition = t.name.replace("_", "\n")
+        lbl = f"{display_transition}\n[{tsym}]"
         g.add_node(pydot.Node(
             f"t_{t.name}", shape="box", style="filled,rounded",
             fillcolor="#f0f0f0" if is_tau else "#fff3d6",
             color="#9a9a9a" if is_tau else "#c9962b", penwidth="1.8",
-            fontsize="10", label=lbl))
+            fontsize="11", label=lbl))
         for p in t.pre:
             g.add_edge(pydot.Edge(f"p_{p}", f"t_{t.name}", color="#666", penwidth="1.2"))
         for p in t.post:
             g.add_edge(pydot.Edge(f"t_{t.name}", f"p_{p}", color="#666", penwidth="1.2"))
+    g.write_pdf(os.path.splitext(path)[0] + ".pdf")
+    g.set_dpi("300")
     g.write_png(path)
 
 
 # ---------------------------------------------------------------------------
 # Phase 5 : reachability-graph (LTS) drawing
 # ---------------------------------------------------------------------------
-def draw_lts(lts: cbm.LTS, path: str, title: str):
+def draw_lts(lts: cbm.LTS, path: str, _title: str):
     G = nx.MultiDiGraph()
     for i in range(len(lts.states)):
         G.add_node(i)
@@ -191,10 +205,9 @@ def draw_lts(lts: cbm.LTS, path: str, title: str):
     ax.legend(handles=[mpatches.Patch(color="#8a5a00", label="observable event"),
                        mpatches.Patch(color=C_TAU, label="\u03c4 (internal)")],
               frameon=False, fontsize=8, loc="best")
-    ax.set_title(title)
     ax.axis("off")
     fig.tight_layout()
-    fig.savefig(path)
+    save_artwork(fig, path)
     plt.close(fig)
 
 
@@ -305,7 +318,7 @@ def fig_pipeline():
     ax.set_ylim(-0.7, 1.6)
     ax.axis("off")
     fig.tight_layout()
-    fig.savefig(os.path.join(FIG, "fig_pipeline.png"))
+    save_artwork(fig, os.path.join(FIG, "fig_pipeline.png"))
     plt.close(fig)
 
 
@@ -341,9 +354,8 @@ def fig_robustness_and_null(seed=7):
                 va="bottom", fontsize=9)
     ax.set_ylim(0, 1.12)
     ax.set_ylabel("Fraction of runs preserving the verdict")
-    ax.set_title("Verdict invariance under silent (\u03c4) refinement (300 runs/module)")
     fig.tight_layout()
-    fig.savefig(os.path.join(FIG, "fig_robustness.png"))
+    save_artwork(fig, os.path.join(FIG, "fig_robustness.png"))
     plt.close(fig)
 
     # --- null baseline violins ---
@@ -366,11 +378,9 @@ def fig_robustness_and_null(seed=7):
     ax.set_xticklabels(mods)
     ax.set_ylim(-0.05, 1.2)
     ax.set_ylabel("Behavioural distance to the animal model")
-    ax.set_title("Null baseline: observed vs scrambled-interface distances "
-                 "(2000 permutations/module)")
     ax.legend(frameon=False, fontsize=8, loc="lower right")
     fig.tight_layout()
-    fig.savefig(os.path.join(FIG, "fig_nullbaseline.png"))
+    save_artwork(fig, os.path.join(FIG, "fig_nullbaseline.png"))
     plt.close(fig)
     return nb_df
 
@@ -439,8 +449,18 @@ def reviewer_objection_table():
     rows = [
         (
             "The Petri nets are hand-built and may be tuned to the desired result.",
-            "Every transition is tied to a provenance row; coverage is audited; verdicts are invariant under 300 silent refinements per module.",
-            "Appendix provenance; robustness.csv; notebook coverage assert",
+            "Every transition is tied to provenance; public GINsim controls and three independent HPN-DREAM model families exercise the pipeline outside case-study curation.",
+            "Appendix provenance; public and HPN-DREAM validation CSVs",
+        ),
+        (
+            "All external comparisons are transformed controls without biological data.",
+            "Structure-only medoids from three independently inferred public families are fixed without test access, compared formally and scored against held-out mTOR-inhibitor profiles. The nonsignificant specificity result is retained and limits the claim.",
+            "hpn_dream_formal_data_validation.csv; hpn_dream_caspots_summary.json; Fig. 8",
+        ),
+        (
+            "The formal verdicts depend on one unverified implementation.",
+            "All strong and weak decisions are cross-checked from AUT exports with mCRL2 202607.0; exact weak traces provide a third relation check.",
+            "mcrl2_synthetic_validation.csv; public_model_validation.csv",
         ),
         (
             "The observational interface may determine the answer.",
@@ -459,8 +479,8 @@ def reviewer_objection_table():
         ),
         (
             "The models are too compact to validate biology globally.",
-            "The claim is narrowed to partial module comparability under a declared interface, with explicit threats to validity.",
-            "Discussion and conclusion",
+            "Claims remain model-level; external tests include a public 826-state cell-cycle LTS while explicitly avoiding biological overclaim.",
+            "Public-model table; Discussion and conclusion",
         ),
         (
             "The generalisation beyond Arabidopsis is only rhetorical.",
@@ -534,7 +554,283 @@ def fig_generalization():
     return df
 
 
+# ---------------------------------------------------------------------------
+# Independent synthetic benchmark, baselines and runtime scaling
+# ---------------------------------------------------------------------------
+def fig_method_benchmark():
+    rows = mb.validation_benchmark(n_steps=12, seed=17, k=8)
+    df = pd.DataFrame(rows)
+    df.to_csv(os.path.join(RES, "synthetic_benchmark.csv"), index=False)
+
+    accuracy = pd.DataFrame(mb.baseline_accuracy(rows))
+    accuracy.to_csv(os.path.join(RES, "baseline_accuracy.csv"), index=False)
+
+    expected = df["expected_weak_equivalent"].astype(bool).to_numpy()
+    methods = [
+        ("Weak\nbisimulation", df["weak_bisimilar"].astype(bool).to_numpy()),
+        ("Trace\nequality", df["trace_equivalent_at_k"].astype(bool).to_numpy()),
+        ("Structural\nprofile", df["structurally_equivalent_at_0_9"].astype(bool).to_numpy()),
+    ]
+    correctness = np.column_stack([prediction == expected for _, prediction in methods])
+
+    fig, (ax0, ax1) = plt.subplots(
+        1, 2, figsize=(10.2, 4.2), gridspec_kw={"width_ratios": [1.55, 1]}
+    )
+    ax0.imshow(correctness.astype(int), cmap="RdYlGn", vmin=0, vmax=1, aspect="auto")
+    ax0.set_xticks(range(len(methods)))
+    ax0.set_xticklabels([name for name, _ in methods], fontsize=8)
+    ax0.set_yticks(range(len(df)))
+    ax0.set_yticklabels(df["case"], fontsize=8)
+    for i in range(correctness.shape[0]):
+        for j in range(correctness.shape[1]):
+            prediction = methods[j][1][i]
+            ax0.text(
+                j,
+                i,
+                "correct" if correctness[i, j] else "error",
+                ha="center",
+                va="center",
+                fontsize=7,
+                color="white",
+            )
+            ax0.text(
+                j,
+                i + 0.25,
+                "equiv." if prediction else "not equiv.",
+                ha="center",
+                va="center",
+                fontsize=6,
+                color="white",
+            )
+    ax0.set_title("Case-level equivalence decisions")
+    ax0.set_xlabel("Method")
+
+    colors = [C_PLANT, C_GOLD, C_RED]
+    bars = ax1.bar(
+        accuracy["method"], accuracy["accuracy"], color=colors, edgecolor="#333333"
+    )
+    ax1.set_ylim(0, 1.08)
+    ax1.set_ylabel("Accuracy against construction ground truth")
+    ax1.set_xticks(range(len(accuracy)))
+    ax1.set_xticklabels(["Weak\nbisim.", "Trace\nequality", "Structural\nprofile"], fontsize=8)
+    ax1.set_title("Binary equivalence accuracy")
+    for bar, value in zip(bars, accuracy["accuracy"]):
+        ax1.text(
+            bar.get_x() + bar.get_width() / 2,
+            value + 0.025,
+            f"{value:.3f}",
+            ha="center",
+            va="bottom",
+            fontsize=8,
+        )
+    fig.tight_layout()
+    save_artwork(fig, os.path.join(FIG, "fig_benchmark_validation.png"))
+    plt.close(fig)
+    return df, accuracy
+
+
+def external_validation_tables():
+    """Run mCRL2 cross-checks and public-model validation."""
+    model_df = pd.DataFrame(pv.public_model_summary())
+    model_df.to_csv(os.path.join(RES, "public_models.csv"), index=False)
+
+    public_df = pd.DataFrame(pv.run_public_validation())
+    public_df.to_csv(os.path.join(RES, "public_model_validation.csv"), index=False)
+
+    synthetic_df = pd.DataFrame(pv.run_synthetic_mcrl2_validation())
+    synthetic_df.to_csv(
+        os.path.join(RES, "mcrl2_synthetic_validation.csv"), index=False
+    )
+    return model_df, public_df, synthetic_df
+
+
+def fig_hpn_dream_validation():
+    """Blind held-out validation on three public HPN-DREAM model families."""
+    hpn.write_results(use_mcrl2=True)
+    formal = pd.read_csv(os.path.join(RES, "hpn_dream_formal_data_validation.csv"))
+    caspots_path = os.path.join(RES, "hpn_dream_caspots_rmse.csv")
+    if not os.path.isfile(caspots_path):
+        raise FileNotFoundError(
+            "Missing results/hpn_dream_caspots_rmse.csv. Run the pinned "
+            "CASPOTS environment command documented in REPRODUCIBILITY.md."
+        )
+    caspots = pd.read_csv(caspots_path)
+    blind = caspots[caspots["selection"] == "blind_structure_medoid"].copy()
+    matrix = (
+        blind.pivot(index="source_cell", columns="target_cell", values="excess_rmse")
+        .reindex(index=hpn.CELLS, columns=hpn.CELLS)
+    )
+    stats = hpn.concordance_test(formal.to_dict("records"))
+
+    fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(10.4, 4.1))
+    vmax = max(0.013, float(matrix.to_numpy().max()))
+    image = ax0.imshow(matrix, cmap="YlOrRd", vmin=0, vmax=vmax, aspect="equal")
+    ax0.set_xticks(range(len(hpn.CELLS)))
+    ax0.set_xticklabels(hpn.CELLS)
+    ax0.set_yticks(range(len(hpn.CELLS)))
+    ax0.set_yticklabels(hpn.CELLS)
+    ax0.set_xlabel("Held-out target cell line")
+    ax0.set_ylabel("Blind source-model medoid")
+    ax0.set_title("CASPOTS excess RMSE")
+    for i, source in enumerate(hpn.CELLS):
+        for j, target in enumerate(hpn.CELLS):
+            value = matrix.loc[source, target]
+            ax0.text(j, i, f"{value:.4f}", ha="center", va="center", fontsize=8)
+            if source == target:
+                ax0.add_patch(
+                    plt.Rectangle(
+                        (j - 0.48, i - 0.48), 0.96, 0.96,
+                        fill=False, edgecolor="#174a7e", linewidth=2.0,
+                    )
+                )
+    fig.colorbar(image, ax=ax0, fraction=0.046, pad=0.04)
+
+    order = ["one_way_simulation", "not_comparable"]
+    labels = ["One-way\nsimulation", "Not\ncomparable"]
+    colors = {"mTORi": C_HUMAN, "IGF1+mTORi": C_PLANT, "4EBP1+mTORi": C_GOLD}
+    markers = {"mTORi": "o", "IGF1+mTORi": "s", "4EBP1+mTORi": "^"}
+    for position, formal_class in enumerate(order):
+        subset = formal[formal["formal_class"] == formal_class]
+        for condition, group in subset.groupby("condition", sort=False):
+            offsets = (
+                np.linspace(-0.08, 0.08, len(group))
+                if len(group) > 1
+                else np.array([0.0])
+            )
+            ax1.scatter(
+                position + offsets,
+                group["experimental_rmse"],
+                color=colors[condition],
+                marker=markers[condition],
+                edgecolor="#333333",
+                linewidth=0.5,
+                s=48,
+                label=condition if position == 0 else None,
+                zorder=3,
+            )
+        if len(subset):
+            ax1.hlines(
+                subset["experimental_rmse"].median(),
+                position - 0.18,
+                position + 0.18,
+                color="#222222",
+                linewidth=2,
+            )
+    ax1.set_xticks(range(len(order)))
+    ax1.set_xticklabels(labels)
+    ax1.set_ylabel("Between-cell post-zero profile RMSE")
+    ax1.set_title("Data distance by formal class")
+    ax1.text(
+        0.02,
+        0.98,
+        f"ordinal-class $\\rho$={stats['formal_class_spearman_rho']:.2f}\n"
+        f"exact $p$={stats['formal_class_exact_permutation_p_one_sided']:.3f}",
+        transform=ax1.transAxes,
+        ha="left",
+        va="top",
+        fontsize=8,
+    )
+    ax1.legend(frameon=False, fontsize=7, loc="lower right")
+    fig.tight_layout()
+    save_artwork(fig, os.path.join(FIG, "fig_hpn_dream_validation.png"))
+    plt.close(fig)
+    return formal, blind, stats
+
+
+def fig_scalability():
+    rows = mb.scalability_benchmark(
+        sizes=(8, 16, 32, 64, 96, 128), repeats=3, seed=23
+    )
+    df = pd.DataFrame(rows)
+    df.to_csv(os.path.join(RES, "scalability_runtime.csv"), index=False)
+    deterministic = df.drop(
+        columns=[
+            "strong_bisimulation_ms",
+            "weak_bisimulation_ms",
+            "two_simulations_ms",
+            "trace_distance_ms",
+            "total_runtime_ms",
+        ]
+    )
+    deterministic.to_csv(os.path.join(RES, "scalability_structure.csv"), index=False)
+
+    fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(9.8, 3.9))
+    styles = {
+        "identity": (C_HUMAN, "o", "-"),
+        "silent refinement": (C_PLANT, "s", "--"),
+    }
+    for variant, group in df.groupby("variant", sort=False):
+        color, marker, line = styles[variant]
+        ax0.plot(
+            group["candidate_relation_pairs"],
+            group["total_runtime_ms"],
+            marker=marker,
+            linestyle=line,
+            color=color,
+            linewidth=1.7,
+            markersize=5,
+            label=variant,
+        )
+    ax0.set_xscale("log")
+    ax0.set_yscale("log")
+    ax0.set_xlabel("Candidate state pairs $|S_1| |S_2|$")
+    ax0.set_ylabel("Median total runtime (ms)")
+    ax0.set_title("Observed runtime scaling")
+    ax0.legend(frameon=False, fontsize=8)
+
+    largest = df[df["n_steps"] == df["n_steps"].max()].copy()
+    components = [
+        "strong_bisimulation_ms",
+        "weak_bisimulation_ms",
+        "two_simulations_ms",
+        "trace_distance_ms",
+    ]
+    labels = ["Strong bisim.", "Weak bisim.", "Two simulations", "Trace distance"]
+    bottom = np.zeros(len(largest))
+    component_colors = ["#4c78a8", "#2b8a3e", "#d69e2e", "#c94f4f"]
+    for component, label, color in zip(components, labels, component_colors):
+        values = largest[component].to_numpy()
+        ax1.bar(largest["variant"], values, bottom=bottom, label=label, color=color)
+        bottom += values
+    ax1.set_ylabel("Median runtime at 128 steps (ms)")
+    ax1.set_title("Runtime decomposition")
+    ax1.tick_params(axis="x", labelrotation=12, labelsize=8)
+    ax1.legend(frameon=False, fontsize=7)
+    fig.tight_layout()
+    save_artwork(fig, os.path.join(FIG, "fig_scalability.png"))
+    plt.close(fig)
+    return df
+
+
+def export_netmahib_artwork() -> None:
+    """Create submission-facing vector filenames in citation order."""
+    aliases = {
+        "Fig1.pdf": "fig_pipeline.pdf",
+        "Fig2a.pdf": "fig_ddr_petri_animal.pdf",
+        "Fig2b.pdf": "fig_ddr_petri_plant.pdf",
+        "Fig3.pdf": "fig_benchmark_validation.pdf",
+        "Fig4.pdf": "fig_scalability.pdf",
+        "Fig5a.pdf": "fig_ddr_lts_animal.pdf",
+        "Fig5b.pdf": "fig_ddr_lts_plant.pdf",
+        "Fig6a.pdf": "fig_rcd_petri_animal.pdf",
+        "Fig6b.pdf": "fig_rcd_petri_plant.pdf",
+        "Fig7a.pdf": "fig_robustness.pdf",
+        "Fig7b.pdf": "fig_nullbaseline.pdf",
+        "Fig8.pdf": "fig_hpn_dream_validation.pdf",
+    }
+    for target, source in aliases.items():
+        shutil.copy2(os.path.join(FIG, source), os.path.join(FIG, target))
+
+
 def main():
+    print(">> Independent method benchmark")
+    benchmark_df, accuracy_df = fig_method_benchmark()
+    print(">> mCRL2 and public-model validation")
+    public_models_df, public_validation_df, mcrl2_synthetic_df = external_validation_tables()
+    print(">> Blind HPN-DREAM held-out validation")
+    hpn_formal_df, hpn_caspots_df, hpn_stats = fig_hpn_dream_validation()
+    print(">> Scalability benchmark")
+    scalability_df = fig_scalability()
     print(">> Phase 1: hallmarks");          fig_phase1()
     print(">> Phase 2: conservation");       fig_phase2()
     print(">> Pipeline");                    fig_pipeline()
@@ -571,6 +867,8 @@ def main():
     reviewer_objection_table()
     print(">> Cross-organism generalisation")
     gen_df = fig_generalization()
+    print(">> NetMAHIB vector artwork")
+    export_netmahib_artwork()
 
     print("\n== Comparability summary ==")
     print(df[["module", "strong_bisimilar", "weak_bisimilar",
@@ -581,6 +879,42 @@ def main():
     print("\n== Cross-organism generalisation (cell cycle vs Human) ==")
     print(gen_df[["organism", "strong_bisimilar", "weak_bisimilar",
                   "distance", "verdict"]].to_string(index=False))
+    print("\n== Synthetic benchmark ==")
+    print(benchmark_df[["case", "expected_class", "formal_class", "formal_match"]].to_string(index=False))
+    print("\n== Baseline accuracy ==")
+    print(accuracy_df[["method", "accuracy", "false_positive", "false_negative"]].to_string(index=False))
+    print("\n== Public models ==")
+    print(public_models_df[[
+        "model", "variables", "reachable_states", "reachable_edges"
+    ]].to_string(index=False))
+    print("\n== Independent-oracle agreement ==")
+    print(
+        "Synthetic strong/weak decisions:",
+        int(mcrl2_synthetic_df["python_mcrl2_strong_agree"].sum())
+        + int(mcrl2_synthetic_df["python_mcrl2_weak_agree"].sum()),
+        "/",
+        2 * len(mcrl2_synthetic_df),
+    )
+    print(
+        "Public controls fully matching expectations:",
+        int(public_validation_df["all_expected_results_match"].sum()),
+        "/",
+        len(public_validation_df),
+    )
+    print("\n== HPN-DREAM held-out validation ==")
+    print(hpn_formal_df[[
+        "condition", "left_cell", "right_cell", "formal_class",
+        "experimental_rmse", "trace_distance_k6"
+    ]].to_string(index=False))
+    print("Class/data exact test:", hpn_stats)
+    print("Blind CASPOTS scores:")
+    print(hpn_caspots_df[[
+        "source_cell", "target_cell", "native_context", "model_rmse", "excess_rmse"
+    ]].to_string(index=False))
+    print("\n== Largest scalability cases ==")
+    print(scalability_df[scalability_df["n_steps"] == scalability_df["n_steps"].max()][[
+        "variant", "n_states_reference", "n_states_candidate", "total_runtime_ms"
+    ]].to_string(index=False))
     print(f"\nFigures -> {FIG}\nResults -> {RES}")
 
 

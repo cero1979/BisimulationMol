@@ -1,0 +1,4 @@
+method,accuracy,true_positive,true_negative,false_positive,false_negative,n_cases
+weak bisimulation,1.0,2,4,0,0,6
+trace equality (k=8),0.8333333333333334,2,3,1,0,6
+structural profile (>=0.9),0.5,1,2,2,1,6

@@ -1,154 +1,255 @@
-# Reproducibility guide (for reviewers and readers)
+# Reproducibility guide
 
-This repository contains everything needed to **replicate every quantitative
-result, table and figure** in the article
+This repository contains the source models, formal engine, independent
+benchmark, tests, executed notebook, generated data and Springer Nature LaTeX
+source for:
 
-> *A concurrency-theoretic method for behavioural comparison of conserved
-> molecular modules across species: an Arabidopsis–animal cancer case study*
-> (submitted to Elsevier **BioSystems**).
+> *Observational comparison of qualitative biological network models: a
+> reproducible Petri-net framework*
 
-The manuscript itself is **not** included here (only the material needed to
-reproduce its results). Everything below runs offline: there is **no network
-access, no external database and no downloaded data**. All inputs are the
-literature-curated models hard-coded in [`src/concurrent_biomodels.py`](src/concurrent_biomodels.py),
-and all randomness uses **fixed seeds**, so the outputs are deterministic.
+The analysis runs offline after the public GINsim and HPN-DREAM/CASPOTS source
+files have been fetched once.
+No API, confidential dataset or database credential is needed. The curated biological models are encoded in
+`src/concurrent_biomodels.py`; the independent synthetic models are generated
+deterministically in `src/method_benchmark.py`. Public GINsim models are stored
+under `data/public_models` with source URLs and SHA-256 checksums declared in
+`src/public_validation.py`.
+The three Boolean-network families, learning sets, held-out mTOR-inhibitor data
+and merged prior-knowledge network are stored under `data/hpn_dream`; their
+historical commit and SHA-256 registry are fixed in
+`scripts/fetch_hpn_dream.py`.
 
-Typical end-to-end runtime: **well under a minute** on a laptop.
+## 1. Environment
 
----
+Requirements:
 
-## 1. Prerequisites
+- Python 3.10 or newer.
+- The packages listed in `requirements.txt`.
+- System Graphviz (`dot`) for Petri-net and transition-system drawings.
+- mCRL2 202607.0 (`ltscompare`) for the independent formal oracle.
+- A LaTeX installation with `latexmk` and BibTeX to compile the manuscript.
 
-* **Python ≥ 3.10**
-* **System Graphviz** (the `dot` binary), used to draw the Petri-net and LTS
-  diagrams:
-  * macOS: `brew install graphviz`
-  * Debian/Ubuntu: `sudo apt-get install graphviz`
-  * conda: included in `environment.yml`
+The optional held-out CASPOTS score reproduction uses the separate
+`environment-hpn.yml` specification with Python 3.11, CASPO 4.0.3, Clingo 5.8.0,
+NuSMV 2.6.0 and CASPOTS commit `cee54b8`. Generated scores are included in the
+repository, so this heavier environment is not required to inspect or plot them.
 
-The **formal core** (`src/concurrent_biomodels.py`) depends only on the Python
-standard library. `numpy`, `pandas`, `matplotlib`, `networkx` and `pydot` are
-required only to render figures and write the CSV/LaTeX tables.
-
-Tested with: Python 3.11, numpy 1.26, pandas 2.x/3.x, matplotlib 3.10,
-networkx 3.3, pydot 4.0, Graphviz 12.
-
----
-
-## 2. Set up the environment
-
-Using pip (virtual environment recommended):
+Set up with pip:
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
+source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-or using conda:
+For the independent CASPOTS RMSE audit:
 
 ```bash
-conda env create -f environment.yml
-conda activate bisimulationmol
+conda env create -f environment-hpn.yml
+conda run -n bisimulationmol-hpn python scripts/run_caspots_hpn_validation.py --repeats 2
 ```
 
----
+On macOS, install Graphviz with `brew install graphviz`. On Debian/Ubuntu, use
+`sudo apt-get install graphviz`. The Springer class and bibliography style are
+stored in `paper/netmahib`, so no journal template download is needed.
 
-## 3. Reproduce everything with one command
+The analysis was validated with the official mCRL2 202607.0 release. Set
+`MCRL2_LTSCOMPARE=/path/to/ltscompare` if it is not on `PATH`. The CI workflow
+downloads the fixed x86-64 Debian asset and verifies SHA-256
+`00cb4c347638b3a418fb67c9d67b8d2bf2245e10d4affa4cd993b1c357bde969`.
+
+## 2. Fetch and verify public models
 
 ```bash
-make figures      # regenerates every file under figs/ and results/
+make public-models
 ```
 
-or, without `make`:
+The command downloads the public mammalian cell-cycle SBML-qual model and
+p53-Mdm2 GINML model only when absent, and refuses files whose SHA-256 differs
+from the manifest.
+
+Fetch and verify the independent HPN-DREAM validation material with:
 
 ```bash
-python make_figures.py
+make hpn-data
 ```
 
-To also confirm **bit-for-bit determinism** of the tracked tables (this is what
-CI runs on every push):
+This downloads ten files from public CASPOTS commit `95e3c74`: the merged PKN,
+three learning sets, three verified Boolean-network families and three held-out
+mTOR-inhibitor tests. Existing files are never trusted without a SHA-256 check.
+The historical MCF7 header uses an uppercase inhibitor suffix; only the temporary
+CASPOTS input header is normalized, and the original hash-pinned file is retained.
+
+## 3. Validate the formal implementation
 
 ```bash
-make verify       # regenerates results/ and fails if anything changed
+make test
 ```
 
-To print just the per-module verdicts and diagnostics to the terminal:
+The tests require all six construction-ground-truth relations to be recovered,
+verify the intended failure modes of the trace and structural baselines, retain
+the biological-case regression results, and check deterministic scaling
+metadata. When `ltscompare` is available, they also require full mCRL2 agreement
+on the synthetic and public-model controls.
+
+Expected summary:
+
+```text
+Ran 16 tests
+OK
+```
+
+Run the external validation directly with:
 
 ```bash
-make analysis     # == python src/concurrent_biomodels.py
+make external-validation
 ```
 
-To execute the exploratory notebook end to end:
+This exports AUT files to a temporary directory and checks strong bisimulation,
+weak bisimulation and exact weak-trace equivalence with mCRL2.
+
+Run the blind HPN-DREAM comparison with:
+
+```bash
+make hpn-validation
+```
+
+The command selects one structure-only family medoid without opening a held-out
+file, constructs nine cross-cell pair--condition LTS comparisons, requires
+Python/mCRL2 agreement and executes the exact 216-permutation class/data test.
+The CASPOTS environment command `make caspots-validation` recomputes 12 held-out
+compatibility scores twice and aborts if any optimum differs between repetitions.
+
+To print the classifications directly:
+
+```bash
+python src/method_benchmark.py
+python src/concurrent_biomodels.py
+```
+
+## 4. Regenerate figures and result tables
+
+```bash
+make figures
+```
+
+The NetMAHIB manuscript uses these generated outputs:
+
+| Output | Manuscript element | Deterministic? |
+|---|---|---|
+| `results/synthetic_benchmark.csv` | Table 1 source and Section 3.1 | Yes |
+| `results/mcrl2_synthetic_validation.csv` | Independent oracle on six synthetic pairs | Yes |
+| `results/public_models.csv` | Public sources, sizes, conditions and hashes | Yes |
+| `results/public_model_validation.csv` | Six public-model controls and mCRL2 results | Yes |
+| `results/hpn_dream_medoids.csv` | Blind family selection, hashes and anti-leakage flag | Yes |
+| `results/hpn_dream_formal_data_validation.csv` | Nine distinct-model/data comparisons and mCRL2 results | Yes |
+| `results/hpn_dream_concordance.json` | Exact class/data permutation test | Yes |
+| `results/hpn_dream_caspots_rmse.csv` | Repeated held-out medoid and family-oracle scores | Yes |
+| `results/hpn_dream_caspots_summary.json` | Native-versus-cross specificity test | Yes |
+| `figs/Fig1.pdf` | Fig. 1, six-stage workflow | Yes |
+| `figs/Fig2a.pdf`, `figs/Fig2b.pdf` | Fig. 2, GIM Petri nets | Yes |
+| `results/baseline_accuracy.csv` | Table 2 and Fig. 3 | Yes |
+| `figs/Fig3.pdf` | Fig. 3, benchmark validation | Yes |
+| `results/scalability_structure.csv` | State/relation sizes in Section 3.2 | Yes |
+| `results/scalability_runtime.csv` | Reference timing series for Fig. 4 | No, machine-dependent |
+| `figs/Fig4.pdf` | Fig. 4, scalability | No, timing panel is machine-dependent |
+| `results/phase6_comparisons.csv` | Table 3 case-study relations | Yes |
+| `figs/Fig5a.pdf`, `figs/Fig5b.pdf` | Fig. 5, GIM reachability systems | Yes |
+| `figs/Fig6a.pdf`, `figs/Fig6b.pdf` | Fig. 6, RCD Petri nets | Yes |
+| `figs/Fig7a.pdf`, `figs/Fig7b.pdf` | Fig. 7, robustness and null reference | Yes |
+| `figs/Fig8.pdf` | Fig. 8, blinded held-out validation | Yes |
+
+The command also regenerates PNG previews and the earlier provenance,
+interface, conservation and generalization diagnostics retained in the
+repository. Those additional outputs support auditing but are not used to
+enlarge the revised paper's biological claim.
+
+## 5. Execute the notebook
 
 ```bash
 make notebook
 ```
 
----
+The notebook is executed in place. Cells tagged `netmahib-benchmark` perform the
+synthetic controls, public GINsim controls, blinded HPN-DREAM validation,
+baseline comparison and runtime scaling. The committed notebook includes outputs
+so a reviewer can inspect the complete run without executing code first.
 
-## 4. What each output corresponds to in the paper
+## 6. Check deterministic outputs
 
-`make figures` writes PNG figures to `figs/` (regenerated, not tracked) and
-CSV/LaTeX tables to `results/` (tracked, so they can be diffed).
+```bash
+make verify
+```
 
-### Figures (`figs/`)
+This regenerates `results/` and compares all deterministic tracked outputs with
+the committed versions. Runtime measurements are excluded from the byte-level
+check because performance cannot be identical across processors. The benchmark
+still asserts deterministic model sizes, relation sizes and formal outcomes.
 
-| Output file | Paper figure |
-|---|---|
-| `fig_pipeline.png` | The six-phase method (pipeline) |
-| `fig_phase1_hallmarks.png` | Genes per cancer hallmark (H. sapiens vs A. thaliana) |
-| `fig_phase2_conservation.png` | Conservation index per module |
-| `fig_ddr_petri_animal.png`, `fig_ddr_petri_plant.png` | GIM (DNA-damage) Petri nets |
-| `fig_ddr_lts_animal.png`, `fig_ddr_lts_plant.png` | GIM reachability graphs (LTS) |
-| `fig_rcd_petri_animal.png`, `fig_rcd_petri_plant.png` | RCD (cell-death) Petri nets |
-| `fig_phase6_spectrum.png` | Partial-comparability spectrum |
-| `fig_phase6_properties.png` | Behavioural-property matrix |
-| `fig_robustness.png` | Verdict invariance under τ-refinement |
-| `fig_nullbaseline.png` | Label-permutation null baseline |
-| `fig_kconvergence.png` | Behavioural distance vs truncation depth k |
-| `fig_generalization.png` | Cross-organism generalisation (cell cycle) |
+## 7. Compile the NetMAHIB manuscript
 
-### Tables and data (`results/`)
+```bash
+make manuscript
+```
 
-| Output file | Paper element |
-|---|---|
-| `phase6_table.tex` | Behavioural properties + verdict per module (main results table) |
-| `gim_provenance.tex` | Model-construction provenance for the GIM module |
-| `model_provenance_all.tex` | Appendix A: transition-level provenance (all modules) |
-| `generalization.tex` / `generalization.csv` | Cross-organism generalisation table |
-| `phase1_hallmarks.csv` | Gene counts per hallmark |
-| `phase2_conservation.csv` | Conservation index per module |
-| `phase6_comparisons.csv` | Per-module bisimulation / simulation / distance |
-| `robustness.csv` | τ-refinement invariance (300 refinements/module) |
-| `nullbaseline.csv` | Label-permutation p- and BH q-values |
-| `interface_necessity.csv` | Single-label interface-necessity test |
-| `null_seed_sensitivity.csv` | Null-test q-value ranges across 5 seeds |
-| `kconvergence.csv` | Distance dₖ as a function of k |
+Equivalent manual command:
 
----
+```bash
+cd paper/netmahib
+latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+```
 
-## 5. How the verdicts are computed (auditability)
+The expected output is `paper/netmahib/main.pdf`. The source uses the Springer
+Nature `sn-jnl` class with the author-year mathematics and physics bibliography
+style, a 150-250 word abstract, six keywords and the required availability and
+declaration statements.
 
-Verdicts are produced by a **general algorithm** over auditable models, not
-hard-coded. The key entry points in `src/concurrent_biomodels.py` are:
+## 8. Build the submission ZIPs
 
-* `run_full_analysis()` — per-module strong/weak bisimulation, simulation
-  preorders and behavioural distance;
-* `robustness_under_tau_refinement()` — invariance under silent refinements;
-* `null_baseline_suite()` — label-permutation null test with Benjamini–Hochberg
-  correction;
-* `generalization_analysis()` — the same routine across mouse/yeast/Arabidopsis
-  vs a human reference, plus a scrambled control;
-* `MODEL_PROVENANCE` / `provenance_coverage()` — every Petri-net transition is
-  traced to a literature statement, and coverage is audited automatically.
+```bash
+make package
+```
 
----
+This writes:
 
-## 6. Troubleshooting
+```text
+submission/netmahib_latex_flat.zip
+submission/netmahib_reproducibility.zip
+```
 
-* **`pydot`/Graphviz error, or empty Petri-net images** — ensure the system
-  `dot` binary is installed and on `PATH` (`dot -V`). `pip install pydot` alone
-  is not enough; Graphviz is a separate system package.
-* **`make verify` reports a difference** — this should not happen. If it does,
-  check your Python/library versions against Section 1 and open an issue.
+The LaTeX ZIP has no nested source paths. It contains exactly the main source,
+Springer class, bibliography style, BibTeX database, generated BBL and the 12
+vector artwork files that compose the eight figures referenced by the article.
+The reproducibility ZIP preserves repository paths and contains code, public
+models, HPN-DREAM data, tests, generated tables, both environment specifications,
+workflow and executed notebook.
+To verify the archive independently:
+
+```bash
+unzip submission/netmahib_latex_flat.zip -d /tmp/netmahib-check
+cd /tmp/netmahib-check
+latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+```
+
+## 9. Interpretation boundary
+
+Reproduction establishes that two implementations return the reported strong
+and weak relations, that the public-model import path recovers the controlled
+transformations, and that the HPN-DREAM medoids attain the reported held-out
+compatibility scores. The same data also fail to establish native-cell
+specificity (`p=0.25`) or formal-class/data concordance (`p=0.111`). Reproduction
+therefore does not validate organism-level equivalence, kinetic completeness or
+prognostic utility. Model definitions, provenance, interfaces and negative
+results are exposed so those assumptions can be audited or replaced.
+
+## 10. Troubleshooting
+
+- If a graph is blank or `pydot` fails, verify `dot -V`.
+- If external validation cannot start, verify `ltscompare --version` or set
+  `MCRL2_LTSCOMPARE` to the executable path.
+- If `latexmk` cannot find a class, compile from `paper/netmahib`; the required
+  `sn-jnl.cls` is local.
+- If `make verify` reports only timing differences, confirm that the runtime CSV
+  is excluded by the current Makefile pathspec.
+- If a deterministic CSV differs, run `make test` first and report the Python
+  version and platform when opening an issue.
