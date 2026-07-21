@@ -1,0 +1,13 @@
+name: bisimulationmol-hpn
+channels:
+  - conda-forge
+  - colomoto
+  - bioasp
+dependencies:
+  - python=3.11
+  - caspo=4.0.3
+  - clingo=5.8.0
+  - nusmv=2.6.0
+  - pip
+  - pip:
+      - git+https://github.com/misbahch6/caspo-ts.git@cee54b848bc5e403960eef9c33d33c67ed06bdaf

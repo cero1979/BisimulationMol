@@ -2,16 +2,19 @@
 concurrent_biomodels.py
 =======================
 
-Engine for behavioural comparison of conserved molecular modules across
-biological systems, with an *Arabidopsis thaliana* versus animal/human cancer
-case study. The engine implements two coupled levels:
+Engine for observational comparison of explicit qualitative biological network
+models, with an *Arabidopsis thaliana* versus animal/human illustration. The
+engine implements two coupled levels:
 
   (i)  a biological-computational level that curates *conserved active
        subnetworks* per module, and
   (ii) a formal level that encodes those subnetworks as labelled
-       Petri nets and compares their *observable behaviour* under a common
-    observational interface using weak bisimulation, simulation preorders
-    and a trace-based behavioural distance.
+       Petri nets and compares their *observable behaviour* under a declared
+       observational interface using weak bisimulation, simulation preorders
+       and a trace-based behavioural distance.
+
+All returned relations are properties of the supplied models and interface.
+They do not establish experimental, kinetic or organism-level equivalence.
 
 The formal core depends only on the Python standard library. Two families of
 diagnostic experiments are provided to guard against confirmation bias:

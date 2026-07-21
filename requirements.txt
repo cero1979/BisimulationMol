@@ -16,3 +16,4 @@ nbconvert>=7.0
 # System dependency (NOT installable via pip): Graphviz -> provides the `dot`
 # binary. Install with `brew install graphviz` (macOS) or
 # `sudo apt-get install graphviz` (Debian/Ubuntu).
+# Independent formal validation also uses `ltscompare` from mCRL2 202607.0.

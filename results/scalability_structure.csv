@@ -1,0 +1,13 @@
+n_steps,variant,n_states_reference,n_states_candidate,n_edges_reference,n_edges_candidate,candidate_relation_pairs,formal_class,repeats
+8,identity,9,9,8,8,81,strong equivalence,3
+8,silent refinement,9,10,8,9,90,weak equivalence,3
+16,identity,17,17,16,16,289,strong equivalence,3
+16,silent refinement,17,19,16,18,323,weak equivalence,3
+32,identity,33,33,32,32,1089,strong equivalence,3
+32,silent refinement,33,37,32,36,1221,weak equivalence,3
+64,identity,65,65,64,64,4225,strong equivalence,3
+64,silent refinement,65,73,64,72,4745,weak equivalence,3
+96,identity,97,97,96,96,9409,strong equivalence,3
+96,silent refinement,97,109,96,108,10573,weak equivalence,3
+128,identity,129,129,128,128,16641,strong equivalence,3
+128,silent refinement,129,145,128,144,18705,weak equivalence,3

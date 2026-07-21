@@ -1,0 +1,10 @@
+condition,cell_line,primary_hidden_initial,stress_hidden_initial,primary_states,primary_edges,stress_states,stress_edges,state_growth_factor,exact_cross_model_relation_attempted,reason
+mTORi,BT20,0,1,8,12,15360,105472,1920.0,False,stress state-pair matrix exceeds declared exact-analysis budget
+mTORi,BT549,0,1,2,1,254,845,127.0,False,stress state-pair matrix exceeds declared exact-analysis budget
+mTORi,MCF7,0,1,16,32,27648,198144,1728.0,False,stress state-pair matrix exceeds declared exact-analysis budget
+IGF1+mTORi,BT20,0,1,24,52,192,704,8.0,False,stress state-pair matrix exceeds declared exact-analysis budget
+IGF1+mTORi,BT549,0,1,6,7,254,845,42.333333333333336,False,stress state-pair matrix exceeds declared exact-analysis budget
+IGF1+mTORi,MCF7,0,1,44,112,7168,44544,162.9090909090909,False,stress state-pair matrix exceeds declared exact-analysis budget
+4EBP1+mTORi,BT20,0,1,4,4,7680,48896,1920.0,False,stress state-pair matrix exceeds declared exact-analysis budget
+4EBP1+mTORi,BT549,0,1,2,1,254,845,127.0,False,stress state-pair matrix exceeds declared exact-analysis budget
+4EBP1+mTORi,MCF7,0,1,16,32,27648,198144,1728.0,False,stress state-pair matrix exceeds declared exact-analysis budget

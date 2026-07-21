@@ -1,0 +1,7 @@
+strong_bisimilar,weak_bisimilar,reference_simulated_by_candidate,candidate_simulated_by_reference,trace_distance,trace_equivalent_at_k,structural_similarity,structurally_equivalent_at_0_9,formal_class,n_states_reference,n_states_candidate,n_edges_reference,n_edges_candidate,case,expected_class,formal_match,expected_weak_equivalent,rationale
+True,True,True,True,0.0,True,1.0,True,strong equivalence,13,13,12,12,identity,strong equivalence,True,True,Exact copy; every labelled transition is preserved.
+False,True,True,True,0.0,True,0.80625,False,weak equivalence,13,16,12,15,silent refinement,weak equivalence,True,True,Observable transitions are subdivided by internal tau steps.
+False,False,False,False,0.8,False,0.9,True,not comparable,13,13,12,12,label mismatch,not comparable,True,False,One recurring observable is replaced by an unmatched label.
+False,False,False,False,0.5,False,1.0,True,not comparable,13,13,12,12,label order swap,not comparable,True,False,Topology and label counts are fixed but observable order changes.
+False,False,True,False,0.09999999999999998,False,0.8936813186813186,False,reference simulated by candidate,13,14,12,13,added branch,reference simulated by candidate,True,False,The candidate preserves the workflow and adds an extra outcome.
+False,False,False,True,0.0,True,0.7749999999999999,False,candidate simulated by reference,4,5,3,4,trace-equivalent branching,candidate simulated by reference,True,False,"Trace sets agree, but choice is resolved at a different time."

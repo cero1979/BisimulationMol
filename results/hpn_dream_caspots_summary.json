@@ -1,0 +1,31 @@
+{
+  "n_target_cell_lines": 3,
+  "native_top_or_tied": 2,
+  "mean_native_advantage_excess_rmse": 0.00211866694786661,
+  "exact_paired_sign_permutation_p_one_sided": 0.25,
+  "sign_permutations": 8,
+  "interpretation": "held-out compatibility is reproduced, but native-cell specificity is not established",
+  "per_target": [
+    {
+      "target_cell": "BT20",
+      "native_excess_rmse": 0.0008003168167864394,
+      "mean_cross_excess_rmse": 0.005976473305559338,
+      "native_advantage": 0.005176156488772898,
+      "native_top_or_tied": true
+    },
+    {
+      "target_cell": "BT549",
+      "native_excess_rmse": 0.01256123176919166,
+      "mean_cross_excess_rmse": 0.010502894010500446,
+      "native_advantage": -0.0020583377586912144,
+      "native_top_or_tied": false
+    },
+    {
+      "target_cell": "MCF7",
+      "native_excess_rmse": 0.0,
+      "mean_cross_excess_rmse": 0.0032381821135181454,
+      "native_advantage": 0.0032381821135181454,
+      "native_top_or_tied": true
+    }
+  ]
+}

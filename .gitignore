@@ -1,10 +1,14 @@
 # ---------------------------------------------------------------------------
-# Manuscript is NOT part of this repository.
-# The article is submitted to Elsevier BioSystems and is kept out of the repo
-# on purpose; this repository only contains what is needed to REPLICATE the
-# results reported in the paper.
+# Track only the revised NetMAHIB manuscript source. Older journal versions and
+# local LaTeX build products remain outside version control.
 # ---------------------------------------------------------------------------
-paper/
+paper/*
+!paper/netmahib/
+paper/netmahib/*
+!paper/netmahib/main.tex
+!paper/netmahib/references.bib
+!paper/netmahib/sn-jnl.cls
+!paper/netmahib/sn-mathphys-ay.bst
 
 # Elsevier LaTeX template bundle (only used to typeset the manuscript)
 els-cas-templates/
@@ -15,6 +19,13 @@ els-cas-templates.zip
 
 # Regenerated figures: produced deterministically by `make figures`
 figs/
+tmp/
+
+# Locally generated submission bundles and superseded BioSystems packages.
+submission/biosystems_*/
+submission/netmahib_latex_flat/
+submission/netmahib_latex_flat.zip
+submission/netmahib_reproducibility.zip
 
 # ---------------------------------------------------------------------------
 # Python

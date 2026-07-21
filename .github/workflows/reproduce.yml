@@ -1,8 +1,8 @@
 name: reproduce
 
 # Continuous-integration proof of reproducibility: on every push / PR this
-# workflow installs the pinned environment, runs the analysis, regenerates all
-# figures and tables, and fails if any tracked result changed.
+# workflow installs the environment, runs the formal tests, regenerates all
+# figures and tables, and fails if any deterministic tracked result changed.
 
 on:
   push:
@@ -19,6 +19,13 @@ jobs:
       - name: Install system Graphviz (dot)
         run: sudo apt-get update && sudo apt-get install -y graphviz
 
+      - name: Install pinned mCRL2 release
+        run: |
+          curl -L -o /tmp/mcrl2.deb https://github.com/mCRL2org/mCRL2/releases/download/mcrl2-202607.0/mcrl2-202607.0_x86_64.deb
+          echo "00cb4c347638b3a418fb67c9d67b8d2bf2245e10d4affa4cd993b1c357bde969  /tmp/mcrl2.deb" | sha256sum -c -
+          sudo apt-get install -y /tmp/mcrl2.deb
+          ltscompare --version
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -30,11 +37,23 @@ jobs:
       - name: Print per-module verdicts and diagnostics
         run: python src/concurrent_biomodels.py
 
-      - name: Regenerate all figures and tables
-        run: python make_figures.py
+      - name: Verify public model sources
+        run: make public-models hpn-data
 
-      - name: Verify determinism of tracked results
-        run: git diff --exit-code -- results
+      - name: Run independent mCRL2 and public-model validation
+        run: make external-validation
+
+      - name: Run blinded HPN-DREAM formal/data validation
+        run: make hpn-validation
+
+      - name: Run construction-ground-truth and regression tests
+        run: make test
+
+      - name: Regenerate and verify deterministic results
+        run: make verify
+
+      - name: Execute notebook end to end
+        run: make notebook
 
       - name: Upload regenerated figures as an artifact
         if: always()

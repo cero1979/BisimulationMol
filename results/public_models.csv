@@ -1,0 +1,3 @@
+model,title,format,variables,theoretical_state_space,reachable_states,reachable_edges,initial_condition,publication_doi,repository_page,source_file,sha256
+mammalian_cell_cycle,Mammalian cell-cycle regulation,SBML-qual,13,8192,826,3413,CycD=1; all other components=0,10.1093/bioinformatics/btw457,https://ginsim.github.io/models/2016-mammal-cell-cycle/,Traynard_Boolean_MamCC_Apr2016.sbml,105eb2d1b44532762632245537315396c4deb912f1e1754b70edf2bdf2d9f02e
+p53_mdm2,p53-Mdm2 DNA-damage response,GINML,4,36,17,26,GINsim stored state 'damage',10.1016/j.jtbi.2009.02.005,https://ginsim.github.io/models/2009-mammal-p53-mdm2/,p53Mdm2_tutorial_5march2018.zginml,511a7b0f7764ca88efbbe38fb6fe28d89a7080d34bc2fc5277b3c750026b6d81
