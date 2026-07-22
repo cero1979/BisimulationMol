@@ -4,7 +4,7 @@
 # ---------------------------------------------------------------------------
 PY ?= python
 
-.PHONY: help setup public-models hpn-data hpn-validation caspots-validation external-validation analysis test figures notebook verify manuscript package clean
+.PHONY: help setup public-models hpn-data hpn-validation caspots-validation external-validation pn-gdda holmes-pn-gdda analysis test figures notebook verify manuscript package clean
 
 help:
 	@echo "Targets:"
@@ -14,6 +14,8 @@ help:
 	@echo "  hpn-validation  Run blind formal/data validation and mCRL2 cross-checks"
 	@echo "  caspots-validation  Recompute repeated held-out RMSE in pinned conda env"
 	@echo "  external-validation  Run mCRL2, public-model and exhaustive simulation validation"
+	@echo "  pn-gdda     Audit the 151/592 catalog and print direct native-net scores"
+	@echo "  holmes-pn-gdda  Download/hash Holmes 1.1.1 and reproduce its reference score"
 	@echo "  analysis    Print per-module verdicts and diagnostics"
 	@echo "  test        Run construction-ground-truth and regression tests"
 	@echo "  figures     Regenerate every figure and result table"
@@ -42,6 +44,12 @@ caspots-validation: hpn-data
 external-validation: public-models
 	$(PY) src/public_validation.py
 	$(PY) src/simulation_oracle.py
+
+pn-gdda:
+	$(PY) -m src.pn_gdda
+
+holmes-pn-gdda:
+	$(PY) scripts/validate_holmes_pn_gdda.py
 
 analysis:
 	$(PY) src/concurrent_biomodels.py

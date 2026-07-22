@@ -21,6 +21,9 @@ historical commit and SHA-256 registry are fixed in
 The independent simulation audit is implemented in
 `src/simulation_oracle.py`; it enumerates the complete declared small-LTS
 universe without external dependencies.
+Direct PN-GDDA is implemented in `src/pn_gdda.py`; it generates the complete
+151-topology catalog, preserves the published/Holmes 592 orbit slots and emits
+a separate 576-orbit automorphism sensitivity audit.
 
 ## 1. Environment
 
@@ -90,7 +93,7 @@ make test
 ```
 
 The tests require all six construction-ground-truth relations to be recovered,
-verify the intended failure modes of trace, LTS-GDA and structural baselines, retain
+verify the intended failure modes of direct PN-GDDA, trace, LTS-GDA and structural baselines, retain
 the biological-case regression results, and check deterministic scaling
 metadata. They also exhaustively compare the independent simulation game on
 67,600 ordered LTS pairs. When `ltscompare` is available, they require full
@@ -99,9 +102,33 @@ mCRL2 agreement on the synthetic and public-model controls.
 Expected summary:
 
 ```text
-Ran 20 tests
+Ran 25 tests
 OK
 ```
+
+Run the direct graphlet audit alone with:
+
+```bash
+make pn-gdda
+```
+
+It prints the 151/592 published catalog, the 151/576 automorphism sensitivity
+catalog and both scores for each native animal/plant Petri-net pair. The Holmes
+reference comparison and JAR hashes are stored in
+`results/pn_gdda_catalog_validation.json`.
+
+With a JDK and network access, execute the external Holmes binary itself:
+
+```bash
+make holmes-pn-gdda
+```
+
+The command downloads the official Holmes 1.1.1 archive, verifies JAR SHA-256
+`1747a9798c074a4e8a560cded9396ec3d0be05af2d948953c7730d5e623f044c`,
+compiles `scripts/HolmesPnGddaProbe.java` in a temporary directory and writes
+`results/holmes_pn_gdda_external_validation.json`. The probe verifies every one
+of the 151 topology signatures and 592 root assignments before comparing the
+reference score. Nothing from Holmes is redistributed in this repository.
 
 Run the external validation directly with:
 
@@ -143,8 +170,12 @@ The NetMAHIB manuscript uses these generated outputs:
 
 | Output | Manuscript element | Deterministic? |
 |---|---|---|
-| `results/synthetic_benchmark.csv` | Table 2 source and Section 3.1 | Yes |
-| `results/baseline_accuracy.csv` | Table 3 and Fig. 3, including LTS-GDA | Yes |
+| `results/synthetic_benchmark.csv` | Table 2 source and Section 3.1, including direct PN-GDDA | Yes |
+| `results/baseline_accuracy.csv` | Table 3 and Fig. 3, including PN-GDDA and LTS-GDA | Yes |
+| `results/pn_gdda_catalog_validation.json` | 151/592 catalog audit, Holmes reference score and 576-orbit sensitivity | Yes |
+| `results/holmes_pn_gdda_external_validation.json` | Score produced by the hash-verified Holmes 1.1.1 JAR | Yes |
+| `results/pn_gdda_native_modules.csv` | Direct PN-GDDA on five original curated net pairs | Yes |
+| `results/pn_gdda_threshold_sensitivity.csv` | Every attainable synthetic PN-GDDA score-threshold decision | Yes |
 | `results/mcrl2_synthetic_validation.csv` | Independent oracle on six synthetic pairs | Yes |
 | `results/simulation_oracle_exhaustive.csv` | Exhaustive one-/two-state simulation-game audit | Yes |
 | `results/public_models.csv` | Public sources, sizes, conditions and hashes | Yes |
@@ -181,8 +212,8 @@ make notebook
 
 The notebook is executed in place. Cells tagged `netmahib-benchmark` perform the
 synthetic controls, public GINsim controls, blinded HPN-DREAM validation,
-graphlet/trace baselines, exhaustive simulation audit, semantic sensitivity and
-runtime scaling. The committed notebook includes outputs
+direct PN-GDDA/Holmes audit, graphlet/trace baselines, exhaustive simulation
+audit, semantic sensitivity and runtime scaling. The committed notebook includes outputs
 so a reviewer can inspect the complete run without executing code first.
 
 ## 6. Check deterministic outputs
@@ -243,13 +274,15 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 
 ## 9. Interpretation boundary
 
-Reproduction establishes that two implementations return the reported strong
+Reproduction establishes that direct PN-GDDA reconstructs the published/Holmes
+151/592 catalog and reference score, that two formal implementations return the reported strong
 and weak relations, that the public-model import path recovers the controlled
 transformations, that the production simulation preorder agrees with its game
 oracle on the declared finite universe, and that the HPN-DREAM medoids attain the reported held-out
 compatibility scores. The same data also fail to establish native-cell
 specificity (`p=0.25`), formal-class/data concordance (`p=0.111`) or a
-significant LTS-GDA/data association (`p=0.097`). Two of nine directional
+significant LTS-GDA/data association (`p=0.097`). Direct PN-GDDA also produces
+four synthetic false positives at the declared 0.9 diagnostic threshold. Two of nine directional
 classes change under synchronous updating. Reproduction
 therefore does not validate organism-level equivalence, kinetic completeness or
 prognostic utility. Model definitions, provenance, interfaces and negative

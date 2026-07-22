@@ -51,22 +51,21 @@ qualitative models to reachable transition systems and reports strong and weak
 bisimulation, directional simulation and trace distance under a declared
 interface. Validation uses six synthetic pairs with construction-level ground
 truth, six controls from two externally authored GINsim models, and 284 public
-Boolean networks inferred for three HPN-DREAM breast-cancer cell lines. To avoid
-comparison only with coarse summaries, LTS-GDA combines graphlet-degree
-agreement with directed labelled motifs. On the synthetic task, weak
-bisimulation classified 6/6 cases, trace equality 5/6, LTS-GDA 4/6 and a summary
-profile 3/6. Python and mCRL2 202607.0 agreed on all 42 strong/weak decisions
-across controlled and HPN comparisons. A separate attacker--defender game agreed
-with one-way simulation on all 67,600 ordered pairs of transition systems in a
-declared exhaustive two-state universe. Among nine data-conditioned cross-cell
-comparisons, six had one-way simulation and three were not comparable. LTS-GDA
-distance correlated with held-out profile distance ($\rho=0.669$), but the exact
-test remained inconclusive ($p=0.097$). Global synchronous updating preserved
-seven of nine formal classes; two weakened to non-comparability. CASPOTS
-compatibility was reproduced, but native-cell specificity was not established
-($p=0.25$). The audit therefore supports reproducible model-level comparison,
-not prognostic or organism-level equivalence. Source models, hashes, tests,
-notebook and generated results are public.}
+Boolean networks inferred for three HPN-DREAM breast-cancer cell lines. A direct
+PN-GDDA implementation reconstructs the published 151-graphlet/592-slot catalog
+and matches a Holmes reference score to 12 decimal places. On the synthetic
+task, weak bisimulation classified 6/6 cases, trace equality 5/6, LTS-GDA 4/6, a
+summary profile 3/6 and PN-GDDA 2/6; no PN-GDDA threshold exceeded 4/6. At the predeclared 0.9 diagnostic threshold,
+PN-GDDA called all six pairs equivalent; the five native Petri-net pairs likewise
+scored 0.991--1.000 although their behavioural relations ranged from weak
+equivalence to non-comparability. Python and mCRL2 202607.0 agreed on all 42
+strong/weak decisions. Among nine data-conditioned cross-cell comparisons, six
+had one-way simulation and three were not comparable. LTS-GDA distance had the
+strongest observed held-out association ($\rho=0.669$), but its exact test was
+inconclusive ($p=0.097$). Synchronous updating preserved seven of nine classes,
+and CASPOTS native-cell specificity was not established ($p=0.25$). The audit
+supports reproducible model-level comparison, not prognostic or organism-level
+equivalence. Source models, hashes, tests, notebook and results are public.}
 
 \keywords{biological network modelling, Petri nets, bisimulation, graphlets,
 model checking, reproducible research}
@@ -81,7 +80,7 @@ topology \citep{McGary2010,Singh2008,Quimbaya2012}, but structural correspondenc
 does not determine whether two executable models offer the same observable
 choices in the same order. Graphlet methods make structural comparison more
 sensitive to local organisation. In particular, PN-GDDA defines 151 directed,
-bipartite Petri-net graphlets with 592 node orbits and quantifies their
+bipartite Petri-net graphlets with 592 reported orbit slots and quantifies their
 distributional agreement \citep{Szawulak2022}. It remains a structural measure:
 models with similar local motifs may resolve choices or hidden events
 differently. Conversely, models can differ structurally while retaining the same
@@ -117,9 +116,10 @@ framework is evaluated first
 on synthetic pairs whose expected relations are fixed by construction. Every
 transition system is independently checked with the mCRL2 toolset, reducing
 dependence on a single implementation. The complete import-to-comparison path is
-then exercised on two externally authored GINsim models. LTS-GDA, a transparent
-LTS-level graphlet baseline motivated by PN-GDDA, and a trace-only baseline
-expose what is gained by recursive state matching. An independent game audit
+then exercised on two externally authored GINsim models. PN-GDDA is executed
+directly on native Petri nets and canonical state-machine encodings; LTS-GDA
+retains labels on reachable-state graphs. Together with a trace-only baseline,
+these comparators expose what is gained by recursive state matching. An independent game audit
 targets the simulation preorder not exposed by mCRL2. Runtime is measured as
 model size and the candidate relation grow. Finally, a blinded HPN-DREAM analysis connects the formal classes
 to unseen perturbation-response data and tests whether cell-line-specific model
@@ -139,7 +139,8 @@ The six contributions are:
 \item an explicit input--output procedure for behavioural comparison of
 qualitative biological network models;
 \item a synthetic benchmark with strong, weak, partial and negative ground-truth
-cases, evaluated against trace, structural-profile and LTS-GDA comparators;
+cases, evaluated against direct PN-GDDA, trace, structural-profile and LTS-GDA
+comparators;
 \item independent checking with mCRL2 plus exhaustive agreement of a dual
 simulation-game oracle on 67,600 small-LTS pairs;
 \item external-model controls generated from public mammalian cell-cycle and
@@ -412,37 +413,61 @@ cross-model relation.
 
 \subsection{Structural and linear-time comparators}\label{sec:baselines}
 
-Three transparent comparators isolate the information contributed by the formal
+Four transparent comparators isolate the information contributed by the formal
 relation. The structural-profile score averages four similarities: state count,
 edge count, observable-label multiset and out-degree multiset. Each count
 similarity is the smaller-to-larger ratio; multiset similarity is weighted
 Jaccard. The trace comparator declares equivalence when $d_8=0$ and therefore
 has global order but no branching-time discrimination.
 
-LTS-GDA is a stronger local-structure comparator motivated by graphlet-degree
-distribution agreement \citep{Szawulak2022}. On the simple undirected projection
-of each reachable LTS, it counts node participation in all connected induced
-graphlets through three nodes: the edge orbit, both three-node-path orbits and
-the triangle orbit. For orbit $j$, its normalized distribution is
+PN-GDDA was implemented directly from its published definition
+\citep{Szawulak2022}. All connected induced directed bipartite graphlets on two
+through five nodes are generated algorithmically, giving 2, 6, 23 and 120
+topologies by size (151 total). For each orbit slot $j$, every Petri-net node's
+orbit degree is counted; arc multiplicities, when present, multiply the
+occurrence count. If $D_G^j(k)$ is the number of nodes with orbit degree $k$, the
+normalised distribution and orbit agreement are
 \begin{equation}
 N_G^j(k)=\frac{D_G^j(k)/k}{\sum_{r>0}D_G^j(r)/r},\qquad
 A^j(G,H)=1-\frac{1}{\sqrt{2}}
 \sqrt{\sum_k\left(N_G^j(k)-N_H^j(k)\right)^2}.
 \end{equation}
-The mean of the four $A^j$ values is combined equally with weighted-Jaccard
-agreement on directed labelled edge, two-step walk, divergence and convergence
-motifs. A predeclared score of at least 0.9 is classified as equivalent.
+PN-GDDA is the mean $A^j$ over the 592 published slots. The six synthetic LTS
+pairs are presented to this Petri-net-specific comparator through an exact
+state-machine encoding: one place per state, one transition per LTS edge, one
+input and one output arc per transition, and one initial token. The five curated
+pairs are compared in their original Petri-net form. A score of at least 0.9 is
+a predeclared diagnostic decision for the binary benchmark; it is not treated as
+a formal equivalence relation.
 
-LTS-GDA is intentionally named separately from PN-GDDA. The latter uses 151
-Petri-net-specific graphlets and 592 orbits on bipartite net structure; LTS-GDA
-uses four orbits plus labelled motifs on reachable behaviour so it can compare
-Petri nets, SBML-qual, GINML and inferred Boolean models through one
-representation. It is an implemented graphlet comparator, not a claimed
-reproduction of PN-GDDA.
+The catalog was audited independently against Holmes, the software used for the
+published method \citep{Radom2017}. Both hash-recorded Holmes 1.1.1 and 2.0.1.2
+contain 151 topologies and 592 orbit slots. A type- and direction-preserving
+automorphism reconstruction instead gives 576 distinct orbits; the discrepancy
+is confined to 12 five-node graphlets. The primary analysis preserves the Holmes
+592-slot assignment so that the comparator is not silently redefined, while the
+576-orbit partition is reported as a sensitivity analysis. A reproducible Java
+probe extracts all 151 topologies and all 592 root assignments from the
+hash-verified Holmes 1.1.1 JAR and requires entry-level agreement with the
+Python catalog before evaluating the score. On a four-node
+$K_{2,2}$ input net and its one-arc deletion, the independent implementation
+reproduced the Holmes 1.1.1 score (0.987202746587073 versus
+0.9872027465870733; equal to 12 decimal places).
+
+LTS-GDA is intentionally retained as a separate reachable-state comparator. On
+the simple undirected LTS projection it evaluates four graphlet orbits (edge,
+both three-node-path positions and triangle), then combines their mean agreement
+equally with weighted-Jaccard agreement on directed labelled edge, two-step
+walk, divergence and convergence motifs. Unlike PN-GDDA, it retains observable
+labels and can compare Petri nets, SBML-qual, GINML and inferred Boolean models
+through one representation. It uses the same predeclared 0.9 diagnostic
+threshold.
 
 Binary equivalence ground truth is positive only for the identity and silent-
 refinement cases. Strong equivalence is included within weak equivalence for this
-binary evaluation; simulations are not counted as equivalence.
+binary evaluation; simulations are not counted as equivalence. To test whether
+the fixed 0.9 result is threshold-dependent, PN-GDDA accuracy is also evaluated
+at every distinct decision boundary induced by the six observed scores.
 
 \subsection{Scalability experiment}\label{sec:scalability-method}
 
@@ -514,7 +539,9 @@ significance tests and do not provide external validation.
 The formal engine, public-model parsers and benchmark use the Python standard
 library. Plotting and tabulation use NumPy, pandas, Matplotlib and NetworkX;
 Petri-net artwork uses pydot and Graphviz. Independent checking uses the
-hash-pinned mCRL2 202607.0 release. Submission figures are exported as vector PDF with embedded
+hash-pinned mCRL2 202607.0 release. The PN-GDDA audit records the SHA-256 digests
+of both inspected Holmes JARs and emits its catalog and numerical cross-check as
+machine-readable JSON. Submission figures are exported as vector PDF with embedded
 fonts, and colour is supplemented by labels, symbols or line styles. Fixed seeds
 control all synthetic modifications and interface permutations. The repository contains
 the exact model registry, benchmark generator, dual simulation-game oracle,
@@ -540,12 +567,20 @@ by simulation direction rather than incorrectly promoted to equivalence.
 
 For the binary weak-equivalence task, weak bisimulation achieved 6/6 correct
 decisions. Trace equality achieved 5/6 because it produced a false positive on
-the branching-time case. LTS-GDA achieved 4/6: silent refinement was a false
+the branching-time case. Direct PN-GDDA achieved 2/6 and classified every pair
+as equivalent at the predeclared threshold. It assigned 1.0 to identity, silent
+refinement, label mismatch and label-order swap because the first two pairs share
+topology and the latter two modify labels that PN-GDDA does not encode. Added
+branch and trace-equivalent branching still scored 0.9676 and 0.9657. LTS-GDA
+achieved 4/6: silent refinement was a false
 negative because graphlets do not abstract $\TAU$, and the added local branch was
 a false positive at the predeclared threshold. The structural profile achieved
 3/6, with false positives for label mismatch and label-order swap and a false
 negative for silent refinement (Table~\ref{tab:baseline};
 Fig.~\ref{fig:benchmark}).
+No PN-GDDA threshold attained more than 4/6: label mismatch and label-order swap
+both tied the two positive controls at 1.0, making those cases structurally
+inseparable by any score cutoff.
 
 \begin{table}[t]
 \caption{Binary equivalence accuracy on six construction-level cases}
@@ -557,6 +592,7 @@ Method & Accuracy & False positive & False negative \\
 \midrule
 Weak bisimulation & 1.000 & 0 & 0 \\
 Trace equality ($k=8$) & 0.833 & 1 & 0 \\
+PN-GDDA-592 ($\geq0.9$) & 0.333 & 4 & 0 \\
 LTS-GDA ($\geq0.9$) & 0.667 & 1 & 1 \\
 Structural profile ($\geq0.9$) & 0.500 & 2 & 1 \\
 \botrule
@@ -568,9 +604,10 @@ Structural profile ($\geq0.9$) & 0.500 & 2 & 1 \\
 \includegraphics[width=\textwidth]{Fig3.pdf}
 \caption{Independent benchmark. Left: correctness and predicted binary class for
 each case and method. Right: accuracy against the equivalence labels fixed by
-construction. The trace baseline misses the branching-time distinction; the
-graphlet baseline improves on the summary profile but remains sensitive to
-silent refinement and local added structure}
+construction. The trace baseline misses the branching-time distinction;
+PN-GDDA is deliberately label-blind and calls all six encoded nets structurally
+similar, whereas labelled LTS-GDA improves on the summary profile but remains
+sensitive to silent refinement and local added structure}
 \label{fig:benchmark}
 \end{figure*}
 
@@ -747,6 +784,35 @@ AID & immune control & no & no & no & no & 0.429 \\
 \end{tabular*}
 \end{table*}
 
+Direct PN-GDDA reached the same binary decision for all five native pairs despite
+their different behavioural classes (Table~\ref{tab:pn-gdda-native}). The RCD
+nets received a perfect structural score although only one simulation direction
+held; AID scored 0.9907 although neither direction held. Replacing the 592 Holmes
+slots with the 576 automorphism-distinct orbits changed no score by as much as
+0.001 and changed no threshold decision. Thus, the disagreement is not caused by
+the catalog audit: local unlabelled Petri-net structure and reachable labelled
+behaviour answer different questions.
+
+\begin{table*}[t]
+\caption{Direct PN-GDDA on the original curated Petri-net pairs. ``592'' is the
+published/Holmes slot catalog; ``576'' is the automorphism-partition sensitivity.
+The $\geq0.9$ column is a diagnostic threshold, not a formal relation}
+\label{tab:pn-gdda-native}
+\centering
+\small
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lcccl}
+\toprule
+Module & PN-GDDA-592 & Orbit-576 & $\geq0.9$ & Behavioural relation \\
+\midrule
+GIM & 0.9976 & 0.9975 & yes & weak bisimulation \\
+DCE & 0.9969 & 0.9968 & yes & weak bisimulation \\
+SPS & 1.0000 & 1.0000 & yes & weak bisimulation \\
+RCD & 1.0000 & 1.0000 & yes & one-way simulation \\
+AID & 0.9907 & 0.9904 & yes & not comparable \\
+\botrule
+\end{tabular*}
+\end{table*}
+
 In GIM, the animal terminal fate of apoptosis and the plant terminal fate of
 differentiation/endoreduplication are represented through the common coarse
 observable \texttt{exit\_cycle}. The weak-equivalence result therefore says that
@@ -865,13 +931,18 @@ share all finite traces in the benchmark yet resolve a choice differently. Weak
 bisimulation detects both distinctions while tolerating silent implementation
 detail.
 
-The graphlet comparison makes this conclusion less dependent on a coarse
-straw-man baseline. LTS-GDA improves from 3/6 to 4/6 on the same predeclared
-task and its distance has the strongest observed association with held-out
-profile distance. Yet it still misses the semantic meaning of $\TAU$ and global
-branching, and its $p=0.097$ data association is hypothesis-generating rather
-than confirmatory. The result supports reporting structural and behavioural
-views together instead of treating either as universally sufficient.
+The direct PN-GDDA result makes this conclusion independent of a coarse
+straw-man baseline. Its 2/6 diagnostic accuracy is not a software failure: the
+external Holmes score agrees, both orbit catalogs give the same decisions, and
+label or event order lies outside the statistic by definition. The perfect RCD
+score and 0.9907 AID score further show that very similar local Petri-net
+structure can coexist with one-way or absent behavioural containment. LTS-GDA
+recovers labels and improves to 4/6 on the same predeclared task; its distance
+also has the strongest observed held-out association. Yet LTS-GDA still misses
+the semantic meaning of $\TAU$ and global branching, and its $p=0.097$
+association is hypothesis-generating rather than confirmatory. The result
+supports reporting structural and behavioural views together instead of
+treating either as universally sufficient.
 
 The synthetic benchmark is small by design but independent of the biological
 application. mCRL2 removes dependence on the in-house strong/weak-bisimulation
@@ -928,15 +999,19 @@ compatibility score over admissible trajectories, not a unique time-series
 prediction \citep{Razzaq2018}. The negative specificity result therefore prevents
 using this analysis to claim that behavioural class predicts response distance.
 
-Finally, LTS-GDA does not reproduce PN-GDDA's 592 Petri-net-specific orbits. Its
-four graphlet-degree orbits and labelled LTS motifs were chosen so that every
-input formalism could be compared after reachability construction. This avoids
-an arbitrary reverse translation of SBML-qual and inferred Boolean models into
-Petri-net structure, but leaves direct PN-GDDA comparison as an open benchmark
-for native Petri-net corpora. Future work should also include more repository
-models, prospectively expert-labelled positive and negative relations,
-biological replicates, additional update semantics and blinded interface
-specifications.
+PN-GDDA is now evaluated directly, but only on the native curated nets and the
+canonical state-machine encodings of the six controlled LTS pairs. Applying it
+to SBML-qual or inferred Boolean rules would require a non-unique reverse
+translation into Petri-net structure, so LTS-GDA remains the common comparator
+for those external formats. PN-GDDA also ignores transition labels, the initial
+marking and which structures are reachable; its 0.9 threshold is diagnostic
+rather than established by the source method. Finally, the published/Holmes 592
+slots are not identical to the 576 type- and direction-preserving automorphism
+orbits. The unchanged sensitivity decisions are reassuring for these compact
+nets but do not settle the catalog issue generally. Future work should include
+larger repository Petri nets, prospectively expert-labelled positive and
+negative relations, biological replicates, additional update semantics and
+blinded interface specifications.
 
 \subsection{Practical use}\label{sec:discussion-use}
 
@@ -953,8 +1028,9 @@ experimentation.
 
 We presented a reproducible observable-behaviour audit for qualitative biological
 network models. Synthetic constructions distinguish what is captured by
-graphlet, trace and branching-time views; mCRL2 and a dual simulation game test
-independent parts of the implementation. Public GINsim models demonstrate that
+direct PN-GDDA, labelled graphlet, trace and branching-time views: the structural
+metric remains high even when labelled behaviours are not comparable. mCRL2 and
+a dual simulation game test independent parts of the implementation. Public GINsim models demonstrate that
 update semantics can sharply alter reachability, and synchronous HPN-DREAM
 stress preserves seven of nine, not all, asynchronous classes. The blinded data
 analysis yields a stronger but still inconclusive association for LTS-GDA and
@@ -992,7 +1068,7 @@ public repository.
 \noindent\textbf{Code availability} Source code is released under the MIT License at
 \url{https://github.com/cero1979/BisimulationMol}. The commands
 \texttt{make external-validation}, \texttt{make hpn-validation},
-\texttt{make figures}, \texttt{make test}
+\texttt{make holmes-pn-gdda}, \texttt{make figures}, \texttt{make test}
 and \texttt{make notebook} regenerate the analysis, validate expected relations
 with mCRL2 and execute the notebook.
 

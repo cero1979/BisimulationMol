@@ -1,0 +1,6 @@
+module,animal_net,plant_net,animal_places,animal_transitions,plant_places,plant_transitions,pn_gdda_592_similarity,pn_gdda_576_similarity,catalog_sensitivity_delta,pn_gdda_equivalent_at_0_9,weak_bisimilar,plant_simulated_by_animal,animal_simulated_by_plant,formal_class,formal_verdict
+GIM,GIM_animal,GIM_plant,12,11,13,12,0.9975845917160132,0.9975174970414581,-6.709467455512375e-05,True,True,True,True,weak equivalence,Comparable (weak bisimulation)
+DCE,DCE_animal,DCE_plant,6,6,7,7,0.9968819468819469,0.9967953342953343,-8.661258661257776e-05,True,True,True,True,weak equivalence,Comparable (weak bisimulation)
+SPS,SPS_animal,SPS_plant,6,6,7,7,1.0,1.0,0.0,True,True,True,True,weak equivalence,Comparable (weak bisimulation)
+RCD,RCD_animal,RCD_plant,7,6,7,6,1.0,1.0,0.0,True,False,True,False,one-way simulation,Partial: sub-mechanism simulated (plant ⊑ animal)
+AID,AID_animal,AID_plant,6,5,5,4,0.9906853281853282,0.9904265873015873,-0.0002587408837408933,True,False,False,False,not comparable,Not comparable

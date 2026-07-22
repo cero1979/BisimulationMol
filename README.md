@@ -25,7 +25,7 @@ and contact the source repositories only when a file is absent or invalid.
 | Core | Re-run formal tests, figures and deterministic tables | `make public-models hpn-data verify` | Python, Graphviz, mCRL2 |
 | Full | Recompute CASPOTS scores, notebook, manuscript and upload ZIPs | `make caspots-validation notebook manuscript package` | Core tools, Conda, LaTeX |
 
-`make verify` is the primary reproducibility check. It runs 20 tests,
+`make verify` is the primary reproducibility check. It runs 25 tests,
 regenerates the scientific outputs and fails if any deterministic tracked
 result differs. Runtime measurements are reported but excluded from byte-level
 comparison because they depend on hardware.
@@ -53,10 +53,10 @@ The revised study addresses five indispensable objections:
 
 A second adversarial pass adds four targeted safeguards:
 
-1. **Graphlet comparator.** LTS-GDA combines graphlet-degree agreement for all
-   connected induced graphlets through three nodes with directed labelled
-   motifs. It is motivated by, and explicitly distinguished from, the
-   592-orbit PN-GDDA method.
+1. **Direct graphlet comparison.** PN-GDDA is now executed with the published
+   151-graphlet/592-slot Holmes catalog on canonical Petri-net encodings and on
+   all five native curated pairs. LTS-GDA remains a separate labelled
+   reachable-state comparator for heterogeneous input formats.
 2. **Update-semantics sensitivity.** Every HPN-DREAM pair is recomputed under a
    global synchronous stress semantics; seven of nine classes persist and two
    weaken from one-way simulation to non-comparability.
@@ -74,7 +74,9 @@ A second adversarial pass adds four targeted safeguards:
 | Six construction-ground-truth pairs | 6/6 formal classes recovered | The implementation distinguishes equivalence, directional simulation and non-comparability |
 | Independent mCRL2 oracle | 24/24 synthetic/public strong and weak decisions agree | The principal formal decisions are not specific to the Python implementation |
 | Exhaustive simulation-game oracle | 67,600/67,600 ordered pairs agree | Directional simulation has an independent audit on the declared finite universe |
-| Graphlet comparator | LTS-GDA 4/6 versus summary profile 3/6 | The formal advantage is not measured only against a coarse structural summary |
+| Direct PN-GDDA audit | Holmes score matches to 12 decimals; PN-GDDA is 2/6 at 0.9 and at most 4/6 over every score threshold | The published structural comparator is executed rather than approximated |
+| Native Petri-net comparison | All five PN-GDDA scores are 0.991-1.000 while formal classes range from weak equivalence to non-comparability | Local Petri-net structure does not determine labelled reachable behaviour |
+| Labelled graphlet comparator | LTS-GDA 4/6 versus summary profile 3/6 | Retaining local labels improves the structural baseline but does not recover branching semantics |
 | HPN-DREAM cross-cell comparisons | 18/18 Python/mCRL2 decisions agree | The data-conditioned transition systems are reproducibly classified |
 | Asynchronous/synchronous stress | 7/9 classes preserved | Two containment conclusions are explicitly update-semantics dependent |
 | Held-out native-cell ranking | Native model first or tied in 2/3 cells; exact `p=0.25` | Compatibility is reproduced; cell specificity is not established |
@@ -83,6 +85,10 @@ A second adversarial pass adds four targeted safeguards:
 
 Machine-readable evidence is in
 [`results/synthetic_benchmark.csv`](results/synthetic_benchmark.csv),
+[`results/pn_gdda_catalog_validation.json`](results/pn_gdda_catalog_validation.json),
+[`results/holmes_pn_gdda_external_validation.json`](results/holmes_pn_gdda_external_validation.json),
+[`results/pn_gdda_native_modules.csv`](results/pn_gdda_native_modules.csv),
+[`results/pn_gdda_threshold_sensitivity.csv`](results/pn_gdda_threshold_sensitivity.csv),
 [`results/mcrl2_synthetic_validation.csv`](results/mcrl2_synthetic_validation.csv),
 [`results/simulation_oracle_exhaustive.csv`](results/simulation_oracle_exhaustive.csv),
 [`results/hpn_dream_semantic_sensitivity.csv`](results/hpn_dream_semantic_sensitivity.csv),
@@ -97,14 +103,26 @@ non-comparable cases. On the binary weak-equivalence task:
 |---|---:|---:|---:|
 | Weak bisimulation | 1.000 | 0 | 0 |
 | Trace equality at depth 8 | 0.833 | 1 | 0 |
+| PN-GDDA-592 at threshold 0.9 | 0.333 | 4 | 0 |
 | LTS-GDA at threshold 0.9 | 0.667 | 1 | 1 |
 | Structural profile at threshold 0.9 | 0.500 | 2 | 1 |
 
-LTS-GDA is an LTS-level comparator, not a reimplementation of PN-GDDA. It uses
-four graphlet-degree orbits and labelled local motifs so that Petri-net,
-SBML-qual, GINML and inferred Boolean inputs can be compared in the common
-reachable-state representation. The exact 151-graphlet/592-orbit PN-GDDA
-comparison remains future work for a native Petri-net corpus.
+The direct PN-GDDA implementation generates all 151 connected directed
+bipartite graphlets through five nodes and preserves the 592 orbit slots in
+Holmes 1.1.1 and 2.0.1.2. On an independently run four-node reference pair, its
+score (`0.9872027465870733`) matches Holmes 1.1.1
+(`0.987202746587073`) to 12 decimal places. A type- and
+direction-preserving automorphism audit yields 576 distinct orbits; this is
+reported as a sensitivity analysis and changes no threshold decision. PN-GDDA
+calls all six synthetic pairs equivalent at 0.9, including four formal
+non-equivalences. No alternative threshold exceeds 4/6 because label mismatch
+and label-order swap tie both positive controls at `1.0`. On native nets, even RCD (one-way simulation) scores `1.0000`
+and AID (not comparable) scores `0.9907`.
+
+LTS-GDA uses four graphlet-degree orbits and labelled local motifs so that
+Petri-net, SBML-qual, GINML and inferred Boolean inputs can be compared in the
+common reachable-state representation. It is explicitly a different,
+label-aware comparator.
 
 The Python implementation and mCRL2 202607.0 agree on all 24 strong/weak
 decisions across six synthetic and six public-model controls. Exact mCRL2
@@ -154,6 +172,7 @@ encoded models at the selected interface resolution only.
 
 ```text
 src/concurrent_biomodels.py       Formal engine and curated case-study models
+src/pn_gdda.py                    Direct 151/592 PN-GDDA and Holmes audit
 src/method_benchmark.py           Synthetic validation, baselines and scaling
 src/public_validation.py          SBML/GINML import, AUT export and mCRL2 oracle
 src/hpn_dream_validation.py       Blind public-model/data comparison and exact test
@@ -161,6 +180,7 @@ src/simulation_oracle.py          Independent game oracle and exhaustive LTS aud
 data/public_models/               Hash-verified public GINsim model files
 data/hpn_dream/                    Hash-verified HPN-DREAM/CASPOTS families and data
 tests/test_method_benchmark.py    Regression and construction-ground-truth tests
+tests/test_pn_gdda.py             Catalog, Holmes-score and direct-baseline tests
 tests/test_external_validation.py Public-model and independent-oracle tests
 tests/test_hpn_dream_validation.py Data integrity, anti-leakage and mCRL2 tests
 tests/test_simulation_oracle.py    Exhaustive one-/two-state preorder agreement
@@ -188,10 +208,15 @@ make hpn-data
 make verify
 ```
 
-For individual stages, use `make external-validation`, `make hpn-validation`,
-`make test`, `make figures` or `make notebook`. Expected numeric results,
+For individual stages, use `make pn-gdda`, `make external-validation`,
+`make hpn-validation`, `make test`, `make figures` or `make notebook`. Expected numeric results,
 artifact-to-figure mappings and troubleshooting are documented in
 [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md).
+
+`make holmes-pn-gdda` is the optional independent software check. It downloads
+Holmes 1.1.1 from its official site, verifies the JAR hash, compiles the included
+Java probe, matches all 151 topologies and 592 orbit assignments entry by entry,
+and requires 12-decimal agreement with the Python score.
 
 The CASPOTS RMSE audit has additional pinned dependencies:
 

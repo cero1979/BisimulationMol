@@ -1,0 +1,62 @@
+{
+  "absolute_score_difference": 3.3306690738754696e-16,
+  "automorphism_orbit_total": 576,
+  "automorphism_partition_sensitivity": [
+    {
+      "graphlets": 2,
+      "orbits": 4,
+      "size": 2
+    },
+    {
+      "graphlets": 6,
+      "orbits": 14,
+      "size": 3
+    },
+    {
+      "graphlets": 23,
+      "orbits": 72,
+      "size": 4
+    },
+    {
+      "graphlets": 120,
+      "orbits": 486,
+      "size": 5
+    }
+  ],
+  "definition": "connected induced directed bipartite graphlets of 2-5 nodes",
+  "holmes_latest_catalog_checked": "Holmes 2.0.1.2 (November 2025)",
+  "holmes_latest_download": "https://www.cs.put.poznan.pl/mradom/Holmes/Holmes_2_0.zip",
+  "holmes_latest_jar_sha256": "e8e23527874d17285307d10b3ee54f8e6bd2cc6626b137f6f49e78afb6d9d810",
+  "holmes_reference_download": "https://www.cs.put.poznan.pl/mradom/Holmes/HolmesRelease_111.zip",
+  "holmes_reference_jar_sha256": "1747a9798c074a4e8a560cded9396ec3d0be05af2d948953c7730d5e623f044c",
+  "holmes_reference_score": 0.987202746587073,
+  "holmes_reference_version": "Holmes 1.1.1 (June 2022)",
+  "independent_python_score": 0.9872027465870733,
+  "main_analysis_catalog": "published/Holmes 151 graphlets and 592 orbit slots",
+  "published_graphlet_total": 151,
+  "published_holmes_catalog": [
+    {
+      "graphlets": 2,
+      "orbits": 4,
+      "size": 2
+    },
+    {
+      "graphlets": 6,
+      "orbits": 14,
+      "size": 3
+    },
+    {
+      "graphlets": 23,
+      "orbits": 72,
+      "size": 4
+    },
+    {
+      "graphlets": 120,
+      "orbits": 502,
+      "size": 5
+    }
+  ],
+  "published_orbit_slot_total": 592,
+  "score_agreement_at_12_decimals": true,
+  "sensitivity_catalog": "151 graphlets and 576 automorphism-distinct orbits"
+}

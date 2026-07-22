@@ -16,13 +16,15 @@ import time
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from itertools import combinations
-from math import comb, sqrt
+from math import comb, nextafter, sqrt
 from typing import Callable, Dict, Iterable, List, Sequence, Tuple
 
 try:  # Package import (tests and external users).
     from . import concurrent_biomodels as cbm
+    from . import pn_gdda
 except ImportError:  # Script/notebook import with ``src`` on sys.path.
     import concurrent_biomodels as cbm
+    import pn_gdda
 
 
 GRAPHLET_EQUIVALENCE_THRESHOLD = 0.9
@@ -339,6 +341,14 @@ def validation_benchmark(n_steps: int = 12, seed: int = 17, k: int = 8) -> List[
     rows: List[Dict[str, object]] = []
     for case in synthetic_cases(n_steps=n_steps, seed=seed):
         result = classify_pair(case.reference, case.candidate, k=k)
+        reference_pn = pn_gdda.state_machine_petri(case.reference)
+        candidate_pn = pn_gdda.state_machine_petri(case.candidate)
+        published_score = pn_gdda.pn_gdda_similarity(
+            reference_pn, candidate_pn, holmes_compatible=True
+        )
+        corrected_score = pn_gdda.pn_gdda_similarity(
+            reference_pn, candidate_pn, holmes_compatible=False
+        )
         result.update(
             {
                 "case": case.case,
@@ -346,6 +356,12 @@ def validation_benchmark(n_steps: int = 12, seed: int = 17, k: int = 8) -> List[
                 "formal_match": result["formal_class"] == case.expected_class,
                 "expected_weak_equivalent": case.expected_class
                 in {"strong equivalence", "weak equivalence"},
+                "pn_gdda_592_similarity": published_score,
+                "pn_gdda_576_similarity": corrected_score,
+                "pn_gdda_catalog_sensitivity_delta": corrected_score
+                - published_score,
+                "pn_gdda_equivalent_at_0_9": published_score
+                >= pn_gdda.PN_GDDA_EQUIVALENCE_THRESHOLD,
                 "rationale": case.rationale,
             }
         )
@@ -360,6 +376,9 @@ def baseline_accuracy(rows: Iterable[Dict[str, object]]) -> List[Dict[str, objec
     predictions = {
         "weak bisimulation": [bool(r["weak_bisimilar"]) for r in records],
         "trace equality (k=8)": [bool(r["trace_equivalent_at_k"]) for r in records],
+        "PN-GDDA-592 (>=0.9)": [
+            bool(r["pn_gdda_equivalent_at_0_9"]) for r in records
+        ],
         "LTS-GDA (>=0.9)": [bool(r["lts_gda_equivalent_at_0_9"]) for r in records],
         "structural profile (>=0.9)": [
             bool(r["structurally_equivalent_at_0_9"]) for r in records
@@ -383,6 +402,56 @@ def baseline_accuracy(rows: Iterable[Dict[str, object]]) -> List[Dict[str, objec
             }
         )
     return summary
+
+
+def pn_gdda_threshold_sensitivity(
+    rows: Iterable[Dict[str, object]],
+) -> List[Dict[str, object]]:
+    """Evaluate every distinct PN-GDDA decision boundary in the benchmark.
+
+    Scores are classified as equivalent when they are greater than or equal to
+    the threshold. Testing each observed score and the next representable value
+    above it enumerates every prediction partition attainable on this sample;
+    0.9 is retained explicitly as the predeclared diagnostic threshold.
+    """
+    records = list(rows)
+    scores = [float(row["pn_gdda_592_similarity"]) for row in records]
+    thresholds = {0.0, pn_gdda.PN_GDDA_EQUIVALENCE_THRESHOLD, 1.0}
+    for score in scores:
+        thresholds.add(score)
+        if score < 1.0:
+            thresholds.add(nextafter(score, 1.0))
+
+    expected = [bool(row["expected_weak_equivalent"]) for row in records]
+    result = []
+    for threshold in sorted(thresholds):
+        predicted = [score >= threshold for score in scores]
+        tp = sum(prediction and truth for prediction, truth in zip(predicted, expected))
+        tn = sum(
+            (not prediction) and (not truth)
+            for prediction, truth in zip(predicted, expected)
+        )
+        fp = sum(
+            prediction and (not truth)
+            for prediction, truth in zip(predicted, expected)
+        )
+        fn = sum(
+            (not prediction) and truth
+            for prediction, truth in zip(predicted, expected)
+        )
+        result.append(
+            {
+                "threshold": threshold,
+                "is_predeclared_0_9": threshold
+                == pn_gdda.PN_GDDA_EQUIVALENCE_THRESHOLD,
+                "accuracy": (tp + tn) / len(records),
+                "true_positive": tp,
+                "true_negative": tn,
+                "false_positive": fp,
+                "false_negative": fn,
+            }
+        )
+    return result
 
 
 def _median_runtime_ms(operation: Callable[[], object], repeats: int) -> float:

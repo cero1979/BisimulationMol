@@ -1,0 +1,13 @@
+{
+  "absolute_score_difference": 3.3306690738754696e-16,
+  "agreement_at_12_decimals": true,
+  "catalog_matches_python": true,
+  "download_url": "https://www.cs.put.poznan.pl/mradom/Holmes/HolmesRelease_111.zip",
+  "holmes_catalog_slots_verified": 592,
+  "holmes_graphlet_topologies": 151,
+  "holmes_orbit_slots": 592,
+  "holmes_score": 0.987202746587073,
+  "holmes_version": "1.1.1",
+  "independent_python_score": 0.9872027465870733,
+  "jar_sha256": "1747a9798c074a4e8a560cded9396ec3d0be05af2d948953c7730d5e623f044c"
+}

@@ -13,6 +13,7 @@ cross-check requires the ``ltscompare`` executable from mCRL2.
 
 from __future__ import annotations
 
+import json
 import os
 import shutil
 import sys
@@ -31,6 +32,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 import concurrent_biomodels as cbm  # noqa: E402
 import hpn_dream_validation as hpn  # noqa: E402
 import method_benchmark as mb  # noqa: E402
+import pn_gdda  # noqa: E402
 import public_validation as pv  # noqa: E402
 import simulation_oracle as simulation_oracle  # noqa: E402
 
@@ -465,8 +467,8 @@ def reviewer_objection_table():
         ),
         (
             "A deliberately weak structural baseline inflates the apparent advantage.",
-            "The benchmark now includes LTS-GDA, a graphlet-degree and directed labelled-motif baseline motivated by PN-GDDA and explicitly distinguished from it.",
-            "synthetic_benchmark.csv; baseline_accuracy.csv",
+            "The benchmark now executes the published 151-graphlet/592-slot PN-GDDA directly on Petri nets, audits it against Holmes, and retains LTS-GDA as a labelled reachable-state comparator.",
+            "pn_gdda_catalog_validation.json; pn_gdda_native_modules.csv; pn_gdda_threshold_sensitivity.csv",
         ),
         (
             "The conclusions may be an artefact of asynchronous Boolean updates.",
@@ -575,18 +577,47 @@ def fig_method_benchmark():
 
     accuracy = pd.DataFrame(mb.baseline_accuracy(rows))
     accuracy.to_csv(os.path.join(RES, "baseline_accuracy.csv"), index=False)
+    threshold_sensitivity = pd.DataFrame(mb.pn_gdda_threshold_sensitivity(rows))
+    threshold_sensitivity.to_csv(
+        os.path.join(RES, "pn_gdda_threshold_sensitivity.csv"), index=False
+    )
+
+    native = pd.DataFrame(pn_gdda.native_module_comparisons(k=6))
+    native.to_csv(os.path.join(RES, "pn_gdda_native_modules.csv"), index=False)
+    with open(os.path.join(RES, "pn_gdda_catalog_validation.json"), "w") as f:
+        json.dump(pn_gdda.catalog_validation(), f, indent=2, sort_keys=True)
+        f.write("\n")
+
+    formal_labels = {
+        "weak equivalence": "weak bisimulation",
+        "one-way simulation": "one-way simulation",
+        "not comparable": "not comparable",
+    }
+    with open(os.path.join(RES, "pn_gdda_native_modules.tex"), "w") as f:
+        f.write("\\begin{tabular}{lcccl}\n\\toprule\n")
+        f.write("Module & PN-GDDA-592 & Orbit-576 & $\\geq0.9$ & Formal relation \\\\\n")
+        f.write("\\midrule\n")
+        for row in native.to_dict("records"):
+            decision = "yes" if row["pn_gdda_equivalent_at_0_9"] else "no"
+            f.write(
+                f"{row['module']} & {row['pn_gdda_592_similarity']:.4f} & "
+                f"{row['pn_gdda_576_similarity']:.4f} & {decision} & "
+                f"{formal_labels[row['formal_class']]} \\\\\n"
+            )
+        f.write("\\bottomrule\n\\end{tabular}\n")
 
     expected = df["expected_weak_equivalent"].astype(bool).to_numpy()
     methods = [
         ("Weak\nbisimulation", df["weak_bisimilar"].astype(bool).to_numpy()),
         ("Trace\nequality", df["trace_equivalent_at_k"].astype(bool).to_numpy()),
+        ("PN-GDDA\n592", df["pn_gdda_equivalent_at_0_9"].astype(bool).to_numpy()),
         ("LTS-GDA", df["lts_gda_equivalent_at_0_9"].astype(bool).to_numpy()),
         ("Structural\nprofile", df["structurally_equivalent_at_0_9"].astype(bool).to_numpy()),
     ]
     correctness = np.column_stack([prediction == expected for _, prediction in methods])
 
     fig, (ax0, ax1) = plt.subplots(
-        1, 2, figsize=(10.2, 4.2), gridspec_kw={"width_ratios": [1.55, 1]}
+        1, 2, figsize=(11.2, 4.2), gridspec_kw={"width_ratios": [1.7, 1]}
     )
     ax0.imshow(correctness.astype(int), cmap="RdYlGn", vmin=0, vmax=1, aspect="auto")
     ax0.set_xticks(range(len(methods)))
@@ -617,7 +648,7 @@ def fig_method_benchmark():
     ax0.set_title("Case-level equivalence decisions")
     ax0.set_xlabel("Method")
 
-    colors = [C_PLANT, C_GOLD, C_HUMAN, C_RED]
+    colors = [C_PLANT, C_GOLD, "#7a5195", C_HUMAN, C_RED]
     bars = ax1.bar(
         accuracy["method"], accuracy["accuracy"], color=colors, edgecolor="#333333"
     )
@@ -625,7 +656,7 @@ def fig_method_benchmark():
     ax1.set_ylabel("Accuracy against construction ground truth")
     ax1.set_xticks(range(len(accuracy)))
     ax1.set_xticklabels(
-        ["Weak\nbisim.", "Trace\nequality", "LTS-GDA", "Structural\nprofile"],
+        ["Weak\nbisim.", "Trace\nequality", "PN-GDDA\n592", "LTS-GDA", "Structural\nprofile"],
         fontsize=8,
     )
     ax1.set_title("Binary equivalence accuracy")

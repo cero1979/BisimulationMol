@@ -33,8 +33,8 @@ The notebook has two logically separate parts:
    the p53--Mdm2 DNA-damage response. Three independently inferred HPN-DREAM
    model families are then fixed without test-value access and confronted with
    held-out mTOR-inhibitor phosphoproteomic responses. Weak bisimulation is also
-   compared with trace equality, a transparent structural profile and LTS-GDA,
-   a graphlet-degree/directed-motif baseline motivated by PN-GDDA. One-way
+   compared with trace equality, direct 151-graphlet/592-slot PN-GDDA, a
+   transparent structural profile and labelled LTS-GDA. One-way
    simulation is independently checked by an attacker--defender game over every
    one- and two-state LTS on the declared audit alphabet. The HPN comparisons are
    also repeated under global synchronous updates.
@@ -69,7 +69,12 @@ SUMMARY = """## Summary
   medoids rank first or tie in only two of three cell lines. Native specificity
   (p=0.25) and formal-class/data concordance (p=0.111) are not established.
 - Weak bisimulation gives the correct binary equivalence decision in every case;
-  trace equality scores 5/6, LTS-GDA 4/6 and the structural profile 3/6.
+  trace equality scores 5/6, LTS-GDA 4/6, the structural profile 3/6 and direct
+  PN-GDDA 2/6. PN-GDDA calls all six pairs equivalent at the diagnostic 0.9
+  threshold and cannot exceed 4/6 over any score cutoff.
+- The generated 151-topology/592-slot catalog matches both inspected Holmes
+  releases, and an independent four-node score matches Holmes 1.1.1 to 12
+  decimal places. The 576-orbit automorphism sensitivity changes no decision.
 - Synchronous-update stress preserves seven of nine HPN formal classes; two
   one-way simulations become non-comparability. LTS-GDA distance has
   `rho=0.669` with held-out profile distance, but its exact `p=0.097` remains
@@ -79,7 +84,9 @@ SUMMARY = """## Summary
   deterministic.
 - In the illustrative case study, the **curated models** for `GIM`, `DCE` and
   `SPS` are weakly bisimilar under their declared interfaces; `RCD` is related by
-  one-way simulation and `AID` is not comparable.
+  one-way simulation and `AID` is not comparable. Nevertheless, all five direct
+  PN-GDDA scores exceed 0.99, exposing the distinction between local structure
+  and labelled reachable behaviour.
 - These model-level results do not establish experimental equivalence between
   Arabidopsis and human biology. They identify conditional hypotheses and
   demonstrate how the software classifies explicit network models.
@@ -128,6 +135,11 @@ def main() -> None:
             "import hpn_dream_validation as hpn",
             "import hpn_dream_validation as hpn\nimport simulation_oracle as sim_oracle",
         )
+    if "import pn_gdda as png" not in setup.source:
+        setup.source = setup.source.replace(
+            "import method_benchmark as mb",
+            "import method_benchmark as mb\nimport pn_gdda as png",
+        )
 
     benchmark_cells = [
         tag(nbformat.v4.new_markdown_cell(
@@ -143,6 +155,7 @@ graded outcome."""
             """benchmark = pd.DataFrame(mb.validation_benchmark(n_steps=12, seed=17, k=8))
 display(benchmark[[
     "case", "expected_class", "formal_class", "trace_distance",
+    "pn_gdda_592_similarity", "pn_gdda_576_similarity",
     "lts_gda_similarity", "structural_similarity", "formal_match"
 ]])
 assert benchmark["formal_match"].all()
@@ -151,17 +164,22 @@ print("OK: all six construction-level relations were recovered.")"""
         tag(nbformat.v4.new_markdown_cell(
             """### Comparison with non-formal baselines
 
-The LTS-GDA baseline combines graphlet-degree-distribution agreement for all
-connected induced graphlets through three nodes with directed labelled edge,
-walk, divergence and convergence motifs. It is motivated by PN-GDDA but is not
-presented as its 592-orbit Petri-net implementation. The simpler structural
-profile averages state count, edge count, label multiset and out-degree
-multiset. The trace baseline compares observable languages through depth eight.
-These methods test complementary local, linear-time and branching-time views."""
+PN-GDDA is evaluated directly using all 151 connected directed bipartite
+graphlets through five nodes and the 592 orbit slots implemented by Holmes. Each
+synthetic LTS is encoded canonically as a state-machine Petri net. LTS-GDA is a
+separate label-aware reachable-state baseline combining four graphlet orbits
+with directed labelled motifs. The simpler structural profile averages state
+count, edge count, label multiset and out-degree multiset. The trace baseline
+compares observable languages through depth eight. These methods test
+complementary local, linear-time and branching-time views."""
         )),
         tag(nbformat.v4.new_code_cell(
             """baseline = pd.DataFrame(mb.baseline_accuracy(benchmark.to_dict("records")))
+pn_thresholds = pd.DataFrame(
+    mb.pn_gdda_threshold_sensitivity(benchmark.to_dict("records"))
+)
 display(baseline)
+display(pn_thresholds)
 assert float(baseline.loc[baseline["method"] == "weak bisimulation", "accuracy"].iloc[0]) == 1.0
 assert benchmark.loc[
     benchmark["case"] == "trace-equivalent branching", "trace_equivalent_at_k"
@@ -170,7 +188,49 @@ assert benchmark.loc[
     benchmark["case"] == "label order swap", "structurally_equivalent_at_0_9"
 ].iloc[0]
 assert float(baseline.loc[baseline["method"] == "LTS-GDA (>=0.9)", "accuracy"].iloc[0]) == 4 / 6
+assert float(baseline.loc[baseline["method"] == "PN-GDDA-592 (>=0.9)", "accuracy"].iloc[0]) == 2 / 6
+assert float(pn_thresholds["accuracy"].max()) == 4 / 6
 print("OK: the benchmark exposes the predeclared trace-only and structure-only failure cases.")"""
+        )),
+        tag(nbformat.v4.new_markdown_cell(
+            """### Direct PN-GDDA catalog and native-net audit
+
+The published/Holmes 592-slot catalog is the primary comparator. A separate
+type- and direction-preserving automorphism reconstruction yields 576 distinct
+orbits and is retained as a sensitivity analysis. The four-node reference pair
+below was also run independently in Holmes 1.1.1; `make holmes-pn-gdda` verifies
+all 151 topology signatures and 592 root assignments from the official JAR.
+The machine-readable record contains the JAR hash and both numerical scores. The five curated pairs are
+then compared in their original Petri-net form rather than through reachable
+LTS summaries."""
+        )),
+        tag(nbformat.v4.new_code_cell(
+            """import json
+
+pn_catalog = png.catalog_validation()
+pn_native = pd.DataFrame(png.native_module_comparisons(k=6))
+with open(PROJECT_ROOT / "results" / "holmes_pn_gdda_external_validation.json") as handle:
+    holmes_external = json.load(handle)
+display(pd.DataFrame(pn_catalog["published_holmes_catalog"]))
+display(pd.DataFrame(pn_catalog["automorphism_partition_sensitivity"]))
+display(pn_native[[
+    "module", "pn_gdda_592_similarity", "pn_gdda_576_similarity",
+    "pn_gdda_equivalent_at_0_9", "formal_class"
+]])
+print("Holmes reference:", pn_catalog["holmes_reference_score"])
+print("Independent score:", pn_catalog["independent_python_score"])
+print("External catalog audit:", holmes_external)
+
+assert pn_catalog["published_graphlet_total"] == 151
+assert pn_catalog["published_orbit_slot_total"] == 592
+assert pn_catalog["automorphism_orbit_total"] == 576
+assert pn_catalog["score_agreement_at_12_decimals"]
+assert holmes_external["catalog_matches_python"]
+assert holmes_external["holmes_graphlet_topologies"] == 151
+assert holmes_external["holmes_catalog_slots_verified"] == 592
+assert pn_native["pn_gdda_equivalent_at_0_9"].all()
+assert (pn_native["catalog_sensitivity_delta"].abs() < 0.001).all()
+print("OK: direct PN-GDDA is reproduced, externally checked and sensitivity-audited.")"""
         )),
         tag(nbformat.v4.new_markdown_cell(
             """### Independent mCRL2 oracle and public models

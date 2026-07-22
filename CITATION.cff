@@ -6,14 +6,15 @@ abstract: >-
   qualitative biological network models under a declared observational
   interface using strong and weak bisimulation, simulation preorders and a
   trace-based distance. The package includes construction-ground-truth
-  benchmarks, an LTS graphlet comparator, asynchronous/synchronous sensitivity,
+  benchmarks, a direct 151-graphlet/592-slot PN-GDDA implementation and Holmes
+  audit, an LTS graphlet comparator, asynchronous/synchronous sensitivity,
   an exhaustive simulation-game oracle, held-out HPN-DREAM validation,
   scalability measurements and a curated Arabidopsis-animal illustration.
 type: software
 authors:
   - family-names: "Ramirez Ovalle"
     given-names: "Carlos"
-version: "2.1.0"
+version: "2.2.0"
 date-released: "2026-07-22"
 license: MIT
 repository-code: "https://github.com/cero1979/BisimulationMol"
