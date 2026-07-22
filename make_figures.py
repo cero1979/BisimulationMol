@@ -32,6 +32,7 @@ import concurrent_biomodels as cbm  # noqa: E402
 import hpn_dream_validation as hpn  # noqa: E402
 import method_benchmark as mb  # noqa: E402
 import public_validation as pv  # noqa: E402
+import simulation_oracle as simulation_oracle  # noqa: E402
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 FIG = os.path.join(ROOT, "figs")
@@ -459,8 +460,18 @@ def reviewer_objection_table():
         ),
         (
             "The formal verdicts depend on one unverified implementation.",
-            "All strong and weak decisions are cross-checked from AUT exports with mCRL2 202607.0; exact weak traces provide a third relation check.",
-            "mcrl2_synthetic_validation.csv; public_model_validation.csv",
+            "Strong and weak decisions are cross-checked from AUT exports with mCRL2 202607.0; one-way simulation additionally agrees with an independent attacker-defender game on every one- and two-state LTS over a/tau.",
+            "mcrl2_synthetic_validation.csv; simulation_oracle_exhaustive.csv",
+        ),
+        (
+            "A deliberately weak structural baseline inflates the apparent advantage.",
+            "The benchmark now includes LTS-GDA, a graphlet-degree and directed labelled-motif baseline motivated by PN-GDDA and explicitly distinguished from it.",
+            "synthetic_benchmark.csv; baseline_accuracy.csv",
+        ),
+        (
+            "The conclusions may be an artefact of asynchronous Boolean updates.",
+            "All nine HPN-DREAM comparisons are repeated under a global synchronous stress semantics; seven classes persist and two weaken to non-comparability.",
+            "hpn_dream_semantic_sensitivity.csv",
         ),
         (
             "The observational interface may determine the answer.",
@@ -569,6 +580,7 @@ def fig_method_benchmark():
     methods = [
         ("Weak\nbisimulation", df["weak_bisimilar"].astype(bool).to_numpy()),
         ("Trace\nequality", df["trace_equivalent_at_k"].astype(bool).to_numpy()),
+        ("LTS-GDA", df["lts_gda_equivalent_at_0_9"].astype(bool).to_numpy()),
         ("Structural\nprofile", df["structurally_equivalent_at_0_9"].astype(bool).to_numpy()),
     ]
     correctness = np.column_stack([prediction == expected for _, prediction in methods])
@@ -605,14 +617,17 @@ def fig_method_benchmark():
     ax0.set_title("Case-level equivalence decisions")
     ax0.set_xlabel("Method")
 
-    colors = [C_PLANT, C_GOLD, C_RED]
+    colors = [C_PLANT, C_GOLD, C_HUMAN, C_RED]
     bars = ax1.bar(
         accuracy["method"], accuracy["accuracy"], color=colors, edgecolor="#333333"
     )
     ax1.set_ylim(0, 1.08)
     ax1.set_ylabel("Accuracy against construction ground truth")
     ax1.set_xticks(range(len(accuracy)))
-    ax1.set_xticklabels(["Weak\nbisim.", "Trace\nequality", "Structural\nprofile"], fontsize=8)
+    ax1.set_xticklabels(
+        ["Weak\nbisim.", "Trace\nequality", "LTS-GDA", "Structural\nprofile"],
+        fontsize=8,
+    )
     ax1.set_title("Binary equivalence accuracy")
     for bar, value in zip(bars, accuracy["accuracy"]):
         ax1.text(
@@ -641,7 +656,19 @@ def external_validation_tables():
     synthetic_df.to_csv(
         os.path.join(RES, "mcrl2_synthetic_validation.csv"), index=False
     )
-    return model_df, public_df, synthetic_df
+    semantics_df = pd.DataFrame(pv.public_semantic_sensitivity())
+    semantics_df.to_csv(
+        os.path.join(RES, "public_model_semantic_sensitivity.csv"), index=False
+    )
+
+    oracle_result = simulation_oracle.exhaustive_simulation_validation(max_states=2)
+    oracle_df = pd.DataFrame(
+        [{key: value for key, value in oracle_result.items() if key != "counterexamples"}]
+    )
+    oracle_df.to_csv(
+        os.path.join(RES, "simulation_oracle_exhaustive.csv"), index=False
+    )
+    return model_df, public_df, synthetic_df, semantics_df, oracle_df
 
 
 def fig_hpn_dream_validation():
@@ -724,7 +751,9 @@ def fig_hpn_dream_validation():
         0.02,
         0.98,
         f"ordinal-class $\\rho$={stats['formal_class_spearman_rho']:.2f}\n"
-        f"exact $p$={stats['formal_class_exact_permutation_p_one_sided']:.3f}",
+        f"exact $p$={stats['formal_class_exact_permutation_p_one_sided']:.3f}\n"
+        f"LTS-GDA distance $\\rho$={stats['graphlet_distance_spearman_rho']:.2f}\n"
+        f"exact $p$={stats['graphlet_distance_exact_permutation_p_one_sided']:.3f}",
         transform=ax1.transAxes,
         ha="left",
         va="top",
@@ -826,7 +855,13 @@ def main():
     print(">> Independent method benchmark")
     benchmark_df, accuracy_df = fig_method_benchmark()
     print(">> mCRL2 and public-model validation")
-    public_models_df, public_validation_df, mcrl2_synthetic_df = external_validation_tables()
+    (
+        public_models_df,
+        public_validation_df,
+        mcrl2_synthetic_df,
+        public_semantics_df,
+        simulation_oracle_df,
+    ) = external_validation_tables()
     print(">> Blind HPN-DREAM held-out validation")
     hpn_formal_df, hpn_caspots_df, hpn_stats = fig_hpn_dream_validation()
     print(">> Scalability benchmark")
@@ -901,6 +936,10 @@ def main():
         "/",
         len(public_validation_df),
     )
+    print("Exhaustive simulation-game oracle:")
+    print(simulation_oracle_df.to_string(index=False))
+    print("\n== Public-model semantic sensitivity ==")
+    print(public_semantics_df.to_string(index=False))
     print("\n== HPN-DREAM held-out validation ==")
     print(hpn_formal_df[[
         "condition", "left_cell", "right_cell", "formal_class",

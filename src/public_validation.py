@@ -6,7 +6,8 @@ Arabidopsis/animal case study:
 * exact comparison of exported LTSs with the independent ``ltscompare`` tool
   from mCRL2; and
 * asynchronous state-transition systems generated from published GINsim
-  models distributed as SBML-qual or GINML.
+  models distributed as SBML-qual or GINML, with synchronous reachability as a
+  declared semantic stress test.
 
 The public-model tests are deliberately model-level controls.  An exact copy,
 a silent refinement and an observable-label perturbation have predeclared
@@ -178,6 +179,60 @@ class LogicalModel:
             for state in states
         ]
         return cbm.LTS(self.name, labels, 0, sorted(edges))
+
+    def synchronous_lts(self, max_states: int = 100_000) -> cbm.LTS:
+        """Generate a synchronous transition system as a semantic stress test.
+
+        Every non-constant component moves one level toward its logical target
+        in the same global update.  A deterministic compound label records the
+        component changes.  This alternative is diagnostic; the asynchronous
+        interpretation remains the primary semantics used by the manuscript.
+        """
+        if max_states < 1:
+            raise ValueError("max_states must be positive")
+
+        index = {self.initial: 0}
+        states = [self.initial]
+        queue = deque([self.initial])
+        edges = set()
+        while queue:
+            state = queue.popleft()
+            values = dict(zip(self.variables, state))
+            successor = list(state)
+            changes = []
+            for position, variable in enumerate(self.variables):
+                if variable in self.constants or variable not in self.rules:
+                    continue
+                target = int(self.rules[variable](values))
+                current = state[position]
+                if not 0 <= target <= self.max_levels[variable]:
+                    raise ValueError(
+                        f"Rule for {variable} returned invalid level {target}"
+                    )
+                if target == current:
+                    continue
+                direction = 1 if target > current else -1
+                successor[position] += direction
+                changes.append(f"{variable}_{'up' if direction > 0 else 'down'}")
+            if not changes:
+                continue
+            successor_tuple = tuple(successor)
+            if successor_tuple not in index:
+                if len(states) >= max_states:
+                    raise ValueError(
+                        f"State cap {max_states} reached for public model {self.name}"
+                    )
+                index[successor_tuple] = len(states)
+                states.append(successor_tuple)
+                queue.append(successor_tuple)
+            label = "sync[" + "|".join(sorted(changes)) + "]"
+            edges.add((index[state], label, index[successor_tuple]))
+
+        labels = [
+            ",".join(f"{name}={level}" for name, level in zip(self.variables, state))
+            for state in states
+        ]
+        return cbm.LTS(self.name + "-synchronous", labels, 0, sorted(edges))
 
 
 def _local(tag: str) -> str:
@@ -457,6 +512,36 @@ def public_model_lts() -> Dict[str, Tuple[LogicalModel, cbm.LTS]]:
     return result
 
 
+def public_semantic_sensitivity() -> List[Dict[str, object]]:
+    """Compare reachable-state summaries under asynchronous and synchronous updates."""
+    rows = []
+    for key, (model, asynchronous) in public_model_lts().items():
+        synchronous = model.synchronous_lts()
+        async_states = set(asynchronous.states)
+        sync_states = set(synchronous.states)
+        union = async_states | sync_states
+        rows.append(
+            {
+                "model": key,
+                "asynchronous_states": len(asynchronous.states),
+                "asynchronous_edges": len(asynchronous.edges),
+                "synchronous_states": len(synchronous.states),
+                "synchronous_edges": len(synchronous.edges),
+                "common_reachable_states": len(async_states & sync_states),
+                "reachable_state_jaccard": len(async_states & sync_states) / len(union),
+                "asynchronous_terminal_states": sum(
+                    not asynchronous._out[state]
+                    for state in range(len(asynchronous.states))
+                ),
+                "synchronous_terminal_states": sum(
+                    not synchronous._out[state]
+                    for state in range(len(synchronous.states))
+                ),
+            }
+        )
+    return rows
+
+
 def _clone_lts(lts: cbm.LTS, name: str) -> cbm.LTS:
     return cbm.LTS(name, list(lts.states), lts.init, list(lts.edges))
 
@@ -642,6 +727,9 @@ def run_public_validation(binary: Path | None = None) -> List[Dict[str, object]]
     for case in public_validation_cases():
         python_strong = cbm.strong_bisimilar(case.reference, case.candidate)
         python_weak = cbm.weak_bisimilar(case.reference, case.candidate)
+        graphlet_similarity = mb.lts_graphlet_similarity(
+            case.reference, case.candidate
+        )
         oracle = compare_with_mcrl2(case.reference, case.candidate, executable)
         expected_match = (
             python_strong == case.expected_strong
@@ -659,6 +747,10 @@ def run_public_validation(binary: Path | None = None) -> List[Dict[str, object]]
                 "expected_weak_trace": case.expected_weak_trace,
                 "python_strong_bisimilar": python_strong,
                 "python_weak_bisimilar": python_weak,
+                "lts_gda_similarity": graphlet_similarity,
+                "lts_gda_equivalent_at_0_9": (
+                    graphlet_similarity >= mb.GRAPHLET_EQUIVALENCE_THRESHOLD
+                ),
                 **oracle,
                 "python_mcrl2_strong_agree": (
                     python_strong == oracle["mcrl2_strong_bisimilar"]

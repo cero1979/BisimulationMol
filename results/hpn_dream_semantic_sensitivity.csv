@@ -1,0 +1,10 @@
+condition,left_cell,right_cell,asynchronous_class,synchronous_class,class_preserved,asynchronous_trace_distance_k6,synchronous_trace_distance_k6,asynchronous_lts_gda_similarity,synchronous_lts_gda_similarity,asynchronous_left_states,asynchronous_right_states,synchronous_left_states,synchronous_right_states
+mTORi,BT20,BT549,one_way_simulation,one_way_simulation,True,0.8888888888888888,0.6666666666666667,0.21211219359225203,0.2982233047033631,8,2,3,2
+mTORi,BT20,MCF7,not_comparable,not_comparable,True,0.8,0.8,0.17905405405405406,0.6,8,16,3,3
+mTORi,BT549,MCF7,one_way_simulation,one_way_simulation,True,0.8888888888888888,0.6666666666666667,0.20212955470336313,0.2982233047033631,2,16,2,3
+IGF1+mTORi,BT20,BT549,one_way_simulation,not_comparable,False,0.9428571428571428,0.75,0.2378275968603385,0.5,24,6,3,3
+IGF1+mTORi,BT20,MCF7,not_comparable,not_comparable,True,0.9074074074074074,0.8333333333333334,0.40890788879462603,0.5547619047619048,24,44,3,4
+IGF1+mTORi,BT549,MCF7,not_comparable,not_comparable,True,0.96,0.8,0.2518516601545539,0.48333333333333334,6,44,3,4
+4EBP1+mTORi,BT20,BT549,one_way_simulation,one_way_simulation,True,0.6666666666666667,0.6666666666666667,0.26072330470336313,0.2982233047033631,4,2,3,2
+4EBP1+mTORi,BT20,MCF7,one_way_simulation,not_comparable,False,0.6666666666666667,0.8,0.15625,0.6,4,16,3,3
+4EBP1+mTORi,BT549,MCF7,one_way_simulation,one_way_simulation,True,0.8888888888888888,0.6666666666666667,0.20212955470336313,0.2982233047033631,2,16,2,3

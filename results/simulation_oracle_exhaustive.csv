@@ -1,0 +1,2 @@
+max_states,alphabet,number_of_lts,ordered_lts_pairs,agreements,disagreements,complete_agreement,oracle
+2,a;tau,260,67600,67600,0,True,dual attacker-defender least-fixed-point game

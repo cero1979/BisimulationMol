@@ -13,7 +13,7 @@ help:
 	@echo "  hpn-data     Download and hash-check public HPN-DREAM/CASPOTS artifacts"
 	@echo "  hpn-validation  Run blind formal/data validation and mCRL2 cross-checks"
 	@echo "  caspots-validation  Recompute repeated held-out RMSE in pinned conda env"
-	@echo "  external-validation  Run mCRL2 and public-model validation"
+	@echo "  external-validation  Run mCRL2, public-model and exhaustive simulation validation"
 	@echo "  analysis    Print per-module verdicts and diagnostics"
 	@echo "  test        Run construction-ground-truth and regression tests"
 	@echo "  figures     Regenerate every figure and result table"
@@ -41,6 +41,7 @@ caspots-validation: hpn-data
 
 external-validation: public-models
 	$(PY) src/public_validation.py
+	$(PY) src/simulation_oracle.py
 
 analysis:
 	$(PY) src/concurrent_biomodels.py

@@ -1,0 +1,3 @@
+model,asynchronous_states,asynchronous_edges,synchronous_states,synchronous_edges,common_reachable_states,reachable_state_jaccard,asynchronous_terminal_states,synchronous_terminal_states
+mammalian_cell_cycle,826,3413,13,13,13,0.015738498789346248,0,0
+p53_mdm2,17,26,8,7,8,0.47058823529411764,1,1

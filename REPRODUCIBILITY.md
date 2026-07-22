@@ -4,7 +4,7 @@ This repository contains the source models, formal engine, independent
 benchmark, tests, executed notebook, generated data and Springer Nature LaTeX
 source for:
 
-> *Observational comparison of qualitative biological network models: a
+> *Auditing observable behaviour in qualitative biological network models: a
 > reproducible Petri-net framework*
 
 The analysis runs offline after the public GINsim and HPN-DREAM/CASPOTS source
@@ -18,6 +18,9 @@ The three Boolean-network families, learning sets, held-out mTOR-inhibitor data
 and merged prior-knowledge network are stored under `data/hpn_dream`; their
 historical commit and SHA-256 registry are fixed in
 `scripts/fetch_hpn_dream.py`.
+The independent simulation audit is implemented in
+`src/simulation_oracle.py`; it enumerates the complete declared small-LTS
+universe without external dependencies.
 
 ## 1. Environment
 
@@ -87,15 +90,16 @@ make test
 ```
 
 The tests require all six construction-ground-truth relations to be recovered,
-verify the intended failure modes of the trace and structural baselines, retain
+verify the intended failure modes of trace, LTS-GDA and structural baselines, retain
 the biological-case regression results, and check deterministic scaling
-metadata. When `ltscompare` is available, they also require full mCRL2 agreement
-on the synthetic and public-model controls.
+metadata. They also exhaustively compare the independent simulation game on
+67,600 ordered LTS pairs. When `ltscompare` is available, they require full
+mCRL2 agreement on the synthetic and public-model controls.
 
 Expected summary:
 
 ```text
-Ran 16 tests
+Ran 20 tests
 OK
 ```
 
@@ -105,8 +109,9 @@ Run the external validation directly with:
 make external-validation
 ```
 
-This exports AUT files to a temporary directory and checks strong bisimulation,
-weak bisimulation and exact weak-trace equivalence with mCRL2.
+This exports AUT files to a temporary directory, checks strong bisimulation,
+weak bisimulation and exact weak-trace equivalence with mCRL2, and runs the
+independent exhaustive weak-simulation game audit.
 
 Run the blind HPN-DREAM comparison with:
 
@@ -117,6 +122,7 @@ make hpn-validation
 The command selects one structure-only family medoid without opening a held-out
 file, constructs nine cross-cell pair--condition LTS comparisons, requires
 Python/mCRL2 agreement and executes the exact 216-permutation class/data test.
+It also writes the nine-pair asynchronous/synchronous sensitivity comparison.
 The CASPOTS environment command `make caspots-validation` recomputes 12 held-out
 compatibility scores twice and aborts if any optimum differs between repetitions.
 
@@ -137,23 +143,26 @@ The NetMAHIB manuscript uses these generated outputs:
 
 | Output | Manuscript element | Deterministic? |
 |---|---|---|
-| `results/synthetic_benchmark.csv` | Table 1 source and Section 3.1 | Yes |
+| `results/synthetic_benchmark.csv` | Table 2 source and Section 3.1 | Yes |
+| `results/baseline_accuracy.csv` | Table 3 and Fig. 3, including LTS-GDA | Yes |
 | `results/mcrl2_synthetic_validation.csv` | Independent oracle on six synthetic pairs | Yes |
+| `results/simulation_oracle_exhaustive.csv` | Exhaustive one-/two-state simulation-game audit | Yes |
 | `results/public_models.csv` | Public sources, sizes, conditions and hashes | Yes |
 | `results/public_model_validation.csv` | Six public-model controls and mCRL2 results | Yes |
+| `results/public_model_semantic_sensitivity.csv` | Public asynchronous/synchronous reachability | Yes |
 | `results/hpn_dream_medoids.csv` | Blind family selection, hashes and anti-leakage flag | Yes |
 | `results/hpn_dream_formal_data_validation.csv` | Nine distinct-model/data comparisons and mCRL2 results | Yes |
 | `results/hpn_dream_concordance.json` | Exact class/data permutation test | Yes |
+| `results/hpn_dream_semantic_sensitivity.csv` | Nine HPN asynchronous/synchronous class comparisons | Yes |
 | `results/hpn_dream_caspots_rmse.csv` | Repeated held-out medoid and family-oracle scores | Yes |
 | `results/hpn_dream_caspots_summary.json` | Native-versus-cross specificity test | Yes |
 | `figs/Fig1.pdf` | Fig. 1, six-stage workflow | Yes |
 | `figs/Fig2a.pdf`, `figs/Fig2b.pdf` | Fig. 2, GIM Petri nets | Yes |
-| `results/baseline_accuracy.csv` | Table 2 and Fig. 3 | Yes |
 | `figs/Fig3.pdf` | Fig. 3, benchmark validation | Yes |
 | `results/scalability_structure.csv` | State/relation sizes in Section 3.2 | Yes |
 | `results/scalability_runtime.csv` | Reference timing series for Fig. 4 | No, machine-dependent |
 | `figs/Fig4.pdf` | Fig. 4, scalability | No, timing panel is machine-dependent |
-| `results/phase6_comparisons.csv` | Table 3 case-study relations | Yes |
+| `results/phase6_comparisons.csv` | Curated case-study relation table | Yes |
 | `figs/Fig5a.pdf`, `figs/Fig5b.pdf` | Fig. 5, GIM reachability systems | Yes |
 | `figs/Fig6a.pdf`, `figs/Fig6b.pdf` | Fig. 6, RCD Petri nets | Yes |
 | `figs/Fig7a.pdf`, `figs/Fig7b.pdf` | Fig. 7, robustness and null reference | Yes |
@@ -172,7 +181,8 @@ make notebook
 
 The notebook is executed in place. Cells tagged `netmahib-benchmark` perform the
 synthetic controls, public GINsim controls, blinded HPN-DREAM validation,
-baseline comparison and runtime scaling. The committed notebook includes outputs
+graphlet/trace baselines, exhaustive simulation audit, semantic sensitivity and
+runtime scaling. The committed notebook includes outputs
 so a reviewer can inspect the complete run without executing code first.
 
 ## 6. Check deterministic outputs
@@ -235,9 +245,12 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 
 Reproduction establishes that two implementations return the reported strong
 and weak relations, that the public-model import path recovers the controlled
-transformations, and that the HPN-DREAM medoids attain the reported held-out
+transformations, that the production simulation preorder agrees with its game
+oracle on the declared finite universe, and that the HPN-DREAM medoids attain the reported held-out
 compatibility scores. The same data also fail to establish native-cell
-specificity (`p=0.25`) or formal-class/data concordance (`p=0.111`). Reproduction
+specificity (`p=0.25`), formal-class/data concordance (`p=0.111`) or a
+significant LTS-GDA/data association (`p=0.097`). Two of nine directional
+classes change under synchronous updating. Reproduction
 therefore does not validate organism-level equivalence, kinetic completeness or
 prognostic utility. Model definitions, provenance, interfaces and negative
 results are exposed so those assumptions can be audited or replaced.

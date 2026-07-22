@@ -64,6 +64,20 @@ class HpnDreamValidationTests(unittest.TestCase):
         self.assertEqual(result["null_permutations"], 216)
         self.assertGreaterEqual(result["formal_class_exact_permutation_p_one_sided"], 0)
         self.assertLessEqual(result["formal_class_exact_permutation_p_one_sided"], 1)
+        self.assertIn("graphlet_distance_exact_permutation_p_one_sided", result)
+
+    def test_synchronous_stress_preserves_seven_of_nine_classes(self) -> None:
+        rows = hpn.semantic_sensitivity_rows()
+        self.assertEqual(len(rows), 9)
+        self.assertEqual(sum(bool(row["class_preserved"]) for row in rows), 7)
+        self.assertEqual(
+            sum(
+                row["asynchronous_class"] == "one_way_simulation"
+                and row["synchronous_class"] == "not_comparable"
+                for row in rows
+            ),
+            2,
+        )
 
     def test_mcrl2_agrees_on_all_data_conditioned_decisions(self) -> None:
         rows = hpn.validation_rows(use_mcrl2=True)

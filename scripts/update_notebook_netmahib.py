@@ -15,7 +15,7 @@ NOTEBOOK = ROOT / "notebooks" / "metodologia_multiescala.ipynb"
 TAG = "netmahib-benchmark"
 
 
-TITLE = """# Observational comparison of qualitative biological network models
+TITLE = """# Auditing observable behaviour in qualitative biological network models
 ### Reproducible method validation and an Arabidopsis-animal case study
 
 This notebook executes the computational framework reported in the NetMAHIB
@@ -33,7 +33,11 @@ The notebook has two logically separate parts:
    the p53--Mdm2 DNA-damage response. Three independently inferred HPN-DREAM
    model families are then fixed without test-value access and confronted with
    held-out mTOR-inhibitor phosphoproteomic responses. Weak bisimulation is also
-   compared with trace equality and a transparent structural-profile baseline.
+   compared with trace equality, a transparent structural profile and LTS-GDA,
+   a graphlet-degree/directed-motif baseline motivated by PN-GDDA. One-way
+   simulation is independently checked by an attacker--defender game over every
+   one- and two-state LTS on the declared audit alphabet. The HPN comparisons are
+   also repeated under global synchronous updates.
 2. **Illustrative biological case study.** Literature-curated plant and
    animal/human Petri nets are compared for selected cancer-relevant modules.
    These results describe the encoded models only and are reported conditionally
@@ -52,6 +56,8 @@ SUMMARY = """## Summary
 - The Python engine and mCRL2 202607.0 agree on all strong and weak decisions in
   the synthetic and public-model controls. Exact mCRL2 weak-trace outcomes also
   match every predeclared trace control.
+- The independent weak-simulation game agrees on all 67,600 ordered pairs among
+  the 260 LTSs with at most two states and labels in `{a, tau}`.
 - The public mammalian cell-cycle and p53--Mdm2 models generate nontrivial
   asynchronous systems of 826 and 17 reachable states, respectively. Their
   controls validate the software path on external dynamics, not biological truth.
@@ -63,8 +69,11 @@ SUMMARY = """## Summary
   medoids rank first or tie in only two of three cell lines. Native specificity
   (p=0.25) and formal-class/data concordance (p=0.111) are not established.
 - Weak bisimulation gives the correct binary equivalence decision in every case;
-  trace equality fails on the branching-time trap, and the structural profile
-  fails when event order or silent refinement matters.
+  trace equality scores 5/6, LTS-GDA 4/6 and the structural profile 3/6.
+- Synchronous-update stress preserves seven of nine HPN formal classes; two
+  one-way simulations become non-comparability. LTS-GDA distance has
+  `rho=0.669` with held-out profile distance, but its exact `p=0.097` remains
+  inconclusive.
 - Runtime and candidate-relation size are reported explicitly; timings are
   machine-dependent, while all categorical outputs and model sizes are
   deterministic.
@@ -114,6 +123,11 @@ def main() -> None:
             "import public_validation as pv",
             "import public_validation as pv\nimport hpn_dream_validation as hpn",
         )
+    if "import simulation_oracle as sim_oracle" not in setup.source:
+        setup.source = setup.source.replace(
+            "import hpn_dream_validation as hpn",
+            "import hpn_dream_validation as hpn\nimport simulation_oracle as sim_oracle",
+        )
 
     benchmark_cells = [
         tag(nbformat.v4.new_markdown_cell(
@@ -129,7 +143,7 @@ graded outcome."""
             """benchmark = pd.DataFrame(mb.validation_benchmark(n_steps=12, seed=17, k=8))
 display(benchmark[[
     "case", "expected_class", "formal_class", "trace_distance",
-    "structural_similarity", "formal_match"
+    "lts_gda_similarity", "structural_similarity", "formal_match"
 ]])
 assert benchmark["formal_match"].all()
 print("OK: all six construction-level relations were recovered.")"""
@@ -137,11 +151,13 @@ print("OK: all six construction-level relations were recovered.")"""
         tag(nbformat.v4.new_markdown_cell(
             """### Comparison with non-formal baselines
 
-The structural-profile baseline averages similarities in state count, edge
-count, label multiset and out-degree multiset. It deliberately ignores event
-order. The trace baseline compares observable languages through depth eight and
-therefore ignores when a branching choice is resolved. Both are transparent
-diagnostics, not claimed as state-of-the-art network-alignment tools."""
+The LTS-GDA baseline combines graphlet-degree-distribution agreement for all
+connected induced graphlets through three nodes with directed labelled edge,
+walk, divergence and convergence motifs. It is motivated by PN-GDDA but is not
+presented as its 592-orbit Petri-net implementation. The simpler structural
+profile averages state count, edge count, label multiset and out-degree
+multiset. The trace baseline compares observable languages through depth eight.
+These methods test complementary local, linear-time and branching-time views."""
         )),
         tag(nbformat.v4.new_code_cell(
             """baseline = pd.DataFrame(mb.baseline_accuracy(benchmark.to_dict("records")))
@@ -153,6 +169,7 @@ assert benchmark.loc[
 assert benchmark.loc[
     benchmark["case"] == "label order swap", "structurally_equivalent_at_0_9"
 ].iloc[0]
+assert float(baseline.loc[baseline["method"] == "LTS-GDA (>=0.9)", "accuracy"].iloc[0]) == 4 / 6
 print("OK: the benchmark exposes the predeclared trace-only and structure-only failure cases.")"""
         )),
         tag(nbformat.v4.new_markdown_cell(
@@ -160,7 +177,10 @@ print("OK: the benchmark exposes the predeclared trace-only and structure-only f
 
 Every LTS is exported in Aldebaran AUT format and checked by `ltscompare` from
 mCRL2 202607.0. The comparison covers strong bisimulation, weak bisimulation
-and exact weak-trace equivalence. The same path is then exercised on two public
+and exact weak-trace equivalence. One-way simulation is checked separately by a
+dual attacker--defender least-fixed-point game on all 67,600 ordered pairs of
+the 260 LTSs having at most two states over `{a, tau}`. The same import path is
+then exercised on two public
 GINsim models with source URLs and SHA-256 hashes fixed in the repository.
 
 For each external model, an exact copy is a positive strong control, a silent
@@ -177,6 +197,8 @@ display(public_models[[
 
 mcrl2_synthetic = pd.DataFrame(pv.run_synthetic_mcrl2_validation())
 public_controls = pd.DataFrame(pv.run_public_validation())
+public_semantics = pd.DataFrame(pv.public_semantic_sensitivity())
+simulation_audit = sim_oracle.exhaustive_simulation_validation(max_states=2)
 display(mcrl2_synthetic[[
     "case", "python_mcrl2_strong_agree", "python_mcrl2_weak_agree",
     "mcrl2_trace_matches_predeclared", "mcrl2_version"
@@ -187,12 +209,15 @@ display(public_controls[[
     "mcrl2_strong_bisimilar", "mcrl2_weak_bisimilar",
     "mcrl2_weak_trace_equivalent", "all_expected_results_match"
 ]])
+display(public_semantics)
+display(pd.DataFrame([{k: v for k, v in simulation_audit.items() if k != "counterexamples"}]))
 
 assert mcrl2_synthetic["python_mcrl2_strong_agree"].all()
 assert mcrl2_synthetic["python_mcrl2_weak_agree"].all()
 assert mcrl2_synthetic["mcrl2_trace_matches_predeclared"].all()
 assert public_controls["all_expected_results_match"].all()
-print("OK: mCRL2 agrees with all Python strong/weak decisions and all predeclared controls.")"""
+assert simulation_audit["complete_agreement"]
+print("OK: mCRL2 and the exhaustive simulation-game oracle agree with every declared audit.")"""
         )),
         tag(nbformat.v4.new_markdown_cell(
             """### Blinded HPN-DREAM validation against held-out data
@@ -214,6 +239,7 @@ outperform models inferred for other cell lines."""
 hpn_medoids = pd.DataFrame(hpn.medoid_summary())
 hpn_formal = pd.DataFrame(hpn.validation_rows(use_mcrl2=True))
 hpn_stats = hpn.concordance_test(hpn_formal.to_dict("records"))
+hpn_semantics = pd.DataFrame(hpn.semantic_sensitivity_rows())
 hpn_caspots = pd.read_csv(PROJECT_ROOT / "results" / "hpn_dream_caspots_rmse.csv")
 with open(PROJECT_ROOT / "results" / "hpn_dream_caspots_summary.json") as handle:
     hpn_caspots_summary = json.load(handle)
@@ -225,8 +251,10 @@ display(hpn_medoids[[
 display(hpn_formal[[
     "condition", "left_cell", "right_cell", "left_states", "right_states",
     "formal_class", "experimental_rmse", "trace_distance_k6",
+    "lts_gda_similarity",
     "python_mcrl2_strong_agree", "python_mcrl2_weak_agree"
 ]])
+display(hpn_semantics)
 display(hpn_caspots[hpn_caspots["selection"] == "blind_structure_medoid"][[
     "source_cell", "target_cell", "native_context", "discrete_rmse",
     "model_rmse", "excess_rmse", "deterministic_across_repeats"
@@ -238,6 +266,7 @@ assert not hpn_medoids["selection_uses_heldout_data"].any()
 assert hpn_formal["python_mcrl2_strong_agree"].all()
 assert hpn_formal["python_mcrl2_weak_agree"].all()
 assert not hpn_formal["weak_bisimilar"].any()
+assert int(hpn_semantics["class_preserved"].sum()) == 7
 assert hpn_caspots["deterministic_across_repeats"].all()
 print("OK: independent models and held-out data were evaluated without test leakage.")"""
         )),

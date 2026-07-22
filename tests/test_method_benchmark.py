@@ -20,6 +20,18 @@ class SyntheticBenchmarkTests(unittest.TestCase):
         self.assertFalse(by_case["label order swap"]["weak_bisimilar"])
         self.assertTrue(by_case["trace-equivalent branching"]["trace_equivalent_at_k"])
         self.assertFalse(by_case["trace-equivalent branching"]["weak_bisimilar"])
+        self.assertEqual(by_case["identity"]["lts_gda_similarity"], 1.0)
+        self.assertFalse(by_case["label order swap"]["lts_gda_equivalent_at_0_9"])
+
+    def test_graphlet_baseline_improves_on_the_summary_profile(self) -> None:
+        accuracy = {
+            row["method"]: row["accuracy"]
+            for row in mb.baseline_accuracy(mb.validation_benchmark())
+        }
+        self.assertGreater(
+            accuracy["LTS-GDA (>=0.9)"],
+            accuracy["structural profile (>=0.9)"],
+        )
 
     def test_case_study_regression(self) -> None:
         rows = {row.module: row for row in cbm.run_full_analysis(k=6)}

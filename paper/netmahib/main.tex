@@ -26,15 +26,15 @@
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 
 \hypersetup{
-  pdftitle={Observational comparison of qualitative biological network models: a reproducible Petri-net framework},
+  pdftitle={Auditing observable behaviour in qualitative biological network models: a reproducible Petri-net framework},
   pdfauthor={Carlos Ramirez Ovalle},
-  pdfkeywords={biological network modelling, Petri nets, weak bisimulation, model comparison, systems bioinformatics, reproducible research}
+  pdfkeywords={biological network modelling, Petri nets, bisimulation, graphlets, model checking, reproducible research}
 }
 
 \begin{document}
 
-\title[Observational comparison of biological network models]
-{Observational comparison of qualitative biological network models: a
+\title[Auditing observable behaviour in biological network models]
+{Auditing observable behaviour in qualitative biological network models: a
 reproducible Petri-net framework}
 
 \author*[1]{\fnm{Carlos} \sur{Ramirez Ovalle}}\email{carlosovalle@javerianacali.edu.co}
@@ -44,31 +44,32 @@ reproducible Petri-net framework}
 \orgaddress{\street{Calle 18 No. 118-250, Via a Pance}, \city{Cali},
 \state{Valle del Cauca}, \country{Colombia}}}
 
-\abstract{Models with similar biological-network structure can differ in event
-order, branching and hidden steps. We present a reproducible framework that
-converts labelled qualitative models to reachable transition systems and
-evaluates strong and weak bisimulation, one-way simulation and trace distance
-under a declared observational interface. Validation uses six synthetic pairs
-with construction-level ground truth, six controls from two externally authored
-GINsim models, and 284 public Boolean networks inferred for three HPN-DREAM
-breast-cancer cell lines. One structure-only medoid per HPN-DREAM family was
-fixed without reading held-out mTOR-inhibitor responses. Across the 12 controlled
-comparisons, Python and mCRL2 202607.0 agreed on all 24 strong/weak decisions;
-mCRL2 also matched all predeclared weak-trace controls. Weak bisimulation was
-correct in 6/6 synthetic cases, while trace equality had one false positive and
-a structural profile made three errors. The implementations also agreed on all
-18 strong/weak decisions for nine data-conditioned cross-cell comparisons: six
-had one-way simulation and three were not comparable. CASPOTS held-out
-compatibility was reproduced, with excess RMSE from 0 to 0.0126, but native
-medoids ranked first or tied in only two of three cell lines and their advantage
-over cross-cell controls was inconclusive (exact $p=0.25$). Thus test-set
-compatibility, not cell-specific prognostic value, is supported. An illustrative
-plant--animal application remains a conditional comparison of encoded models,
-not evidence of organism-level equivalence. Source files, hashes, tests,
+\abstract{Structural similarity between qualitative biological networks does
+not determine whether executable models preserve event order, branching or
+hidden steps. We present an observable-behaviour audit that converts labelled
+qualitative models to reachable transition systems and reports strong and weak
+bisimulation, directional simulation and trace distance under a declared
+interface. Validation uses six synthetic pairs with construction-level ground
+truth, six controls from two externally authored GINsim models, and 284 public
+Boolean networks inferred for three HPN-DREAM breast-cancer cell lines. To avoid
+comparison only with coarse summaries, LTS-GDA combines graphlet-degree
+agreement with directed labelled motifs. On the synthetic task, weak
+bisimulation classified 6/6 cases, trace equality 5/6, LTS-GDA 4/6 and a summary
+profile 3/6. Python and mCRL2 202607.0 agreed on all 42 strong/weak decisions
+across controlled and HPN comparisons. A separate attacker--defender game agreed
+with one-way simulation on all 67,600 ordered pairs of transition systems in a
+declared exhaustive two-state universe. Among nine data-conditioned cross-cell
+comparisons, six had one-way simulation and three were not comparable. LTS-GDA
+distance correlated with held-out profile distance ($\rho=0.669$), but the exact
+test remained inconclusive ($p=0.097$). Global synchronous updating preserved
+seven of nine formal classes; two weakened to non-comparability. CASPOTS
+compatibility was reproduced, but native-cell specificity was not established
+($p=0.25$). The audit therefore supports reproducible model-level comparison,
+not prognostic or organism-level equivalence. Source models, hashes, tests,
 notebook and generated results are public.}
 
-\keywords{biological network modelling, Petri nets, weak bisimulation,
-model comparison, systems bioinformatics, reproducible research}
+\keywords{biological network modelling, Petri nets, bisimulation, graphlets,
+model checking, reproducible research}
 
 \maketitle
 
@@ -78,9 +79,13 @@ Cross-system studies often begin by aligning genes, proteins or interactions.
 Orthology, phenologs and network alignment can reveal conserved components and
 topology \citep{McGary2010,Singh2008,Quimbaya2012}, but structural correspondence
 does not determine whether two executable models offer the same observable
-choices in the same order. Conversely, models can differ in internal detail while
-retaining the same externally visible behaviour. This distinction matters when a
-network is used to support a cross-species or model-organism argument.
+choices in the same order. Graphlet methods make structural comparison more
+sensitive to local organisation. In particular, PN-GDDA defines 151 directed,
+bipartite Petri-net graphlets with 592 node orbits and quantifies their
+distributional agreement \citep{Szawulak2022}. It remains a structural measure:
+models with similar local motifs may resolve choices or hidden events
+differently. Conversely, models can differ structurally while retaining the same
+externally visible behaviour.
 
 Petri nets provide an established qualitative representation of biological
 regulation, causality, conflict and concurrency \citep{Murata1989,Koch2005,
@@ -92,18 +97,31 @@ whether each move of one model can be matched by the other \citep{Milner1989,
 BaierKatoen2008,Sangiorgi2011}. These relations examine event order and branching
 rather than only graph summaries.
 
-This article contributes a reproducible framework that combines these ideas into
-an auditable model-comparison workflow. Its primary contribution is computational:
-given two explicit qualitative models and an observational interface, it returns
-strong or weak equivalence, a simulation relation, or non-comparability, together
-with a trace distance and diagnostic outputs. The framework is evaluated first
+The operational semantics itself is also a modelling decision. Synchronous and
+unitary-asynchronous Boolean updates can expose different reachable behaviour,
+and most-permissive Boolean semantics were introduced to avoid behaviours being
+excluded solely by the update convention \citep{Pauleve2020}. Contemporary
+work combines model checking with biological control questions and integrates
+data constraints into Boolean-model inference \citep{CifuentesFontanals2022,
+Benes2023}. A defensible comparison must therefore state its update semantics
+and test whether its conclusions survive a plausible alternative.
+
+This article combines these ideas into an auditable model-comparison workflow.
+The contribution is not a new bisimulation algorithm. It is a reproducible
+protocol that joins explicit interface declaration, a graded branching-time
+decision, graphlet and trace comparators, independent formal oracles, semantic
+sensitivity and held-out biological data. Given two qualitative models and an
+observational interface, it returns strong or weak equivalence, a simulation
+relation, or non-comparability, together with quantitative diagnostics. The
+framework is evaluated first
 on synthetic pairs whose expected relations are fixed by construction. Every
 transition system is independently checked with the mCRL2 toolset, reducing
 dependence on a single implementation. The complete import-to-comparison path is
-then exercised on two externally authored GINsim models. A structural-profile
-baseline and a trace-only baseline expose what information is lost when order or
-branching is ignored. Runtime is measured as model size and the candidate
-relation grow. Finally, a blinded HPN-DREAM analysis connects the formal classes
+then exercised on two externally authored GINsim models. LTS-GDA, a transparent
+LTS-level graphlet baseline motivated by PN-GDDA, and a trace-only baseline
+expose what is gained by recursive state matching. An independent game audit
+targets the simulation preorder not exposed by mCRL2. Runtime is measured as
+model size and the candidate relation grow. Finally, a blinded HPN-DREAM analysis connects the formal classes
 to unseen perturbation-response data and tests whether cell-line-specific model
 families retain specificity outside their learning data \citep{Hill2016,
 Razzaq2018}.
@@ -121,16 +139,43 @@ The six contributions are:
 \item an explicit input--output procedure for behavioural comparison of
 qualitative biological network models;
 \item a synthetic benchmark with strong, weak, partial and negative ground-truth
-cases, cross-checked against the independent mCRL2 implementation;
+cases, evaluated against trace, structural-profile and LTS-GDA comparators;
+\item independent checking with mCRL2 plus exhaustive agreement of a dual
+simulation-game oracle on 67,600 small-LTS pairs;
 \item external-model controls generated from public mammalian cell-cycle and
-p53--Mdm2 logical networks, with source hashes and initial conditions recorded;
+p53--Mdm2 logical networks, including asynchronous--synchronous sensitivity;
 \item blinded comparison of three independently inferred HPN-DREAM Boolean-model
 families against held-out mTOR-inhibitor phosphoproteomic responses;
-\item transparent structure-only and trace-only baselines plus runtime scaling;
-and
 \item an end-to-end reproducibility package containing code, tests, public and
 curated models, an executed notebook and generated outputs.
 \end{enumerate}
+
+Table~\ref{tab:novelty} separates the information represented by each comparator.
+The integrated audit is the only evaluated path that combines local structure,
+global event order, branching, abstraction of hidden events, directional
+containment and a held-out data check.
+
+\begin{table*}[t]
+\caption{Positioning of the evaluated comparison layers. ``Local'' means that
+order is represented only inside a bounded motif rather than recursively over
+successor states}\label{tab:novelty}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}Xcccccc@{}}
+\toprule
+Method & Structure & \shortstack{Global\\order} & Branching &
+\shortstack{$\tau$\\abstraction} & \shortstack{Directional\\relation} &
+\shortstack{Held-out\\data} \\
+\midrule
+PN-GDDA \citep{Szawulak2022} & yes & no & no & no & no & no \\
+Structural profile & yes & no & no & no & no & no \\
+Trace equality & no & yes & no & yes & no & no \\
+LTS-GDA & yes/local & no & no & no & no & yes \\
+Integrated behavioural audit & yes & yes & yes & yes & yes & yes \\
+\botrule
+\end{tabularx}
+\end{table*}
 
 The operational sequence is summarised in Fig.~\ref{fig:pipeline}. Biological
 delimitation and interface declaration precede formal encoding, reachability
@@ -262,6 +307,13 @@ reported for strong and weak bisimulation, while exact weak-trace results are
 compared with the trace relation fixed by each construction. The current
 \texttt{ltscompare} interface does not provide a weak simulation preorder, so
 one-way weak-simulation classifications are not claimed to have an mCRL2 oracle.
+They are audited separately with a dual attacker--defender game. Instead of
+deleting invalid pairs from a candidate relation, the game grows the least set
+of positions from which an attacker can force an unmatched move. Every edge
+subset was enumerated for all one- and two-state LTSs over
+$\{a,\TAU\}$: 260 systems and $260^2=67{,}600$ ordered comparison pairs. This is
+an exhaustive oracle for that declared finite universe, not a proof by testing
+for arbitrary model size.
 
 \subsection{Controls from public logical models}\label{sec:public-method}
 
@@ -285,6 +337,13 @@ equivalence; and renaming one reachable update family must break all three
 relations. These controls test parsing, state generation, AUT export and formal
 comparison on external dynamics. They do not establish that the published
 logical rules are complete biological representations.
+
+As a semantic stress test, each public rule set was also executed synchronously:
+all unstable components were evaluated from the current state and moved one
+level in a single global transition. A sorted compound label recorded the
+component changes. Reachable-state overlap between the asynchronous and
+synchronous systems was reported, but no cross-semantics equivalence was
+assumed.
 
 \subsection{Blinded HPN-DREAM validation with held-out data}
 \label{sec:hpn-method}
@@ -318,6 +377,15 @@ clamped active and inhibitors inactive. Interface updates were labelled by
 component and direction; all other updates were $\TAU$. The resulting nine
 cross-cell pair--condition comparisons were evaluated by both implementations.
 
+All nine comparisons were then repeated under a global synchronous stress
+semantics. Every unstable target was evaluated from the same source state and
+updated simultaneously. The transition label recorded the sorted set of changed
+interface readouts; a hidden-only global update was $\TAU$. This test asks whether
+the categorical relation survives a prominent alternative convention. It does
+not implement most-permissive semantics, and the asynchronous analysis remains
+primary because CASPOTS evaluates asynchronous trajectories \citep{Pauleve2020,
+Razzaq2018}.
+
 Experimental distance was the RMSE between the two cell-line profiles over
 common post-zero times and interface readouts. Time-zero measurements initialized
 the LTS but were excluded from this outcome to prevent data reuse. Formal classes were ordered from weak
@@ -325,6 +393,8 @@ bisimulation through mutual and one-way simulation to non-comparability. Their
 association with experimental distance was evaluated with Spearman's $\rho$ and
 an exact one-sided test that permuted the three pair labels within each condition
 ($3!^3=216$ permutations). Truncated trace distance was a secondary metric.
+One minus LTS-GDA similarity was evaluated by the same permutation scheme as a
+structural comparator; it was not used to select models, conditions or readouts.
 
 Held-out compatibility was also recomputed with CASPOTS/Clingo. The network was
 fixed while the solver minimized the published weighted threshold-repair
@@ -340,16 +410,35 @@ unmeasured relevant initial node to one was retained as a state-space stress tes
 its largest LTS had 27,648 states and was not entered into a quadratic exact
 cross-model relation.
 
-\subsection{Non-formal baselines}\label{sec:baselines}
+\subsection{Structural and linear-time comparators}\label{sec:baselines}
 
-Two transparent baselines isolate the information contributed by the formal
+Three transparent comparators isolate the information contributed by the formal
 relation. The structural-profile score averages four similarities: state count,
 edge count, observable-label multiset and out-degree multiset. Each count
 similarity is the smaller-to-larger ratio; multiset similarity is weighted
-Jaccard. A score of at least 0.9 is classified as equivalent. This feature-only
-baseline deliberately has no event-order semantics and is not presented as a
-state-of-the-art network aligner. The trace baseline declares equivalence when
-$d_8=0$ and therefore has order but no branching-time discrimination.
+Jaccard. The trace comparator declares equivalence when $d_8=0$ and therefore
+has global order but no branching-time discrimination.
+
+LTS-GDA is a stronger local-structure comparator motivated by graphlet-degree
+distribution agreement \citep{Szawulak2022}. On the simple undirected projection
+of each reachable LTS, it counts node participation in all connected induced
+graphlets through three nodes: the edge orbit, both three-node-path orbits and
+the triangle orbit. For orbit $j$, its normalized distribution is
+\begin{equation}
+N_G^j(k)=\frac{D_G^j(k)/k}{\sum_{r>0}D_G^j(r)/r},\qquad
+A^j(G,H)=1-\frac{1}{\sqrt{2}}
+\sqrt{\sum_k\left(N_G^j(k)-N_H^j(k)\right)^2}.
+\end{equation}
+The mean of the four $A^j$ values is combined equally with weighted-Jaccard
+agreement on directed labelled edge, two-step walk, divergence and convergence
+motifs. A predeclared score of at least 0.9 is classified as equivalent.
+
+LTS-GDA is intentionally named separately from PN-GDDA. The latter uses 151
+Petri-net-specific graphlets and 592 orbits on bipartite net structure; LTS-GDA
+uses four orbits plus labelled motifs on reachable behaviour so it can compare
+Petri nets, SBML-qual, GINML and inferred Boolean models through one
+representation. It is an implemented graphlet comparator, not a claimed
+reproduction of PN-GDDA.
 
 Binary equivalence ground truth is positive only for the identity and silent-
 refinement cases. Strong equivalence is included within weak equivalence for this
@@ -428,7 +517,8 @@ Petri-net artwork uses pydot and Graphviz. Independent checking uses the
 hash-pinned mCRL2 202607.0 release. Submission figures are exported as vector PDF with embedded
 fonts, and colour is supplemented by labels, symbols or line styles. Fixed seeds
 control all synthetic modifications and interface permutations. The repository contains
-the exact model registry, benchmark generator, unit tests, executed Jupyter
+the exact model registry, benchmark generator, dual simulation-game oracle,
+unit tests, executed Jupyter
 notebook, environment specifications, continuous-integration workflow and script
 that regenerates every reported table and figure. Runtime CSV files are excluded
 from bit-for-bit checks because wall-clock measurements are hardware-dependent;
@@ -450,9 +540,12 @@ by simulation direction rather than incorrectly promoted to equivalence.
 
 For the binary weak-equivalence task, weak bisimulation achieved 6/6 correct
 decisions. Trace equality achieved 5/6 because it produced a false positive on
-the branching-time case. The structural profile achieved 3/6: it produced false
-positives for label mismatch and label-order swap and a false negative for silent
-refinement (Table~\ref{tab:baseline}; Fig.~\ref{fig:benchmark}).
+the branching-time case. LTS-GDA achieved 4/6: silent refinement was a false
+negative because graphlets do not abstract $\TAU$, and the added local branch was
+a false positive at the predeclared threshold. The structural profile achieved
+3/6, with false positives for label mismatch and label-order swap and a false
+negative for silent refinement (Table~\ref{tab:baseline};
+Fig.~\ref{fig:benchmark}).
 
 \begin{table}[t]
 \caption{Binary equivalence accuracy on six construction-level cases}
@@ -464,6 +557,7 @@ Method & Accuracy & False positive & False negative \\
 \midrule
 Weak bisimulation & 1.000 & 0 & 0 \\
 Trace equality ($k=8$) & 0.833 & 1 & 0 \\
+LTS-GDA ($\geq0.9$) & 0.667 & 1 & 1 \\
 Structural profile ($\geq0.9$) & 0.500 & 2 & 1 \\
 \botrule
 \end{tabular}
@@ -475,7 +569,8 @@ Structural profile ($\geq0.9$) & 0.500 & 2 & 1 \\
 \caption{Independent benchmark. Left: correctness and predicted binary class for
 each case and method. Right: accuracy against the equivalence labels fixed by
 construction. The trace baseline misses the branching-time distinction; the
-structural profile additionally misses event-order and silent-refinement cases}
+graphlet baseline improves on the summary profile but remains sensitive to
+silent refinement and local added structure}
 \label{fig:benchmark}
 \end{figure*}
 
@@ -515,6 +610,15 @@ Python and mCRL2 agreed on 12/12 strong and 12/12 weak decisions. The mCRL2 exac
 weak-trace result also matched all 12 predeclared trace controls, including
 acceptance of the trace-equivalent branching pair that both bisimulation
 implementations reject.
+
+The independent attacker--defender oracle agreed with the production weak-
+simulation result on all 67,600 ordered comparisons among the 260 enumerated
+small LTSs. Alternative update semantics materially changed public reachability:
+the synchronous cell-cycle system contained 13 states, all shared with the 826
+asynchronous states (Jaccard 0.0157), while synchronous p53--Mdm2 contained 8
+states, all shared with the 17 asynchronous states (Jaccard 0.471). These audits
+support implementation correctness while showing that reachable behaviour is
+not semantics-neutral.
 
 \begin{table*}[t]
 \caption{Public-model controls. Entries list strong/weak/weak-trace outcomes;
@@ -569,7 +673,17 @@ The primary ordinal class had a small positive association with between-cell
 experimental distance ($\rho=0.091$), but the exact condition-stratified test was
 inconclusive ($p=0.111$). Trace distance was negatively associated with the data
 distance ($\rho=-0.596$, $p=0.556$), showing that the truncated linear-time index
-is not an empirical similarity surrogate in this small panel.
+is not an empirical similarity surrogate in this small panel. LTS-GDA distance
+had the strongest observed association ($\rho=0.669$), but its exact test also
+remained inconclusive ($p=0.097$). It is therefore a useful comparator, not a
+validated response-distance predictor.
+
+Under synchronous updating, four pairs had one-way simulation and five were not
+comparable. Seven of nine asynchronous classes were preserved. The
+BT20--BT549 pair under IGF1 plus mTOR inhibition and the BT20--MCF7 pair under
+4EBP1 plus mTOR inhibition changed from one-way simulation to
+non-comparability. Thus the broad absence of equivalence persisted, but two
+directional-containment statements were update-semantics dependent.
 
 CASPOTS reproduced compatibility with the held-out test data. Native medoid RMSE
 was 0.33024 for BT20, 0.31335 for BT549 and 0.27726 for MCF7; corresponding
@@ -732,7 +846,8 @@ discretization reference for every structure-only source medoid and held-out
 target cell line; blue boxes mark native source--target combinations. (b)
 Between-cell profile RMSE under the primary formal class for three shared
 perturbations. Horizontal lines are class medians. The exact test permutes cell
-pairs within perturbation; neither panel supports robust native-cell
+pairs within perturbation; the annotation reports both ordinal-class and
+LTS-GDA-distance associations. Neither panel supports robust native-cell
 specificity}
 \label{fig:hpn-validation}
 \end{figure*}
@@ -750,9 +865,19 @@ share all finite traces in the benchmark yet resolve a choice differently. Weak
 bisimulation detects both distinctions while tolerating silent implementation
 detail.
 
+The graphlet comparison makes this conclusion less dependent on a coarse
+straw-man baseline. LTS-GDA improves from 3/6 to 4/6 on the same predeclared
+task and its distance has the strongest observed association with held-out
+profile distance. Yet it still misses the semantic meaning of $\TAU$ and global
+branching, and its $p=0.097$ data association is hypothesis-generating rather
+than confirmatory. The result supports reporting structural and behavioural
+views together instead of treating either as universally sufficient.
+
 The synthetic benchmark is small by design but independent of the biological
-application. mCRL2 removes dependence on the in-house fixed-point implementation,
-while the two repository models show that the parser and comparison pipeline
+application. mCRL2 removes dependence on the in-house strong/weak-bisimulation
+implementation, and the exhaustive game supplies a separately coded oracle for
+the simulation direction on its declared finite universe. The two repository
+models show that the parser and comparison pipeline
 operate on externally authored logical dynamics. Together these layers remove
 the circular claim that success on hand-built case-study models alone validates
 the software. The HPN-DREAM analysis adds a distinct evidential layer: model
@@ -784,6 +909,14 @@ to 145 states and does not establish genome-scale performance. Partition-
 refinement algorithms, symbolic state representations and compositional checking
 are natural extensions.
 
+The exhaustive simulation audit covers every LTS in the declared one- and
+two-state universe, but it cannot exclude defects triggered only by larger
+systems. Likewise, the synchronous stress test is not a proof of semantic
+invariance. Two of nine HPN directional classes changed, and most-permissive,
+general-asynchronous or stochastic updates were not evaluated. The HPN
+containment results must therefore remain conditional on unitary-asynchronous
+semantics \citep{Pauleve2020}.
+
 The transformed GINsim controls still have a precise limit: their expected
 relations arise from exact copy, silent refinement and label perturbation. The
 HPN-DREAM experiment addresses that weakness with distinct public model families
@@ -795,12 +928,15 @@ compatibility score over admissible trajectories, not a unique time-series
 prediction \citep{Razzaq2018}. The negative specificity result therefore prevents
 using this analysis to claim that behavioural class predicts response distance.
 
-Finally, the structural baseline is intentionally simple. It tests whether basic
-graph features suffice on controlled counterexamples; it is not a comprehensive
-comparison with every network-alignment method. Future benchmarks should include
-more repository models, prospectively expert-labelled positive and negative
-cross-model relations, biological replicates, alternative alignment algorithms
-and blinded interface specifications.
+Finally, LTS-GDA does not reproduce PN-GDDA's 592 Petri-net-specific orbits. Its
+four graphlet-degree orbits and labelled LTS motifs were chosen so that every
+input formalism could be compared after reachability construction. This avoids
+an arbitrary reverse translation of SBML-qual and inferred Boolean models into
+Petri-net structure, but leaves direct PN-GDDA comparison as an open benchmark
+for native Petri-net corpora. Future work should also include more repository
+models, prospectively expert-labelled positive and negative relations,
+biological replicates, additional update semantics and blinded interface
+specifications.
 
 \subsection{Practical use}\label{sec:discussion-use}
 
@@ -815,19 +951,18 @@ experimentation.
 
 \section{Conclusion}\label{sec:conclusion}
 
-We presented a reproducible framework for comparing qualitative biological
-network models through strong and weak bisimulation, simulation and trace
-distance. Synthetic constructions, an independent mCRL2 oracle and two public
-GINsim models test complementary parts of the software path. The blinded
-HPN-DREAM analysis further shows that independently inferred models can be
-checked against unseen intervention data: formal decisions were reproducible and
-the models retained low held-out compatibility error, but neither class--data
-concordance nor native-cell specificity was established. Complete agreement on
-controlled relations supports implementation correctness; the negative data
-result defines the present inferential boundary. The Arabidopsis--animal
-application demonstrates the workflow but is deliberately interpreted at model
-level: its results depend on curated networks and declared interfaces and do not
-prove organism-level functional equivalence.
+We presented a reproducible observable-behaviour audit for qualitative biological
+network models. Synthetic constructions distinguish what is captured by
+graphlet, trace and branching-time views; mCRL2 and a dual simulation game test
+independent parts of the implementation. Public GINsim models demonstrate that
+update semantics can sharply alter reachability, and synchronous HPN-DREAM
+stress preserves seven of nine, not all, asynchronous classes. The blinded data
+analysis yields a stronger but still inconclusive association for LTS-GDA and
+establishes neither formal-class concordance nor native-cell specificity.
+Accordingly, the contribution is a falsifiable and reproducible model-auditing
+protocol, not a prognostic method. The Arabidopsis--animal application remains
+conditional on curated networks, update rules and declared interfaces and does
+not prove organism-level functional equivalence.
 
 \backmatter
 

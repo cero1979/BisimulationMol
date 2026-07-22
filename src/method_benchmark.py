@@ -3,7 +3,7 @@
 The biological case study contains hand-curated models, so it cannot by itself
 establish that the comparison algorithm distinguishes known behavioural
 relations.  This module supplies deterministic synthetic pairs with construction-
-level ground truth, two deliberately simple non-formal baselines, and a runtime
+level ground truth, three complementary non-formal comparators, and a runtime
 scaling experiment.  It depends only on the Python standard library and the
 formal engine in :mod:`concurrent_biomodels`.
 """
@@ -13,14 +13,19 @@ from __future__ import annotations
 import random
 import statistics
 import time
-from collections import Counter
+from collections import Counter, defaultdict
 from dataclasses import dataclass
+from itertools import combinations
+from math import comb, sqrt
 from typing import Callable, Dict, Iterable, List, Sequence, Tuple
 
 try:  # Package import (tests and external users).
     from . import concurrent_biomodels as cbm
 except ImportError:  # Script/notebook import with ``src`` on sys.path.
     import concurrent_biomodels as cbm
+
+
+GRAPHLET_EQUIVALENCE_THRESHOLD = 0.9
 
 
 @dataclass(frozen=True)
@@ -184,6 +189,109 @@ def structural_profile_similarity(l1: cbm.LTS, l2: cbm.LTS) -> float:
     return sum(components) / len(components)
 
 
+def _undirected_adjacency(lts: cbm.LTS) -> List[set[int]]:
+    """Return the simple undirected projection used for graphlet orbits."""
+    adjacency = [set() for _ in lts.states]
+    for source, _label, target in lts.edges:
+        if source == target:
+            continue
+        adjacency[source].add(target)
+        adjacency[target].add(source)
+    return adjacency
+
+
+def graphlet_orbit_counts(lts: cbm.LTS) -> List[Tuple[int, int, int, int]]:
+    """Count node participation in all connected induced graphlets up to size 3.
+
+    The four columns are the 2-node edge orbit, the endpoint and centre orbits
+    of an induced 3-node path, and the triangle orbit.  This is an auditable
+    LTS-level analogue of graphlet-degree analysis; it is not the 592-orbit
+    PN-GDDA implementation defined for bipartite Petri-net structure.
+    """
+    adjacency = _undirected_adjacency(lts)
+    rows: List[Tuple[int, int, int, int]] = []
+    for node, neighbours in enumerate(adjacency):
+        degree = len(neighbours)
+        triangles = sum(
+            other in adjacency[neighbour]
+            for neighbour, other in combinations(sorted(neighbours), 2)
+        )
+        path_centre = comb(degree, 2) - triangles
+        path_endpoint = sum(
+            1
+            for centre in neighbours
+            for other in adjacency[centre]
+            if other != node and other not in neighbours
+        )
+        rows.append((degree, path_endpoint, path_centre, triangles))
+    return rows
+
+
+def _normalised_orbit_distribution(
+    orbit_rows: Sequence[Tuple[int, int, int, int]], orbit: int
+) -> Dict[int, float]:
+    frequencies = Counter(row[orbit] for row in orbit_rows if row[orbit] > 0)
+    weighted = {degree: count / degree for degree, count in frequencies.items()}
+    denominator = sum(weighted.values())
+    if denominator == 0:
+        return {}
+    return {degree: value / denominator for degree, value in weighted.items()}
+
+
+def graphlet_degree_agreement(l1: cbm.LTS, l2: cbm.LTS) -> float:
+    """Graphlet-degree-distribution agreement for the four 2--3-node orbits."""
+    left = graphlet_orbit_counts(l1)
+    right = graphlet_orbit_counts(l2)
+    agreements = []
+    for orbit in range(4):
+        dist_left = _normalised_orbit_distribution(left, orbit)
+        dist_right = _normalised_orbit_distribution(right, orbit)
+        if not dist_left and not dist_right:
+            agreements.append(1.0)
+            continue
+        keys = set(dist_left) | set(dist_right)
+        distance = sqrt(
+            sum((dist_left.get(k, 0.0) - dist_right.get(k, 0.0)) ** 2 for k in keys)
+        )
+        agreements.append(max(0.0, 1.0 - distance / sqrt(2.0)))
+    return sum(agreements) / len(agreements)
+
+
+def labelled_graphlet_motifs(lts: cbm.LTS) -> Counter:
+    """Count directed labelled edge, walk, divergence and convergence motifs."""
+    motifs: Counter = Counter()
+    incoming: Dict[int, List[Tuple[str, int]]] = defaultdict(list)
+    for source, label, target in lts.edges:
+        motifs[("edge", label)] += 1
+        incoming[target].append((label, source))
+
+    for middle in range(len(lts.states)):
+        outgoing = list(lts._out[middle])
+        for first_label, _source in incoming[middle]:
+            for second_label, _target in outgoing:
+                motifs[("walk", first_label, second_label)] += 1
+        for (left_label, _), (right_label, _) in combinations(outgoing, 2):
+            motifs[("diverge", *sorted((left_label, right_label)))] += 1
+        for (left_label, _), (right_label, _) in combinations(incoming[middle], 2):
+            motifs[("converge", *sorted((left_label, right_label)))] += 1
+    return motifs
+
+
+def lts_graphlet_similarity(l1: cbm.LTS, l2: cbm.LTS) -> float:
+    """LTS-GDA baseline combining orbit agreement and labelled local motifs.
+
+    The score is the unweighted mean of graphlet-degree agreement on the simple
+    projection and weighted Jaccard agreement on directed labelled motifs.  It
+    remains a local structural statistic: unlike bisimulation, it does not match
+    successor states recursively or abstract silent transitions.
+    """
+    orbit_agreement = graphlet_degree_agreement(l1, l2)
+    motif_agreement = _weighted_jaccard(
+        labelled_graphlet_motifs(l1), labelled_graphlet_motifs(l2)
+    )
+    return (orbit_agreement + motif_agreement) / 2.0
+
+
 def classify_pair(reference: cbm.LTS, candidate: cbm.LTS, k: int = 8) -> Dict[str, object]:
     """Apply all formal relations and both non-formal baselines to one pair."""
     strong = cbm.strong_bisimilar(reference, candidate)
@@ -206,6 +314,7 @@ def classify_pair(reference: cbm.LTS, candidate: cbm.LTS, k: int = 8) -> Dict[st
         formal_class = "not comparable"
 
     structural = structural_profile_similarity(reference, candidate)
+    graphlet = lts_graphlet_similarity(reference, candidate)
     return {
         "strong_bisimilar": strong,
         "weak_bisimilar": weak,
@@ -215,6 +324,8 @@ def classify_pair(reference: cbm.LTS, candidate: cbm.LTS, k: int = 8) -> Dict[st
         "trace_equivalent_at_k": abs(distance) < 1e-12,
         "structural_similarity": structural,
         "structurally_equivalent_at_0_9": structural >= 0.9,
+        "lts_gda_similarity": graphlet,
+        "lts_gda_equivalent_at_0_9": graphlet >= GRAPHLET_EQUIVALENCE_THRESHOLD,
         "formal_class": formal_class,
         "n_states_reference": len(reference.states),
         "n_states_candidate": len(candidate.states),
@@ -249,6 +360,7 @@ def baseline_accuracy(rows: Iterable[Dict[str, object]]) -> List[Dict[str, objec
     predictions = {
         "weak bisimulation": [bool(r["weak_bisimilar"]) for r in records],
         "trace equality (k=8)": [bool(r["trace_equivalent_at_k"]) for r in records],
+        "LTS-GDA (>=0.9)": [bool(r["lts_gda_equivalent_at_0_9"]) for r in records],
         "structural profile (>=0.9)": [
             bool(r["structurally_equivalent_at_0_9"]) for r in records
         ],

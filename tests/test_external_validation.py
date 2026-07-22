@@ -19,6 +19,14 @@ class PublicModelValidationTests(unittest.TestCase):
         self.assertTrue(all(row["reachable_states"] > 1 for row in summaries.values()))
         self.assertTrue(all(row["reachable_edges"] > 0 for row in summaries.values()))
 
+    def test_synchronous_semantic_stress_is_deterministic(self) -> None:
+        rows = {row["model"]: row for row in pv.public_semantic_sensitivity()}
+        self.assertEqual(rows["mammalian_cell_cycle"]["synchronous_states"], 13)
+        self.assertEqual(rows["p53_mdm2"]["synchronous_states"], 8)
+        self.assertLess(
+            rows["mammalian_cell_cycle"]["reachable_state_jaccard"], 0.02
+        )
+
     def test_public_controls_recover_predeclared_python_relations(self) -> None:
         for case in pv.public_validation_cases():
             from src import concurrent_biomodels as cbm

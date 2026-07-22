@@ -6,6 +6,9 @@ the held-out mTOR-inhibitor data.  The selected models are then compared under
 the intersection of public test perturbations and readouts.  Their asynchronous
 LTS relations are cross-checked with mCRL2 and related to experimental profile
 distances with an exact condition-stratified permutation test.
+The pairwise classifications are also repeated under global synchronous updates
+to expose semantic sensitivity without replacing the CASPOTS-compatible primary
+asynchronous analysis.
 
 This module intentionally uses only the Python standard library plus the local
 formal engine.  The optional CASPOTS reproduction is in
@@ -29,9 +32,11 @@ from typing import Dict, Iterable, List, Mapping, Sequence, Tuple
 
 try:
     from . import concurrent_biomodels as cbm
+    from . import method_benchmark as mb
     from . import public_validation as pv
 except ImportError:  # pragma: no cover - direct script execution
     import concurrent_biomodels as cbm
+    import method_benchmark as mb
     import public_validation as pv
 
 
@@ -323,6 +328,36 @@ def _evaluate(clauses: Sequence[Clause], state: Mapping[str, bool]) -> bool:
     )
 
 
+def _conditioned_initial_state(
+    model: BooleanModel,
+    experiment: Experiment,
+    interface: Sequence[str],
+    hidden_initial: bool,
+) -> Tuple[
+    Tuple[str, ...],
+    Dict[str, int],
+    Tuple[bool, ...],
+    Dict[str, bool],
+    Tuple[str, ...],
+]:
+    nodes = _relevant_nodes(model, interface)
+    index = {node: position for position, node in enumerate(nodes)}
+    initial = [hidden_initial] * len(nodes)
+    time_zero = experiment.observations.get(0, {})
+    for node, value in time_zero.items():
+        if node in index:
+            initial[index[node]] = value >= 0.5
+    clamped: Dict[str, bool] = {name: True for name in experiment.stimuli}
+    clamped.update({name: False for name in experiment.inhibitors})
+    for node, value in clamped.items():
+        if node in index:
+            initial[index[node]] = value
+    dynamic_targets = tuple(
+        sorted(set(model.rules).intersection(nodes).difference(clamped))
+    )
+    return nodes, index, tuple(initial), clamped, dynamic_targets
+
+
 def asynchronous_lts(
     model: BooleanModel,
     experiment: Experiment,
@@ -337,26 +372,14 @@ def asynchronous_lts(
     Stimuli and inhibitors are clamped throughout.  Updates outside the declared
     interface are hidden as tau.
     """
-    nodes = _relevant_nodes(model, interface)
-    index = {node: position for position, node in enumerate(nodes)}
-    initial = [hidden_initial] * len(nodes)
-    time_zero = experiment.observations.get(0, {})
-    for node, value in time_zero.items():
-        if node in index:
-            initial[index[node]] = value >= 0.5
-    clamped: Dict[str, bool] = {name: True for name in experiment.stimuli}
-    clamped.update({name: False for name in experiment.inhibitors})
-    for node, value in clamped.items():
-        if node in index:
-            initial[index[node]] = value
-
-    initial_state = tuple(initial)
+    nodes, index, initial_state, _clamped, dynamic_targets = _conditioned_initial_state(
+        model, experiment, interface, hidden_initial
+    )
     states = [initial_state]
     state_index = {initial_state: 0}
     edges = set()
     queue = deque([initial_state])
     interface_set = set(interface)
-    dynamic_targets = sorted(set(model.rules).intersection(nodes).difference(clamped))
 
     while queue:
         state = queue.popleft()
@@ -383,6 +406,71 @@ def asynchronous_lts(
 
     return cbm.LTS(
         name=f"{model.name}:{experiment.cell_line}",
+        states=["".join("1" if value else "0" for value in state) for state in states],
+        init=0,
+        edges=sorted(edges),
+    )
+
+
+def synchronous_lts(
+    model: BooleanModel,
+    experiment: Experiment,
+    interface: Sequence[str] = INTERFACE,
+    hidden_initial: bool = False,
+    max_states: int = 50_000,
+) -> cbm.LTS:
+    """Construct a global synchronous LTS as a declared semantic stress test.
+
+    All unstable targets are evaluated from the current state and updated in
+    one step.  The label is the sorted set of changed interface readouts; a
+    hidden-only update is tau.  The asynchronous system remains the primary
+    model because CASPOTS used asynchronous trajectories.
+    """
+    nodes, index, initial_state, _clamped, dynamic_targets = _conditioned_initial_state(
+        model, experiment, interface, hidden_initial
+    )
+    states = [initial_state]
+    state_index = {initial_state: 0}
+    edges = set()
+    queue = deque([initial_state])
+    interface_set = set(interface)
+
+    while queue:
+        state = queue.popleft()
+        values = dict(zip(nodes, state))
+        successor = list(state)
+        observable_changes = []
+        changed = False
+        for target in dynamic_targets:
+            desired = _evaluate(model.rules[target], values)
+            position = index[target]
+            if desired == state[position]:
+                continue
+            changed = True
+            successor[position] = desired
+            if target in interface_set:
+                observable_changes.append(f"{target}={int(desired)}")
+        if not changed:
+            continue
+        successor_tuple = tuple(successor)
+        if successor_tuple not in state_index:
+            state_index[successor_tuple] = len(states)
+            states.append(successor_tuple)
+            queue.append(successor_tuple)
+            if len(states) > max_states:
+                raise ValueError(
+                    f"State limit exceeded for synchronous {model.name}/"
+                    f"{experiment.cell_line}."
+                )
+        label = (
+            "sync[" + "|".join(sorted(observable_changes)) + "]"
+            if observable_changes
+            else cbm.TAU
+        )
+        edges.add((state_index[state], label, state_index[successor_tuple]))
+
+    return cbm.LTS(
+        name=f"{model.name}:{experiment.cell_line}:synchronous",
         states=["".join("1" if value else "0" for value in state) for state in states],
         init=0,
         edges=sorted(edges),
@@ -423,6 +511,7 @@ def _formal_class(weak: bool, left_by_right: bool, right_by_left: bool) -> str:
 def validation_rows(
     use_mcrl2: bool = True,
     hidden_initial: bool = False,
+    semantics: str = "asynchronous",
 ) -> List[Dict[str, object]]:
     verify_artifacts()
     medoids = {cell: select_medoid(cell) for cell in CELLS}
@@ -430,10 +519,14 @@ def validation_rows(
     rows = []
     for condition in COMMON_CONDITIONS:
         experiments = {cell: get_experiment(cell, condition) for cell in CELLS}
+        if semantics == "asynchronous":
+            builder = asynchronous_lts
+        elif semantics == "synchronous":
+            builder = synchronous_lts
+        else:
+            raise ValueError(f"Unsupported update semantics: {semantics}")
         systems = {
-            cell: asynchronous_lts(
-                models[cell], experiments[cell], hidden_initial=hidden_initial
-            )
+            cell: builder(models[cell], experiments[cell], hidden_initial=hidden_initial)
             for cell in CELLS
         }
         for left, right in itertools.combinations(CELLS, 2):
@@ -443,6 +536,7 @@ def validation_rows(
             left_by_right = cbm.weak_simulates(lts_left, lts_right)
             right_by_left = cbm.weak_simulates(lts_right, lts_left)
             distance = cbm.behavioural_distance(lts_left, lts_right, k=6)
+            graphlet_similarity = mb.lts_graphlet_similarity(lts_left, lts_right)
             empirical, n_values, times = experimental_rmse(
                 experiments[left], experiments[right]
             )
@@ -475,7 +569,9 @@ def validation_rows(
                     "right_simulated_by_left": right_by_left,
                     "formal_class": _formal_class(weak, left_by_right, right_by_left),
                     "trace_distance_k6": distance,
+                    "lts_gda_similarity": graphlet_similarity,
                     "hidden_initial_value": int(hidden_initial),
+                    "update_semantics": semantics,
                     **oracle,
                     "python_mcrl2_strong_agree": (
                         strong == oracle["mcrl2_strong_bisimilar"] if use_mcrl2 else None
@@ -485,6 +581,36 @@ def validation_rows(
                     ),
                 }
             )
+    return rows
+
+
+def semantic_sensitivity_rows() -> List[Dict[str, object]]:
+    """Pair asynchronous and synchronous outcomes for the nine HPN comparisons."""
+    asynchronous = validation_rows(use_mcrl2=False, semantics="asynchronous")
+    synchronous = validation_rows(use_mcrl2=False, semantics="synchronous")
+    key = lambda row: (row["condition"], row["left_cell"], row["right_cell"])
+    sync_by_key = {key(row): row for row in synchronous}
+    rows = []
+    for primary in asynchronous:
+        stress = sync_by_key[key(primary)]
+        rows.append(
+            {
+                "condition": primary["condition"],
+                "left_cell": primary["left_cell"],
+                "right_cell": primary["right_cell"],
+                "asynchronous_class": primary["formal_class"],
+                "synchronous_class": stress["formal_class"],
+                "class_preserved": primary["formal_class"] == stress["formal_class"],
+                "asynchronous_trace_distance_k6": primary["trace_distance_k6"],
+                "synchronous_trace_distance_k6": stress["trace_distance_k6"],
+                "asynchronous_lts_gda_similarity": primary["lts_gda_similarity"],
+                "synchronous_lts_gda_similarity": stress["lts_gda_similarity"],
+                "asynchronous_left_states": primary["left_states"],
+                "asynchronous_right_states": primary["right_states"],
+                "synchronous_left_states": stress["left_states"],
+                "synchronous_right_states": stress["right_states"],
+            }
+        )
     return rows
 
 
@@ -526,6 +652,9 @@ def concordance_test(rows: Sequence[Mapping[str, object]]) -> Dict[str, object]:
     trace_distance = [
         float(row["trace_distance_k6"]) for group in grouped for row in group
     ]
+    graphlet_distance = [
+        1.0 - float(row["lts_gda_similarity"]) for group in grouped for row in group
+    ]
     class_score = {
         "weak_bisimulation": 0.0,
         "mutual_simulation": 1 / 3,
@@ -541,15 +670,21 @@ def concordance_test(rows: Sequence[Mapping[str, object]]) -> Dict[str, object]:
     empirical = [value for group in empirical_groups for value in group]
     observed_class = spearman(formal_class, empirical)
     observed_trace = spearman(trace_distance, empirical)
+    observed_graphlet = spearman(graphlet_distance, empirical)
     null_class = []
     null_trace = []
+    null_graphlet = []
     permutations = [list(itertools.permutations(group)) for group in empirical_groups]
     for combination in itertools.product(*permutations):
         permuted = [value for group in combination for value in group]
         null_class.append(spearman(formal_class, permuted))
         null_trace.append(spearman(trace_distance, permuted))
+        null_graphlet.append(spearman(graphlet_distance, permuted))
     p_class = sum(value >= observed_class - 1e-12 for value in null_class) / len(null_class)
     p_trace = sum(value >= observed_trace - 1e-12 for value in null_trace) / len(null_trace)
+    p_graphlet = sum(
+        value >= observed_graphlet - 1e-12 for value in null_graphlet
+    ) / len(null_graphlet)
     return {
         "n_model_pair_conditions": len(rows),
         "n_conditions": len(grouped),
@@ -557,9 +692,12 @@ def concordance_test(rows: Sequence[Mapping[str, object]]) -> Dict[str, object]:
         "formal_class_exact_permutation_p_one_sided": p_class,
         "trace_distance_spearman_rho": observed_trace,
         "trace_distance_exact_permutation_p_one_sided": p_trace,
+        "graphlet_distance_spearman_rho": observed_graphlet,
+        "graphlet_distance_exact_permutation_p_one_sided": p_graphlet,
         "null_permutations": len(null_class),
         "primary_formal_metric": "ordinal formal class",
         "secondary_formal_metric": "weak observable trace Jaccard distance at k=6",
+        "structural_baseline_metric": "one minus LTS-GDA similarity",
         "experimental_metric": "RMSE over common post-zero held-out values",
     }
 
@@ -597,22 +735,25 @@ def initial_state_sensitivity_rows() -> List[Dict[str, object]]:
     return rows
 
 
-def write_results(use_mcrl2: bool = True) -> Tuple[Path, Path, Path, Path]:
+def write_results(use_mcrl2: bool = True) -> Tuple[Path, Path, Path, Path, Path]:
     RESULTS.mkdir(parents=True, exist_ok=True)
     medoid_path = RESULTS / "hpn_dream_medoids.csv"
     rows_path = RESULTS / "hpn_dream_formal_data_validation.csv"
     sensitivity_path = RESULTS / "hpn_dream_initial_state_sensitivity.csv"
     statistics_path = RESULTS / "hpn_dream_concordance.json"
+    semantics_path = RESULTS / "hpn_dream_semantic_sensitivity.csv"
 
     medoid_rows = medoid_summary()
     rows = validation_rows(use_mcrl2=use_mcrl2, hidden_initial=False)
     sensitivity = initial_state_sensitivity_rows()
+    semantics = semantic_sensitivity_rows()
     stats = concordance_test(rows)
 
     for path, data in (
         (medoid_path, medoid_rows),
         (rows_path, rows),
         (sensitivity_path, sensitivity),
+        (semantics_path, semantics),
     ):
         with path.open("w", newline="", encoding="utf-8") as handle:
             writer = csv.DictWriter(
@@ -621,7 +762,7 @@ def write_results(use_mcrl2: bool = True) -> Tuple[Path, Path, Path, Path]:
             writer.writeheader()
             writer.writerows(data)
     statistics_path.write_text(json.dumps(stats, indent=2) + "\n", encoding="utf-8")
-    return medoid_path, rows_path, sensitivity_path, statistics_path
+    return medoid_path, rows_path, sensitivity_path, statistics_path, semantics_path
 
 
 def main() -> None:

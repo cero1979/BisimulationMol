@@ -5,8 +5,11 @@
   "formal_class_exact_permutation_p_one_sided": 0.1111111111111111,
   "trace_distance_spearman_rho": -0.595879571531124,
   "trace_distance_exact_permutation_p_one_sided": 0.5555555555555556,
+  "graphlet_distance_spearman_rho": 0.6694619270045784,
+  "graphlet_distance_exact_permutation_p_one_sided": 0.09722222222222222,
   "null_permutations": 216,
   "primary_formal_metric": "ordinal formal class",
   "secondary_formal_metric": "weak observable trace Jaccard distance at k=6",
+  "structural_baseline_metric": "one minus LTS-GDA similarity",
   "experimental_metric": "RMSE over common post-zero held-out values"
 }
