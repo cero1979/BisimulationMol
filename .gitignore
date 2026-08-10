@@ -9,6 +9,14 @@ paper/netmahib/*
 !paper/netmahib/references.bib
 !paper/netmahib/sn-jnl.cls
 !paper/netmahib/sn-mathphys-ay.bst
+!paper/jmcs/
+paper/jmcs/*
+!paper/jmcs/*.tex
+!paper/jmcs/*.bib
+!paper/jmcs/*.md
+!paper/jmcs/resources/
+!paper/jmcs/resources/ISRP.cls
+!paper/jmcs/resources/jmcs.jpg
 
 # Elsevier LaTeX template bundle (only used to typeset the manuscript)
 els-cas-templates/
@@ -26,6 +34,10 @@ submission/biosystems_*/
 submission/netmahib_latex_flat/
 submission/netmahib_latex_flat.zip
 submission/netmahib_reproducibility.zip
+
+# Clean JMCS delivery directory. Explicit source and final-package exceptions
+# are declared after the generic LaTeX/PDF exclusions below.
+submission_jmcs/*
 
 # ---------------------------------------------------------------------------
 # Python
@@ -58,3 +70,14 @@ env/
 *.fdb_latexmk
 *.synctex.gz
 build*.log
+
+!paper/jmcs/main.pdf
+!submission_jmcs/main.tex
+!submission_jmcs/references.bib
+!submission_jmcs/main.pdf
+!submission_jmcs/resources/
+!submission_jmcs/resources/ISRP.cls
+!submission_jmcs/resources/jmcs.jpg
+!submission_jmcs/figures/
+!submission_jmcs/figures/*.pdf
+!submission_jmcs/JMCS_submission.zip

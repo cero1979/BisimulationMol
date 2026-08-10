@@ -1,0 +1,231 @@
+%%%%%%%%%%%%%%%%%%%%%%% Template.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is a general template file for ISRP.cls.
+%
+% Use this file as the basis for your article. 
+%
+% This template includes a few options for journals of ISR-Publications.
+%
+% LaTeX support: alireza.yeganehparast@gmail.com
+%========================================================================
+
+\documentclass[JMCS, accept]{resources/ISRP}
+% The document class defines the structure and layout of your article.
+
+%==================================================================
+% Class Options:
+% Choose between the following ISRP journals:
+% JMCS: Journal of Mathematics and Computer Science
+% JNSA: Journal of Nonlinear Sciences and Applications
+% MNS: Mathematics in Natural Science
+%==================================================================
+ 
+% submit
+%Use 'submit' for draft or submission stages. It will be change to accept by editorial office when the paper is accepted. 
+
+
+%===============================================================
+%Insert here the call for the packages your document requires.
+% The following packages are already loaded by the IRSP class:
+%graphicx, hyperref, color, pifont, lineno, natbib, lmodern, mathpazo, helvet, eulervm, footmisc, amsmath, amsthm, amscd, amsfonts, amssymb
+
+\usepackage{amsmath, amsthm}
+
+
+
+
+
+
+
+\begin{document}
+
+%Replace with the title of your paper.
+\title{Insert your title here}
+
+
+%Enter each author's name and email(add full name) and use \corref{c} for corresponding author. And linking them to affiliations with [a1], [a2], etc.
+\author[a1]{First Author\corref{c}}
+\ead{first-author@example.com}
+%Email of the first author.
+
+
+%Add more authors as needed, linking them to affiliations with [a1], [a2], etc.
+\author[a1,a2]{Second Author}
+\ead{Second-author@example.com}
+%Use same tags([a1] and [a2],...) for authors and their addresses.  
+
+ 
+
+%Define author affiliations.
+\address[a1]{Affiliation 1.  \vskip 0.1cm}
+\address[a2]{Affiliation 2.}
+
+% Enter Short form of authors list here
+\authors{Short form of First author, Short form of Second author, more}
+
+
+%=========================================================================
+%The following information will be entered by the editorial office 
+
+\cortext[c]{Corresponding author}
+\setcounter{page}{1}
+\pages{1--2}
+\vol{1 (2025)} 
+\copyrightyear{2025}
+\recivedat{received Date}
+\revisedat{Revised Date}
+\acceptedat{Accept Date}
+\doi{10.22436/...}
+% The correct doi will be entered by the editor
+%==================================================================================
+
+
+
+
+%Theorem-like structures
+%If you need new environments, define them here with the command \newtheorem{envname}[theorem]{caption}. 
+
+%Some environments such as definitions, theorems, lemmas or examples, have defined  in the list below.
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\numberwithin{equation}{section}
+
+%=================================================================================
+
+
+
+
+
+
+
+
+\begin{abstract}
+The abstract should provide a concise summary of the research, emphasizing the problem addressed, key results, and their significance within the field. The abstract should be structured as follows, without explicit headings:
+\begin{enumerate}
+	\item \textbf{Problem Statement:} Briefly describe the problem or question addressed in the study, placing it within the context of existing research.
+	\item \textbf{Main Results:} Summarize the key findings or theorems presented in the paper, highlighting their novelty and importance.
+	\item \textbf{Implications:} Discuss the broader implications of the results, including potential applications or future research directions. Emphasize how the findings contribute to the understanding of the topic.
+\end{enumerate}
+
+
+\begin{keyword}First keyword \sep Second keyword \sep More.First keyword \sep Second keyword \sep MoreFirst keyword \sep Second keyword \sep MoreFirst keyword \sep Second keyword \sep MoreFirst keyword \sep Second keyword \sep MoreFirst keyword \sep Second keyword \sep More
+\MSC{First MSC \sep Second MSC \sep more.}
+\end{keyword}
+\end{abstract}
+\maketitle
+
+
+
+
+
+
+
+\section{Introduction}\label{intro}%use unique label 
+ Your introduction should provide context for your research. Explain the background and significance of your study, briefly summarize the existing literature, and state the main research question or objective of your paper.
+
+Your text comes here. Separate text sections with \verb|\section{title}| and \verb|\subsection{title}|. In order to cite a reference such as \cite{1,2,3}, use the command \verb|\cite{bibitemkey}|.
+
+
+\section{Main Results}
+\label{sec:results}
+ Summarize the key findings or theorems of your research. Highlight what is new and important about these results. If applicable, briefly discuss any new methods or techniques used.
+
+\begin{theorem}\label{thm1}%use unique label
+	Use \verb|\begin{}...\end{}| for all Definitions, Lemmas, Theorems.
+	
+	\begin{equation}\label{eq1}
+		a^2+b^2=c^2
+	\end{equation}
+\end{theorem}
+ Call theorems, lemmas, etc., and equations with \verb|\ref{...}| and \verb|\eqref{...}|, see for example Theorem \ref{thm1} and Equation \eqref{eq1}. 
+
+\begin{proof}
+	Proof text goes here. Provide a clear and logical proof of the theorem stated above.
+\end{proof}
+
+\begin{definition}\label{def1}%use unique label
+	Definition text goes here.
+\end{definition}
+
+
+\section{Multiline Equations Example}
+\label{sec:align-example}
+ Here is an example of using the align environment for multiline equations. Do not use the eqnarray environment.
+
+\begin{align}
+	\aligned
+	a + b &= c \\
+	d + e &= f
+	\endaligned
+\end{align}
+
+ Ensure that all equations are properly aligned and numbered. Use \verb|\label{}| and \verb|\eqref{}| to reference specific equations.
+
+\section{Figures and Tables}
+\label{sec:figures-tables}
+ Use the figure and table environments to include figures and tables. Ensure that each figure and table has a descriptive caption and a unique label for referencing.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.3]{exp}
+	\caption{Please write your figure caption here.}
+	\label{fig:1}       % Give a unique label
+\end{figure}
+
+ For tables use the following structure. Adjust the formatting as necessary to ensure clarity.
+
+\begin{table}[h!]
+	\centering
+	\caption{Please write your table caption here.}
+	\label{tab:1}       % Give a unique label
+	\begin{tabular}{lll}
+		\hline\noalign{\smallskip}
+		first & second & third  \\
+		\noalign{\smallskip}\hline\noalign{\smallskip}
+		A & B & C \\
+		E & F & G \\
+		\noalign{\smallskip}\hline
+	\end{tabular}
+\end{table}
+
+\section*{Acknowledgment}
+ If you'd like to thank anyone, place your comments here. Acknowledge any funding, assistance, or contributions that were instrumental to the completion of your research.
+
+% References should be listed in alphabetical order according to the surnames of the first author at the end of the paper and should be cited in the text as, e.g., [2] or [3,Theorem 4], etc.;
+% For paper detail check, please refer to:  http://www.ams.org/mrlookup
+
+
+\begin{thebibliography}{widest-label}
+
+%JNSA  journal reference style:
+
+%Regular Journals
+
+\bibitem{1} F. E. Browder, W. V. Petryshyn, \textit{Construction of fixed points of nonlinear mappings in Hilbert spaces}, J. Math. Anal. Appl., {\bf 20} (1967),197--228.
+
+
+ % Books
+\bibitem{2} B. O'Neill, \textit{Semi-Riemannian geomerty with applications to relativity}, Academic Press, London, (1983).
+
+%E-Journals
+ \bibitem{3}Y. Yao, Y. J. Cho, Y. C. Liou, R. P. Agarwal, \textit{Constructed nets with perturbations for equilibrium and fixed point problems},  J. Inequal. Appl., {\bf 2014} (2014), 14 pages.
+ 
+
+
+\end{thebibliography}
+
+\end{document}
