@@ -6,6 +6,7 @@ import unittest
 from unittest import mock
 
 from src import hpn_dream_validation as hpn
+from src import public_validation as pv
 
 
 class HpnDreamValidationTests(unittest.TestCase):
@@ -79,6 +80,7 @@ class HpnDreamValidationTests(unittest.TestCase):
             2,
         )
 
+    @unittest.skipUnless(pv.find_ltscompare(required=False), "mCRL2 ltscompare not installed")
     def test_mcrl2_agrees_on_all_data_conditioned_decisions(self) -> None:
         rows = hpn.validation_rows(use_mcrl2=True)
         self.assertTrue(all(row["python_mcrl2_strong_agree"] for row in rows))
