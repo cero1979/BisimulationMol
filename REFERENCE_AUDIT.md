@@ -53,4 +53,3 @@ contains only references cited by the revised manuscript.
 - Article titles are italicized and volume numbers are bold, following the JMCS
   examples.
 - No placeholder, unresolved key or uncited entry appears in the printed list.
-
