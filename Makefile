@@ -4,7 +4,7 @@
 # ---------------------------------------------------------------------------
 PY ?= python
 
-.PHONY: help setup public-models hpn-data hpn-validation caspots-validation external-validation pn-gdda holmes-pn-gdda analysis test figures notebook verify manuscript package clean
+.PHONY: help setup public-models hpn-data hpn-validation caspots-validation external-validation pn-gdda holmes-pn-gdda analysis test figures notebook verify manuscript package jmcs-manuscript jmcs-package netmahib-manuscript netmahib-package clean
 
 help:
 	@echo "Targets:"
@@ -21,8 +21,12 @@ help:
 	@echo "  figures     Regenerate every figure and result table"
 	@echo "  notebook    Execute the analysis notebook end to end"
 	@echo "  verify      Check deterministic results after regeneration"
-	@echo "  manuscript  Compile the NetMAHIB Springer Nature manuscript"
-	@echo "  package     Build the flat, source-only NetMAHIB submission ZIP"
+	@echo "  manuscript  Compile the current JMCS manuscript"
+	@echo "  package     Build and verify the self-contained JMCS submission ZIP"
+	@echo "  jmcs-manuscript  Compile the current JMCS manuscript explicitly"
+	@echo "  jmcs-package     Build the current JMCS submission ZIP explicitly"
+	@echo "  netmahib-manuscript  Compile the superseded Springer manuscript"
+	@echo "  netmahib-package     Build the superseded Springer submission ZIPs"
 	@echo "  clean       Remove regenerated figures and Python caches"
 
 setup:
@@ -72,10 +76,20 @@ verify: test figures
 		&& echo "OK: deterministic results regenerated identically." \
 		|| { echo "ERROR: deterministic results changed after regeneration."; exit 1; }
 
-manuscript:
+manuscript: jmcs-manuscript
+
+package: jmcs-package
+
+jmcs-manuscript:
+	cd paper/jmcs && latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+
+jmcs-package: jmcs-manuscript
+	$(PY) scripts/build_jmcs_package.py
+
+netmahib-manuscript:
 	cd paper/netmahib && latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 
-package: figures manuscript
+netmahib-package: figures netmahib-manuscript
 	$(PY) scripts/build_netmahib_package.py
 
 clean:

@@ -1,17 +1,17 @@
-# Auditing observable behaviour in qualitative biological network models
+# A graded behavioural comparison framework for labelled models
 
 [![Reproducibility](https://github.com/cero1979/BisimulationMol/actions/workflows/reproduce.yml/badge.svg)](https://github.com/cero1979/BisimulationMol/actions/workflows/reproduce.yml)
 
 This repository is the end-to-end reproducibility package for the manuscript:
 
-> *Auditing observable behaviour in qualitative biological network models: a
-> reproducible Petri-net framework*
+> *A graded behavioural comparison framework for labelled Petri nets and
+> qualitative network models*
 
-The manuscript is prepared for **Network Modeling Analysis in Health
-Informatics and Bioinformatics (NetMAHIB)**. Its contribution is computational:
-it tests whether two explicit qualitative models have the same observable
-behaviour under a declared interface. It does **not** infer experimental or
-organism-level biological equivalence from graph structure.
+The current manuscript is prepared for the **Journal of Mathematics and Computer
+Science (JMCS)**. Its contribution is a formal and computational framework for
+reporting the strongest supported behavioural relation between two finite
+labelled models under a declared interface. It does **not** infer experimental
+or organism-level biological equivalence from graph structure.
 
 ## Reproduction levels
 
@@ -25,14 +25,14 @@ and contact the source repositories only when a file is absent or invalid.
 | Core | Re-run formal tests, figures and deterministic tables | `make public-models hpn-data verify` | Python, Graphviz, mCRL2 |
 | Full | Recompute CASPOTS scores, notebook, manuscript and upload ZIPs | `make caspots-validation notebook manuscript package` | Core tools, Conda, LaTeX |
 
-`make verify` is the primary reproducibility check. It runs 25 tests,
+`make verify` is the primary reproducibility check. It runs 32 tests,
 regenerates the scientific outputs and fails if any deterministic tracked
 result differs. Runtime measurements are reported but excluded from byte-level
 comparison because they depend on hardware.
 
-## What changed after editorial review
+## Formal and computational safeguards
 
-The revised study addresses five indispensable objections:
+The study addresses five recurring validity risks:
 
 1. **Computational-method framing.** The title, abstract, research question and
    conclusions now concern model comparison rather than cross-species
@@ -160,8 +160,8 @@ performance.
 - The retrospective family oracle is labeled separately because it does inspect
   the held-out responses and is not a blind performance estimate.
 
-The reference scalability run reached 129 x 145 state pairs and approximately
-0.54 s on an Apple M3 Pro. Timings are machine-dependent; model sizes,
+The current reference scalability run reached 129 x 145 states and approximately
+0.6 s on an Apple M3 Pro. Timings are machine-dependent; model sizes,
 relations and classifications are deterministic.
 
 In the illustrative curated case, GIM, DCE and SPS are weakly bisimilar, RCD
@@ -184,14 +184,17 @@ tests/test_pn_gdda.py             Catalog, Holmes-score and direct-baseline test
 tests/test_external_validation.py Public-model and independent-oracle tests
 tests/test_hpn_dream_validation.py Data integrity, anti-leakage and mCRL2 tests
 tests/test_simulation_oracle.py    Exhaustive one-/two-state preorder agreement
+tests/test_formal_properties.py    Hierarchy, refinement, branching and orientation tests
 notebooks/metodologia_multiescala.ipynb
                                   Executed end-to-end analysis notebook
 make_figures.py                   Regenerates figures and machine-readable results
 results/                          CSV and LaTeX result tables
 figs/                             Regenerated figures (git-ignored)
-paper/netmahib/main.tex           NetMAHIB manuscript in Springer Nature format
-paper/netmahib/references.bib     Manuscript bibliography
-scripts/build_netmahib_package.py Builds a flat Editorial Manager ZIP
+paper/jmcs/main.tex               Current manuscript in the official JMCS class
+paper/jmcs/references_jmcs.tex    Alphabetical, verified JMCS reference list
+scripts/build_jmcs_package.py     Builds and checks the clean JMCS upload ZIP
+CLAIM_AUDIT.md                    Evidence status for material manuscript claims
+REFERENCE_AUDIT.md                Per-reference metadata and DOI audit
 REPRODUCIBILITY.md                Reviewer-oriented reproduction guide
 ```
 
@@ -232,14 +235,13 @@ make manuscript
 make package
 ```
 
-The manuscript archive is `submission/netmahib_latex_flat.zip`. It contains a
-flat, self-contained LaTeX source set: `main.tex`, the Springer class and
-bibliography style, `references.bib`, `main.bbl`, and 12 vector artwork files
-that compose the eight figures used by the manuscript. A second archive,
-`submission/netmahib_reproducibility.zip`, contains the code, public models,
-tests, result tables, workflow and executed notebook for upload as supplementary
-material. Author and affiliation information are already inside `main.tex`; a
-separate title-page upload is not required to compile the source.
+The archive is `submission_jmcs/JMCS_submission.zip`. It contains `main.tex`,
+the alphabetical reference source, the official `ISRP.cls` and journal logo,
+the compiled PDF, and 12 vector files composing the eight figures. The builder
+compiles inside `submission_jmcs/`, rejects broken references and box overflow,
+removes auxiliary files, and checks ZIP integrity. Code, public models, tests,
+result tables and the executed notebook remain available in this repository as
+the reproducibility package.
 
 ## Reproducibility contract
 

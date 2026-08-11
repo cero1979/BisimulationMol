@@ -1,6 +1,6 @@
 # ---------------------------------------------------------------------------
-# Track only the revised NetMAHIB manuscript source. Older journal versions and
-# local LaTeX build products remain outside version control.
+# Track the current JMCS manuscript source and the retained prior-journal source.
+# Other manuscript versions and local LaTeX build products remain untracked.
 # ---------------------------------------------------------------------------
 paper/*
 !paper/netmahib/
@@ -73,7 +73,7 @@ build*.log
 
 !paper/jmcs/main.pdf
 !submission_jmcs/main.tex
-!submission_jmcs/references.bib
+!submission_jmcs/references_jmcs.tex
 !submission_jmcs/main.pdf
 !submission_jmcs/resources/
 !submission_jmcs/resources/ISRP.cls
@@ -81,3 +81,5 @@ build*.log
 !submission_jmcs/figures/
 !submission_jmcs/figures/*.pdf
 !submission_jmcs/JMCS_submission.zip
+!audit/jmcs_final/
+!audit/jmcs_final/*.log

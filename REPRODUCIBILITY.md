@@ -1,11 +1,11 @@
 # Reproducibility guide
 
 This repository contains the source models, formal engine, independent
-benchmark, tests, executed notebook, generated data and Springer Nature LaTeX
+benchmark, tests, executed notebook, generated data and official JMCS LaTeX
 source for:
 
-> *Auditing observable behaviour in qualitative biological network models: a
-> reproducible Petri-net framework*
+> *A graded behavioural comparison framework for labelled Petri nets and
+> qualitative network models*
 
 The analysis runs offline after the public GINsim and HPN-DREAM/CASPOTS source
 files have been fetched once.
@@ -33,7 +33,7 @@ Requirements:
 - The packages listed in `requirements.txt`.
 - System Graphviz (`dot`) for Petri-net and transition-system drawings.
 - mCRL2 202607.0 (`ltscompare`) for the independent formal oracle.
-- A LaTeX installation with `latexmk` and BibTeX to compile the manuscript.
+- A LaTeX installation with `latexmk` to compile the manuscript.
 
 The optional held-out CASPOTS score reproduction uses the separate
 `environment-hpn.yml` specification with Python 3.11, CASPO 4.0.3, Clingo 5.8.0,
@@ -56,8 +56,8 @@ conda run -n bisimulationmol-hpn python scripts/run_caspots_hpn_validation.py --
 ```
 
 On macOS, install Graphviz with `brew install graphviz`. On Debian/Ubuntu, use
-`sudo apt-get install graphviz`. The Springer class and bibliography style are
-stored in `paper/netmahib`, so no journal template download is needed.
+`sudo apt-get install graphviz`. The unmodified official JMCS class and logo are
+stored in `paper/jmcs/resources`, so no journal template download is needed.
 
 The analysis was validated with the official mCRL2 202607.0 release. Set
 `MCRL2_LTSCOMPARE=/path/to/ltscompare` if it is not on `PATH`. The CI workflow
@@ -102,7 +102,7 @@ mCRL2 agreement on the synthetic and public-model controls.
 Expected summary:
 
 ```text
-Ran 25 tests
+Ran 32 tests
 OK
 ```
 
@@ -166,7 +166,7 @@ python src/concurrent_biomodels.py
 make figures
 ```
 
-The NetMAHIB manuscript uses these generated outputs:
+The JMCS manuscript uses these generated outputs:
 
 | Output | Manuscript element | Deterministic? |
 |---|---|---|
@@ -227,7 +227,7 @@ the committed versions. Runtime measurements are excluded from the byte-level
 check because performance cannot be identical across processors. The benchmark
 still asserts deterministic model sizes, relation sizes and formal outcomes.
 
-## 7. Compile the NetMAHIB manuscript
+## 7. Compile the JMCS manuscript
 
 ```bash
 make manuscript
@@ -236,39 +236,35 @@ make manuscript
 Equivalent manual command:
 
 ```bash
-cd paper/netmahib
+cd paper/jmcs
 latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```
 
-The expected output is `paper/netmahib/main.pdf`. The source uses the Springer
-Nature `sn-jnl` class with the author-year mathematics and physics bibliography
-style, a 150-250 word abstract, six keywords and the required availability and
-declaration statements.
+The expected output is `paper/jmcs/main.pdf`. The source uses the unmodified
+official `ISRP` class in submission mode, JMCS theorem environments, an
+alphabetical reference list, MSC2020 codes and the required AI-use declaration.
 
-## 8. Build the submission ZIPs
+## 8. Build the submission ZIP
 
 ```bash
 make package
 ```
 
-This writes:
+This writes and verifies:
 
 ```text
-submission/netmahib_latex_flat.zip
-submission/netmahib_reproducibility.zip
+submission_jmcs/JMCS_submission.zip
 ```
 
-The LaTeX ZIP has no nested source paths. It contains exactly the main source,
-Springer class, bibliography style, BibTeX database, generated BBL and the 12
-vector artwork files that compose the eight figures referenced by the article.
-The reproducibility ZIP preserves repository paths and contains code, public
-models, HPN-DREAM data, tests, generated tables, both environment specifications,
-workflow and executed notebook.
+The ZIP contains the main source, manual alphabetical references, official JMCS
+class/logo, compiled PDF and the 12 vector artwork files composing the eight
+figures. Build auxiliaries and logs are removed. The complete reproducibility
+materials remain in the repository at the public URL stated in the manuscript.
 To verify the archive independently:
 
 ```bash
-unzip submission/netmahib_latex_flat.zip -d /tmp/netmahib-check
-cd /tmp/netmahib-check
+unzip submission_jmcs/JMCS_submission.zip -d /tmp/jmcs-check
+cd /tmp/jmcs-check
 latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```
 
@@ -293,8 +289,8 @@ results are exposed so those assumptions can be audited or replaced.
 - If a graph is blank or `pydot` fails, verify `dot -V`.
 - If external validation cannot start, verify `ltscompare --version` or set
   `MCRL2_LTSCOMPARE` to the executable path.
-- If `latexmk` cannot find a class, compile from `paper/netmahib`; the required
-  `sn-jnl.cls` is local.
+- If `latexmk` cannot find the class, compile from `paper/jmcs`; the required
+  `resources/ISRP.cls` and `resources/jmcs.jpg` files are local.
 - If `make verify` reports only timing differences, confirm that the runtime CSV
   is excluded by the current Makefile pathspec.
 - If a deterministic CSV differs, run `make test` first and report the Python
