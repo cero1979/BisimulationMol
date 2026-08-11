@@ -73,9 +73,10 @@ relation hierarchy, invariance under the controlled silent edge subdivisions use
 by the benchmark, and the inability of label-blind structural comparators to
 characterize labelled behaviour in general. Six construction-level cases separate
 identity, silent refinement, label mismatch, order change, added behaviour and
-trace-equivalent branching. Weak bisimulation classified all 6 cases correctly,
-whereas truncated trace equality classified 5, labelled transition-system
-graphlet agreement 4, a structural profile 3 and direct PN-GDDA 2. An independent
+trace-equivalent branching. On the binary weak-equivalence task, weak
+bisimulation classified all 6 cases correctly, whereas truncated trace equality
+classified 5, labelled transition-system graphlet agreement 4, a structural
+profile 3 and direct PN-GDDA 2. An independent
 attacker--defender implementation agreed on all 67,600 ordered comparisons in the
 declared universe of one- and two-state systems, and Python and mCRL2 agreed on all
 42 reported strong/weak decisions. Public GINsim models, HPN-DREAM/CASPOTS model
@@ -109,7 +110,7 @@ observable alphabet. The problem considered here is
 \begin{equation}\label{eq:comparison-map}
  (N_1,N_2,\Sigma)
  \longmapsto (\LTS(N_1),\LTS(N_2))
- \longmapsto C_{\Sigma}(N_1,N_2),
+ \longmapsto C_{\Sigma}(\LTS(N_1),\LTS(N_2)),
 \end{equation}
 where $\LTS(N_i)$ is the finite reachable labelled transition system and
 $C_{\Sigma}$ returns the strongest supported class among strong bisimilarity,
@@ -239,8 +240,9 @@ $\ell:T\to\Sigma\cup\{\TAU\}$ assigns either an observable action in the declare
 interface $\Sigma$ or the internal action $\TAU$.
 \end{definition}
 
-Under standard interleaving semantics, an enabled transition $t$ changes marking
-$m$ to $m-\operatorname{pre}(t)+\operatorname{post}(t)$. The implementation uses
+Under standard interleaving semantics, $t$ is enabled at $m$ when
+$\operatorname{pre}(t)\leq m$ componentwise; firing it changes $m$ to
+$m-\operatorname{pre}(t)+\operatorname{post}(t)$. The implementation uses
 a worklist to enumerate reachable markings explicitly. A state cap and a token
 bound make failure to establish a finite state space explicit rather than silently
 truncating the relation calculation. All curated Petri nets used in Section
@@ -364,7 +366,7 @@ The first two cases are selected before any simulation-only case. If neither is
 selected, the two simulation predicates have exactly four Boolean combinations:
 both true, only the first true, only the second true, or both false. These are the
 last four cases of \eqref{eq:classifier}, respectively. The cases are exhaustive
-and disjoint by their stated guards. \qed
+and disjoint by their stated guards.
 \end{proof}
 
 \subsection{Fixed-point computation and formal properties}
@@ -404,7 +406,8 @@ all three operators.
 
 Each deletion strictly decreases the finite relation, so at most $|U|$ deletions
 can occur. A pass with no deletion therefore occurs after finitely many passes.
-Let $G=\nu\Phi$. Initially $G\subseteq U$. Suppose $G\subseteq R$ immediately
+By the Knaster--Tarski theorem on the finite complete lattice $\powerset(U)$,
+$G=\nu\Phi$ exists. Initially $G\subseteq U$. Suppose $G\subseteq R$ immediately
 before a deletion. If $z\in G$, then
 $z\in\Phi(G)\subseteq\Phi(R)$ by fixed-point equality and monotonicity, so $z$
 cannot be deleted. Thus $G\subseteq R$ is an invariant.
@@ -420,7 +423,7 @@ The invariant gives $G\subseteq R_*$. Since $R_*$ is a fixed point and $G$ is
 the greatest fixed point, $R_*\subseteq G$; hence $R_*=G$. Finally,
 \eqref{eq:sim-operator}, \eqref{eq:weak-bisim-operator} and
 \eqref{eq:strong-bisim-operator} are exactly the transfer clauses in Definitions
-\ref{def:weak-simulation} and \ref{def:bisimulation}. \qed
+\ref{def:weak-simulation} and \ref{def:bisimulation}.
 \end{proof}
 
 \begin{remark}[Resource bound]\label{rem:complexity}
@@ -463,7 +466,7 @@ The counterexamples in Proposition \ref{prop:silent-refinement} and Example
 bisimulation is obtained, for example, by comparing a system with initial choices
 $a.(b+c)$ and $a.b$ against $a.(b+c)$: each simulates the other, but the extra
 $a.b$ successor cannot be related bisimilarly to the state offering both $b$ and
-$c$. \qed
+$c$.
 \end{proof}
 
 \begin{proposition}[Controlled silent edge refinement]
@@ -500,7 +503,6 @@ Under the stated additional conditions, a strong match for
 $\bar p\xrightarrow{a}r$ must relate $r$ to an $a$-successor $x$ of $p$. The
 move $r\xrightarrow{\TAU}\bar q$ would then require a direct $\TAU$-move from
 $x$, which is excluded. Hence no strong bisimulation contains the initial pair.
-\qed
 \end{proof}
 
 \begin{proposition}[Limit of label-blind structural comparison]
@@ -517,7 +519,7 @@ so relabelling invariance gives $M(L_a,L_b)=M(L_a,L_a)$. However,
 $L_w(L_a)=\{\epsilon,a\}$ and $L_w(L_b)=\{\epsilon,b\}$. Neither initial
 observable move can be matched by the other system, so there is no weak simulation
 in either direction and no weak bisimulation. Therefore the value assigned to a
-self-match by $M$ cannot characterize any of these labelled relations. \qed
+self-match by $M$ cannot characterize any of these labelled relations.
 \end{proof}
 
 Proposition \ref{prop:label-blind} does not identify a defect in PN-GDDA. It
@@ -527,13 +529,13 @@ cannot substitute for a labelled behavioural relation.
 \begin{example}[Equal traces, different branching]\label{ex:branching}
 Let $L_{\mathrm{late}}$ have transitions
 \begin{equation}\label{eq:late-choice}
- \ell_0\xrightarrow{a}\ell_1,qquad
- \ell_1\xrightarrow{b}\ell_b,qquad
+ \ell_0\xrightarrow{a}\ell_1,\qquad
+ \ell_1\xrightarrow{b}\ell_b,\qquad
  \ell_1\xrightarrow{c}\ell_c,
 \end{equation}
 and let $L_{\mathrm{early}}$ have
 \begin{equation}\label{eq:early-choice}
- e_0\xrightarrow{a}e_b,quad e_0\xrightarrow{a}e_c,quad
+ e_0\xrightarrow{a}e_b,\quad e_0\xrightarrow{a}e_c,\quad
  e_b\xrightarrow{b}e_b',\quad e_c\xrightarrow{c}e_c'.
 \end{equation}
 Both exact prefix-closed languages are
@@ -1116,7 +1118,7 @@ specificity}
 \subsection{Runtime grows with the candidate relation}\label{sec:scaling-results}
 
 Across the two scaling series, complete runtime rose from approximately
-0.4~ms for 9-state reference models to approximately 0.54~s for the largest
+0.4~ms for 9-state reference models to approximately 0.6~s for the largest
 pairs. The 128-step identity pair contained $129\times129=16{,}641$ candidate
 state pairs; silent refinement increased the candidate to 145 states and the
 relation to 18,705 pairs. Both series retained their expected classifications at
