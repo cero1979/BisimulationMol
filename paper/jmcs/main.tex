@@ -10,7 +10,7 @@
 \usepackage{tabularx}
 \usepackage{xurl}
 
-\graphicspath{{./}{../../figs/}}
+\graphicspath{{./}{../../figs/}{figures/}}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -152,11 +152,14 @@ problem. Petri nets have long been used for biochemical and regulatory systems
 requires explicit operational assumptions \cite{Regev2002,Fisher2007}. Boolean
 models add a further semantic choice: synchronous, unitary-asynchronous and
 most-permissive updates can expose different reachable behaviour
-\cite{Pauleve2020}. We therefore use externally authored GINsim models to test
-cross-format execution, HPN-DREAM/CASPOTS families to confront formal classes
-with held-out measurements \cite{Hill2016,Razzaq2018}, and compact curated Petri
-nets to examine interface-dependent interpretation. These are applications of
-the comparison machinery, not premises of its correctness.
+\cite{Pauleve2020}. Model checking has also been applied to Boolean-network
+control, while formal constraints support logical-model inference
+\cite{CifuentesFontanals2022,Benes2023}. We therefore use externally authored
+GINsim models to test cross-format execution, HPN-DREAM/CASPOTS families to
+confront formal classes with held-out measurements \cite{Hill2016,Razzaq2018},
+and compact curated Petri nets to examine interface-dependent interpretation.
+These are applications of the comparison machinery, not premises of its
+correctness.
 
 The contributions are:
 \begin{enumerate}
@@ -674,7 +677,7 @@ for arbitrary model size.
 \subsection{Structural and linear-time comparators}\label{sec:baselines}
 
 Four transparent comparators isolate the information contributed by the formal
-relation. The structural-profile score averages similarities in state count,
+relation. A structural score averages similarities in state count,
 edge count, observable-label multiset and out-degree multiset. Each count
 similarity is the smaller-to-larger ratio; multiset similarity is weighted
 Jaccard. The trace comparator declares a diagnostic match when $d_8=0$ and
@@ -742,7 +745,8 @@ deterministic.
 \subsection{Software and reproducibility}\label{sec:repro-method}
 
 The formal engine, public-model parsers and benchmark use the Python standard
-library. Plotting and tabulation use NumPy, pandas, Matplotlib and NetworkX;
+library. Plotting and tabulation use NumPy, pandas, Matplotlib and NetworkX
+\cite{Hagberg2008};
 Petri-net artwork uses pydot and Graphviz. Independent checking uses the
 hash-pinned mCRL2 202607.0 release. The PN-GDDA audit records SHA-256 digests of
 both inspected Holmes JARs and emits its catalogue and numerical cross-check as
@@ -810,8 +814,12 @@ BT20, BT549 and MCF7. An anti-leakage unit test raises an exception if medoid
 selection attempts to open a test file.
 
 The observational interface was the intersection of seven measured
-PI3K/MAPK/mTOR readouts: 4EBP1-pS65, AKT-pT308, BAD-pS112, MAPK-pT202/Y204,
-MEK1-pS217/S221, mTOR-pS2448 and p70S6K-pT389. The perturbation set was fixed as
+PI3K/MAPK/mTOR readouts. It comprised 4EBP1-\allowbreak{}pS65,
+AKT-\allowbreak{}pT308, BAD-\allowbreak{}pS112 and
+MAPK-\allowbreak{}pT202/\allowbreak{}Y204, together with
+MEK1-\allowbreak{}pS217/\allowbreak{}S221, mTOR-\allowbreak{}pS2448 and
+p70S6K-\allowbreak{}pT389.
+The perturbation set was fixed as
 the exact intersection of the three test panels: mTOR inhibition alone,
 IGF1 plus mTOR inhibition and 4EBP1 plus mTOR inhibition. Test values determined
 neither model selection nor interface membership. Each selected Boolean model
@@ -860,9 +868,10 @@ The application contains five pairs of compact, safe Petri nets: DNA repair and
 genome instability (GIM), energy metabolism (DCE), cell-cycle control (SPS), cell
 death/autophagy (RCD), and an immune module (AID). Components were selected from
 published plant--human comparative studies \cite{Quimbaya2012,
-ClavijoBuritica2023}; dedicated reviews informed the qualitative representation
-of plant DNA-damage response, cell-cycle control and autophagy
-\cite{Yoshiyama2013,DeVeylder2007,Marshall2019}.
+ClavijoBuritica2023} and organized against the cancer-hallmark literature
+\cite{Hanahan2011,Hanahan2022}; dedicated reviews informed the qualitative
+representation of plant DNA-damage response, cell-cycle control and autophagy
+\cite{Yoshiyama2013,DeVeylder2007,Marshall2018}.
 
 Places represent conditions or molecular states, transitions represent curated
 events, and the initial marking represents the declared starting context. A
@@ -877,7 +886,7 @@ Figure~\ref{fig:gim-petri} exposes the complete GIM encodings rather than only
 their computed verdict. Both nets implement damage sensing, checkpoint control,
 repair and restoration. Their terminal mechanisms differ: the animal/human net
 contains apoptosis, whereas the plant net contains an internal SMR step followed
-by differentiation/endoreduplication. The common label \texttt{exit\_cycle} is a
+by differentiation or endoreduplication. The common label \texttt{exit\_cycle} is a
 declared coarse observation, not evidence that those terminal mechanisms are
 biologically identical.
 
@@ -1090,6 +1099,20 @@ These results validate held-out compatibility and deterministic reproduction of
 the published scoring logic, while directly rejecting a claim of demonstrated
 cell-specific predictive discrimination.
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{Fig8.pdf}
+\caption{Blinded HPN-DREAM validation. (a) CASPOTS excess RMSE above the
+discretization reference for every structure-only source medoid and held-out
+target cell line; blue boxes mark native source--target combinations. (b)
+Between-cell profile RMSE under the primary formal class for three shared
+perturbations. Horizontal lines are class medians. The exact test permutes cell
+pairs within perturbation; the annotation reports both ordinal-class and
+LTS-GDA-distance associations. Neither panel supports robust native-cell
+specificity}
+\label{fig:hpn-validation}
+\end{figure}
+
 \subsection{Runtime grows with the candidate relation}\label{sec:scaling-results}
 
 Across the two scaling series, complete runtime rose from approximately
@@ -1169,9 +1192,9 @@ AID & 0.9907 & 0.9904 & yes & not comparable \\
 \end{tabular*}
 \end{table}
 
-In GIM, the animal terminal fate of apoptosis and the plant terminal fate of
-differentiation/endoreduplication are represented through the common coarse
-observable \texttt{exit\_cycle}. The weak-equivalence result therefore says that
+In GIM, apoptosis is the animal terminal fate, whereas differentiation and
+endoreduplication are plant terminal fates. All three outcomes are represented
+through the common coarse observable \texttt{exit\_cycle}. The weak-equivalence result therefore says that
 the two encoded models agree at this selected resolution. A finer interface that
 distinguishes those outcomes would change the classification. This example makes
 the conditional nature of the method explicit rather than treating the interface
@@ -1260,176 +1283,194 @@ specificity and are not experimental biological significance tests}
 \label{fig:diagnostics}
 \end{figure}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\textwidth]{Fig8.pdf}
-\caption{Blinded HPN-DREAM validation. (a) CASPOTS excess RMSE above the
-discretization reference for every structure-only source medoid and held-out
-target cell line; blue boxes mark native source--target combinations. (b)
-Between-cell profile RMSE under the primary formal class for three shared
-perturbations. Horizontal lines are class medians. The exact test permutes cell
-pairs within perturbation; the annotation reports both ordinal-class and
-LTS-GDA-distance associations. Neither panel supports robust native-cell
-specificity}
-\label{fig:hpn-validation}
-\end{figure}
-
 \section{Discussion}\label{sec:discussion}
 
-\subsection{What the framework establishes}\label{sec:discussion-adds}
+\subsection{Semantic meaning of the graded comparison}
+\label{sec:discussion-meaning}
 
-The framework turns a qualitative network comparison into a reproducible
-question with explicit inputs and falsifiable model-level outputs. The synthetic
-benchmark shows why graph summaries and trace sets are not interchangeable with
-branching-time relations. A topology- and label-count-preserving order change can
-remain structurally similar while losing simulation; conversely, two systems can
-share all finite traces in the benchmark yet resolve a choice differently. Weak
-bisimulation detects both distinctions while tolerating silent implementation
-detail.
+The classifier turns an ordered pair of executable models into one
+interface-conditional statement. Its priority is supported by Proposition
+\ref{prop:hierarchy}: a strong result already entails the corresponding weak and
+simulation results, while a weak result already entails both simulation
+directions. Reporting only the strongest satisfied class prevents the same pair
+from receiving several apparently competing labels. The one-way classes preserve
+orientation and therefore express containment rather than equivalence.
 
-The direct PN-GDDA result makes this conclusion independent of a coarse
-straw-man baseline. Its 2/6 diagnostic accuracy is not a software failure: the
-external Holmes score agrees, both orbit catalogs give the same decisions, and
-label or event order lies outside the statistic by definition. The perfect RCD
-score and 0.9907 AID score further show that very similar local Petri-net
-structure can coexist with one-way or absent behavioural containment. LTS-GDA
-recovers labels and improves to 4/6 on the same predeclared task; its distance
-also has the strongest observed held-out association. Yet LTS-GDA still misses
-the semantic meaning of $\TAU$ and global branching, and its $p=0.097$
-association is hypothesis-generating rather than confirmatory. The result
-supports reporting structural and behavioural views together instead of
-treating either as universally sufficient.
+The fixed-point result is about the algorithm that was executed, not an idealized
+variant. Theorem \ref{thm:fixed-point} covers the in-place deletion order, the
+implemented treatment of $\TAU$, and termination on finite state spaces. It also
+separates mathematical correctness from software validation: the proof applies
+to arbitrary finite inputs under the stated semantics, whereas tests can expose
+implementation discrepancies only on the inputs that they exercise.
 
-The synthetic benchmark is small by design but independent of the biological
-application. mCRL2 removes dependence on the in-house strong/weak-bisimulation
-implementation, and the exhaustive game supplies a separately coded oracle for
-the simulation direction on its declared finite universe. The two repository
-models show that the parser and comparison pipeline
-operate on externally authored logical dynamics. Together these layers remove
-the circular claim that success on hand-built case-study models alone validates
-the software. The HPN-DREAM analysis adds a distinct evidential layer: model
-selection is blind to held-out values, the formal outcomes are independently
-checked and the same model representatives are confronted with experimental
-profiles. The case study instead demonstrates provenance and conditional
-interpretation on a domain-motivated model registry.
+\subsection{Structure, traces and branching are non-interchangeable}
+\label{sec:discussion-layers}
 
-\subsection{What the framework does not establish}\label{sec:discussion-limits}
+Proposition \ref{prop:label-blind} gives a general reason why identical
+unlabelled structure cannot determine labelled behaviour. The controlled label
+mismatch and order swap instantiate that limitation: both receive a PN-GDDA
+score of 1.0 although neither simulation direction holds. Example
+\ref{ex:branching} supplies the complementary linear-time limitation. Its two
+systems have the same exact finite traces, yet they differ in the point at which
+choice is resolved and satisfy only one simulation direction.
 
-The case-study outputs do not show that plant and human molecular activity is
-experimentally equivalent. The models omit kinetics, quantities, noise,
-stoichiometry, cell type and environmental context. Their small state spaces make
-exact checking and visual audit possible but restrict biological resolution. The
-observational interface can also merge mechanistically different outcomes, as
-the GIM \texttt{exit\_cycle} example demonstrates.
+Direct PN-GDDA achieved 2/6 on the predeclared binary task, but this is not a
+software failure or a claim that PN-GDDA is unsuitable for its intended purpose.
+The independent Holmes score agrees to 12 decimal places, and the 592- and
+576-slot catalogues give the same threshold decisions. Transition labels,
+initial marking and reachable branching lie outside the structural statistic by
+design. LTS-GDA recovers labelled local motifs and improves to 4/6, but it still
+does not implement silent abstraction or recursive successor matching. Its
+held-out association is the strongest observed ($\rho=0.669$), while the exact
+$p=0.097$ remains inconclusive. The appropriate conclusion is to report
+structural, trace and branching views as answers to different questions.
 
-The biological registry is grounded primarily in two comparative studies and
-selected reviews. Different curators could choose different arcs, initial
-markings or observables. Transition-name coverage proves documentation
-completeness, not evidential independence. Likewise, label-permutation values
-measure sensitivity within the constructed models and must not be interpreted as
-experimental $p$-values.
+\subsection{Observational interfaces and abstraction}
+\label{sec:discussion-interface}
 
-The implementation uses explicit state enumeration and a transparent fixed-point
-algorithm. State explosion and the quadratic candidate relation bound limit its
-use on large composed networks. The scaling experiment covers linear systems up
-to 145 states and does not establish genome-scale performance. Partition-
-refinement algorithms, symbolic state representations and compositional checking
-are natural extensions.
+The relation is indexed by $\Sigma$. Relabelling an event as internal changes
+which paths are abstracted, and merging distinct outcomes under one label can
+coarsen the result. In the GIM application, apoptosis and
+differentiation or endoreduplication share the declared observable
+\texttt{exit\_cycle}. Weak bisimilarity therefore describes agreement only at
+that selected resolution. It is not a statement that the terminal mechanisms are
+biologically identical.
 
-The exhaustive simulation audit covers every LTS in the declared one- and
-two-state universe, but it cannot exclude defects triggered only by larger
-systems. Likewise, the synchronous stress test is not a proof of semantic
-invariance. Two of nine HPN directional classes changed, and most-permissive,
-general-asynchronous or stochastic updates were not evaluated. The HPN
-containment results must therefore remain conditional on unitary-asynchronous
-semantics \cite{Pauleve2020}.
+Proposition \ref{prop:silent-refinement} justifies the controlled subdivisions
+used in the robustness analysis. It does not license arbitrary Petri-net
+refinement: added conflicts, interleavings or observable choices may change the
+reachable LTS. Update semantics is another part of the model contract. The
+asynchronous--synchronous GINsim differences and the two changed HPN classes show
+that a relation should not be described as semantics-neutral. Most-permissive,
+general-asynchronous and stochastic conventions were not evaluated
+\cite{Pauleve2020}.
 
-The transformed GINsim controls still have a precise limit: their expected
-relations arise from exact copy, silent refinement and label perturbation. The
-HPN-DREAM experiment addresses that weakness with distinct public model families
-and held-out measurements, but it does not yield a positive validation of
-prognostic specificity. Only three cell lines had both verified families and
-usable test sets, the primary association had nine pair--condition observations,
-and the native advantage was not significant. CASPOTS RMSE is a minimum-distance
-compatibility score over admissible trajectories, not a unique time-series
-prediction \cite{Razzaq2018}. The negative specificity result therefore prevents
-using this analysis to claim that behavioural class predicts response distance.
+\subsection{Independent computational evidence}
+\label{sec:discussion-validation}
 
-PN-GDDA is now evaluated directly, but only on the native curated nets and the
-canonical state-machine encodings of the six controlled LTS pairs. Applying it
-to SBML-qual or inferred Boolean rules would require a non-unique reverse
-translation into Petri-net structure, so LTS-GDA remains the common comparator
-for those external formats. PN-GDDA also ignores transition labels, the initial
-marking and which structures are reachable; its 0.9 threshold is diagnostic
-rather than established by the source method. Finally, the published/Holmes 592
-slots are not identical to the 576 type- and direction-preserving automorphism
-orbits. The unchanged sensitivity decisions are reassuring for these compact
-nets but do not settle the catalog issue generally. Future work should include
-larger repository Petri nets, prospectively expert-labelled positive and
-negative relations, biological replicates, additional update semantics and
-blinded interface specifications.
+The six synthetic pairs isolate known relations before any biological case is
+examined. The formal classifier recovers all six, while the comparator errors
+occur in the cases predicted by their information loss. Across the six synthetic
+pairs, six public-model controls and nine HPN comparisons, Python and mCRL2 agree
+on all 42 reported strong/weak decisions. mCRL2 additionally confirms the exact
+weak-trace controls, including acceptance of the branching pair that both
+bisimulation implementations reject.
 
-\subsection{Practical use}\label{sec:discussion-use}
+The dual attacker--defender implementation checks the simulation orientation not
+available through the used \texttt{ltscompare} interface. Its agreement on all
+67,600 ordered pairs is exhaustive only within the declared universe of 260
+one- and two-state LTSs over $\{a,\TAU\}$. It is evidence against small-system
+implementation defects, not a proof for arbitrary systems. The transformed
+GINsim controls similarly test parsing, execution and export, but their expected
+relations follow from controlled transformations. Distinct HPN model families
+and held-out measurements provide a separate empirical check rather than a
+replacement for formal validation.
 
-The method is most appropriate when researchers already have two explicit
-qualitative models and need to document the exact resolution at which they agree
-or diverge. A defensible workflow should predeclare the interface, retain fine
-outcome distinctions when they matter to the research question, report plausible
-alternative interfaces and validate any biological interpretation against data
-not used to construct the models. In that role, the framework is a model-auditing
-and hypothesis-prioritisation tool rather than a substitute for biological
-experimentation.
+\subsection{Biological applications and empirical limits}
+\label{sec:discussion-biological}
+
+The HPN-DREAM application has nine pair--condition observations from three cell
+lines. Six comparisons show one-way simulation and three show
+non-comparability; none is weakly bisimilar. The ordinal formal class has
+$\rho=0.091$ with experimental distance and an inconclusive exact $p=0.111$.
+Truncated trace distance also lacks supportive concordance. CASPOTS reproduces
+held-out compatibility, but the native-versus-cross advantage is not established
+($p=0.25$). CASPOTS RMSE is a minimum-distance compatibility score over
+admissible trajectories, not a unique time-series prediction \cite{Razzaq2018}.
+These results do not support prognostic use or cell-line specificity.
+
+The curated Petri-net outputs are also conditional. The models omit kinetics,
+quantities, noise, stoichiometric uncertainty, tissue context and independent
+experimental inference. Different curators could select different arcs, initial
+markings or observables. Provenance coverage documents the choices but does not
+make them independent evidence. Label-permutation values measure sensitivity
+inside the constructed models and are not biological significance tests. In
+particular, weak relations between an Arabidopsis net and an animal net do not
+establish organism-level functional equivalence.
+
+\subsection{Computational limitations and use}
+\label{sec:discussion-computation}
+
+The implementation enumerates states explicitly and stores up to
+$|S_1||S_2|$ candidate pairs. Silent closures are cached, but visible weak target
+sets are reconstructed on demand. The scaling study reaches 145 states and
+18,705 candidate pairs; it does not establish genome-scale performance. Symbolic
+state representations, partition refinement and compositional checking are
+appropriate directions for larger systems.
+
+PN-GDDA is evaluated directly on the native curated nets and canonical
+state-machine encodings of the six controlled LTS pairs. Applying it to
+SBML-qual or inferred Boolean rules would require a non-unique reverse translation
+into Petri-net structure. The difference between 592 published/Holmes slots and
+576 automorphism-distinct orbits also remains a catalogue question beyond the
+compact sensitivity analysis. Future evaluations should use larger repository
+Petri nets, prospectively expert-labelled relations, biological replicates,
+additional update semantics and blinded interfaces. In its current form, the
+framework is most appropriate for auditing two explicit qualitative models at a
+predeclared observational resolution.
 
 \section{Conclusion}\label{sec:conclusion}
 
-We presented a reproducible observable-behaviour audit for qualitative biological
-network models. Synthetic constructions distinguish what is captured by
-direct PN-GDDA, labelled graphlet, trace and branching-time views: the structural
-metric remains high even when labelled behaviours are not comparable. mCRL2 and
-a dual simulation game test independent parts of the implementation. Public GINsim models demonstrate that
-update semantics can sharply alter reachability, and synchronous HPN-DREAM
-stress preserves seven of nine, not all, asynchronous classes. The blinded data
-analysis yields a stronger but still inconclusive association for LTS-GDA and
-establishes neither formal-class concordance nor native-cell specificity.
-Accordingly, the contribution is a falsifiable and reproducible model-auditing
-protocol, not a prognostic method. The Arabidopsis--animal application remains
-conditional on curated networks, update rules and declared interfaces and does
-not prove organism-level functional equivalence.
+We formulated a graded comparison framework for finite labelled Petri nets and
+other executable qualitative models under a declared interface. The classifier
+reports the strongest supported relation among strong bisimilarity, weak
+bisimilarity, mutual or one-way weak simulation and non-comparability. Its
+priority follows from the relation hierarchy, and the implemented deletion
+algorithm computes the corresponding greatest fixed points and terminates on
+finite LTSs. Controlled silent refinement, label relabelling and the
+trace-equivalent branching example establish why internal abstraction,
+unlabelled structure, linear traces and branching cannot be treated as
+interchangeable.
 
-\section*{Statements and Declarations}
+Construction-level cases, mCRL2 and the independent simulation game provide
+separate computational checks, including complete agreement on 67,600 ordered
+pairs within the declared small-LTS universe. Applications to GINsim,
+HPN-DREAM/CASPOTS and curated Petri nets demonstrate cross-format execution and
+make interface and update-semantics dependence visible. They do not establish
+predictive performance, cell-line specificity or organism-level equivalence.
+The resulting contribution is a reproducible formal model audit whose
+mathematical outputs and empirical diagnostics remain explicitly separated.
 
-\noindent\textbf{Funding} The author received no specific funding for this work.
+\section*{Data and code availability}
 
-\noindent\textbf{Competing interests} The author declares no financial or non-financial
-interests directly or indirectly related to this work.
+Curated definitions, hash-verified public GINsim models, HPN-DREAM/CASPOTS model
+families, normalized perturbation-response files, benchmark metadata and generated
+result tables are available at
+\url{https://github.com/cero1979/BisimulationMol}. Source code is released under
+the MIT License. The repository documents separate commands for external-model
+validation, HPN-DREAM validation, the Holmes PN-GDDA check, figure regeneration,
+unit tests and notebook execution. No confidential or participant-level data were
+used.
 
-\noindent\textbf{Ethics approval and consent to participate} Not applicable. The study
-uses computational models and previously published aggregate information; no
-human participants, human samples or live animals were involved.
+\section*{Funding}
 
-\noindent\textbf{Consent for publication} Not applicable.
+The author received no specific funding for this work.
 
-\noindent\textbf{Data availability} Curated definitions, hash-verified public GINsim
-models, HPN-DREAM/CASPOTS model families and normalized perturbation-response
-files, deterministic benchmark metadata and all generated result tables are available at
-\url{https://github.com/cero1979/BisimulationMol}. No confidential or participant-
-level data were used.
+\section*{Competing interests}
 
-\noindent\textbf{Materials availability} The complete reproducibility package, including
-environment specifications and the executed notebook, is available in the same
-public repository.
+The author declares no financial or non-financial interests directly or
+indirectly related to this work.
 
-\noindent\textbf{Code availability} Source code is released under the MIT License at
-\url{https://github.com/cero1979/BisimulationMol}. The commands
-\texttt{make external-validation}, \texttt{make hpn-validation},
-\texttt{make holmes-pn-gdda}, \texttt{make figures}, \texttt{make test}
-and \texttt{make notebook} regenerate the analysis, validate expected relations
-with mCRL2 and execute the notebook.
+\section*{Ethics statement}
 
-\noindent\textbf{Author contributions} Carlos Ramirez Ovalle: conceptualization,
-methodology, software, formal analysis, validation and visualization; writing---
-original draft; writing---review and editing.
-\bibliographystyle{plainnat}
-\bibliography{references}
+Not applicable. The study uses computational models and previously published
+aggregate information; no human participants, human samples or live animals were
+involved.
+
+\section*{Author contributions}
+
+Carlos Ramirez Ovalle: conceptualization, methodology, software, formal analysis,
+validation and visualization; writing---original draft; writing---review and
+editing.
+
+\section*{Declaration of AI Use}
+
+During the preparation of this work, the author used OpenAI Codex for the
+following purposes: improving language and readability, checking grammar,
+formatting references, adapting the LaTeX source to the journal template, and
+assisting with reproducibility checks. After using this tool, the author reviewed
+and edited the content as needed and takes full responsibility for the content of
+the publication.
+\input{references_jmcs}
 
 \end{document}
