@@ -1,4 +1,4 @@
-"""Build and verify the self-contained JBCB submission archive."""
+"""Build and verify the flat, self-contained JBCB submission archive."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "paper" / "jbcb"
 FIGURES = ROOT / "figs"
 SUBMISSION = ROOT / "submission_jbcb"
-ARCHIVE_NAME = "JBCB_submission.zip"
+ARCHIVE_NAME = "JBCB_submission_flat.zip"
 
 SOURCE_FILES = ("main_jbcb.tex", "references_jbcb.bib")
 RESOURCE_FILES = ("ws-jbcb.cls", "ws-jbcb.bst")
@@ -80,11 +80,11 @@ def build_package() -> Path:
     if SUBMISSION.exists():
         shutil.rmtree(SUBMISSION)
 
-    (SUBMISSION / "figures").mkdir(parents=True)
+    SUBMISSION.mkdir(parents=True)
     for name in SOURCE_FILES + RESOURCE_FILES:
         shutil.copy2(require(SOURCE / name), SUBMISSION / name)
     for name in FIGURE_FILES:
-        shutil.copy2(require(FIGURES / name), SUBMISSION / "figures" / name)
+        shutil.copy2(require(FIGURES / name), SUBMISSION / name)
 
     compile_clean_source()
 
@@ -95,7 +95,7 @@ def build_package() -> Path:
 
     package_files = [
         *(SUBMISSION / name for name in SOURCE_FILES + RESOURCE_FILES),
-        *(SUBMISSION / "figures" / name for name in FIGURE_FILES),
+        *(SUBMISSION / name for name in FIGURE_FILES),
         SUBMISSION / "main_jbcb.pdf",
     ]
     archive_path = SUBMISSION / ARCHIVE_NAME
@@ -112,5 +112,8 @@ if __name__ == "__main__":
         bad = package.testzip()
     if bad is not None:
         raise RuntimeError(f"Corrupt ZIP member: {bad}")
+    nested = [name for name in names if "/" in name.rstrip("/")]
+    if nested:
+        raise RuntimeError("Editorial Manager rejects subfolders: " + ", ".join(nested))
     print(f"Built {archive}")
     print(f"Verified {len(names)} files: " + ", ".join(names))

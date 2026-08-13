@@ -99,8 +99,7 @@ build*.log
 !submission_jbcb/ws-jbcb.cls
 !submission_jbcb/ws-jbcb.bst
 !submission_jbcb/main_jbcb.pdf
-!submission_jbcb/figures/
-!submission_jbcb/figures/*.pdf
-!submission_jbcb/JBCB_submission.zip
+!submission_jbcb/Fig*.pdf
+!submission_jbcb/JBCB_submission_flat.zip
 !audit/jbcb_final/
 !audit/jbcb_final/*.log

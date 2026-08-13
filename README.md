@@ -236,11 +236,13 @@ make manuscript
 make package
 ```
 
-The archive is `submission_jbcb/JBCB_submission.zip`. It contains
+The archive is `submission_jbcb/JBCB_submission_flat.zip`. It contains
 `main_jbcb.tex`, `references_jbcb.bib`, the unmodified `ws-jbcb.cls` and
 `ws-jbcb.bst`, the compiled PDF, and the five vector files used by the four
-figures. The builder compiles inside `submission_jbcb/`, rejects broken
-references and box overflow, removes auxiliary files, and checks ZIP integrity.
+figures. All ten files are stored at the ZIP root because Editorial Manager
+rejects LaTeX archives containing subfolders. The builder compiles inside
+`submission_jbcb/`, rejects broken references, box overflow, and nested archive
+entries, removes auxiliary files, and checks ZIP integrity.
 Code, public models, tests, result tables, and the executed notebook remain in
 this repository as the reproducibility package.
 

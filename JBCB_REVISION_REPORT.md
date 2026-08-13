@@ -20,6 +20,7 @@ biological narrative context only. Both were preserved. The author-supplied
 - Citations are superscript numeric, ordered by first appearance, and placed
   after punctuation.
 - Figures have captions below; tables use class-native captions above.
+- The Editorial Manager archive contains ten root-level files and no subfolders.
 - Class-native theorem/proof environments are used without `amsthm`.
 - The only compile warning is the `hyperref` page-height warning also induced by
   the official template's load order; there are no box, citation, or reference
@@ -73,7 +74,8 @@ pair-condition comparisons; rho/p values 0.091/0.111, -0.596/0.556, and
 
 Executed commands included baseline compilation, abstract/language checks,
 `make verify` with mCRL2 202607.0, clean manuscript compilation, and
-`make jbcb-package`. The final regression passed 35/35 tests and regenerated all
+`make jbcb-package`. The final flat ZIP was also extracted and compiled in an
+independent temporary directory. The final regression passed 35/35 tests and regenerated all
 tracked deterministic results byte-for-byte. Details and full output are in
 `JBCB_RESULT_REGRESSION.md` and `audit/jbcb_final/`.
 

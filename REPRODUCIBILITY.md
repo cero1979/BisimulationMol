@@ -255,17 +255,19 @@ make package
 This writes and verifies:
 
 ```text
-submission_jbcb/JBCB_submission.zip
+submission_jbcb/JBCB_submission_flat.zip
 ```
 
 The ZIP contains the main source, BibTeX database, official JBCB class and style,
-compiled PDF, and five vector files composing four figures. Build auxiliaries
-and logs are removed. The complete reproducibility materials remain in the
-repository at the public URL stated in the manuscript.
+compiled PDF, and five vector files composing four figures. All ten entries are
+at the archive root; no directory entries or subfolders are permitted by the
+Editorial Manager upload system. Build auxiliaries and logs are removed. The
+complete reproducibility materials remain in the repository at the public URL
+stated in the manuscript.
 To verify the archive independently:
 
 ```bash
-unzip submission_jbcb/JBCB_submission.zip -d /tmp/jbcb-check
+unzip submission_jbcb/JBCB_submission_flat.zip -d /tmp/jbcb-check
 cd /tmp/jbcb-check
 latexmk -pdf -interaction=nonstopmode -halt-on-error main_jbcb.tex
 ```
