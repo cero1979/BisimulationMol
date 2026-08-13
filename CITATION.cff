@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite both the software and the article."
-title: "BisimulationMol: auditing observable behaviour in qualitative biological network models"
+title: "BisimulationMol: auditing observable behavior in qualitative biological network models"
 abstract: >-
   Reproducible implementation of a Petri-net framework that compares explicit
   qualitative biological network models under a declared observational
@@ -14,13 +14,13 @@ type: software
 authors:
   - family-names: "Ramirez Ovalle"
     given-names: "Carlos"
-version: "2.2.0"
-date-released: "2026-07-22"
+version: "2.3.0"
+date-released: "2026-08-13"
 license: MIT
 repository-code: "https://github.com/cero1979/BisimulationMol"
 url: "https://github.com/cero1979/BisimulationMol"
 keywords:
-  - biological network modelling
+  - biological network modeling
   - Petri nets
   - weak bisimulation
   - graphlets
@@ -30,11 +30,11 @@ keywords:
 preferred-citation:
   type: article
   title: >-
-    Auditing observable behaviour in qualitative biological network models: a
-    reproducible Petri-net framework
+    A formal and reproducible framework for auditing observable behavior in
+    qualitative biological network models
   authors:
     - family-names: "Ramirez Ovalle"
       given-names: "Carlos"
-  journal: "Network Modeling Analysis in Health Informatics and Bioinformatics"
+  journal: "Journal of Bioinformatics and Computational Biology"
   year: 2026
   notes: "Manuscript prepared for submission."

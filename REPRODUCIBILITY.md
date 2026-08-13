@@ -1,11 +1,11 @@
 # Reproducibility guide
 
 This repository contains the source models, formal engine, independent
-benchmark, tests, executed notebook, generated data and official JMCS LaTeX
+benchmark, tests, executed notebook, generated data and official JBCB LaTeX
 source for:
 
-> *A graded behavioural comparison framework for labelled Petri nets and
-> qualitative network models*
+> *A formal and reproducible framework for auditing observable behavior in
+> qualitative biological network models*
 
 The analysis runs offline after the public GINsim and HPN-DREAM/CASPOTS source
 files have been fetched once.
@@ -56,8 +56,9 @@ conda run -n bisimulationmol-hpn python scripts/run_caspots_hpn_validation.py --
 ```
 
 On macOS, install Graphviz with `brew install graphviz`. On Debian/Ubuntu, use
-`sudo apt-get install graphviz`. The unmodified official JMCS class and logo are
-stored in `paper/jmcs/resources`, so no journal template download is needed.
+`sudo apt-get install graphviz`. The unmodified official World Scientific class
+and bibliography style are stored in `paper/jbcb`, so no journal template
+download is needed.
 
 The analysis was validated with the official mCRL2 202607.0 release. Set
 `MCRL2_LTSCOMPARE=/path/to/ltscompare` if it is not on `PATH`. The CI workflow
@@ -102,7 +103,7 @@ mCRL2 agreement on the synthetic and public-model controls.
 Expected summary:
 
 ```text
-Ran 32 tests
+Ran 35 tests
 OK
 ```
 
@@ -166,12 +167,12 @@ python src/concurrent_biomodels.py
 make figures
 ```
 
-The JMCS manuscript uses these generated outputs:
+The JBCB manuscript uses these generated outputs:
 
 | Output | Manuscript element | Deterministic? |
 |---|---|---|
-| `results/synthetic_benchmark.csv` | Table 2 source and Section 3.1, including direct PN-GDDA | Yes |
-| `results/baseline_accuracy.csv` | Table 3 and Fig. 3, including PN-GDDA and LTS-GDA | Yes |
+| `results/synthetic_benchmark.csv` | Table 1 and Section 3.1, including direct PN-GDDA | Yes |
+| `results/baseline_accuracy.csv` | Fig. 2, including PN-GDDA and LTS-GDA | Yes |
 | `results/pn_gdda_catalog_validation.json` | 151/592 catalog audit, Holmes reference score and 576-orbit sensitivity | Yes |
 | `results/holmes_pn_gdda_external_validation.json` | Score produced by the hash-verified Holmes 1.1.1 JAR | Yes |
 | `results/pn_gdda_native_modules.csv` | Direct PN-GDDA on five original curated net pairs | Yes |
@@ -188,16 +189,16 @@ The JMCS manuscript uses these generated outputs:
 | `results/hpn_dream_caspots_rmse.csv` | Repeated held-out medoid and family-oracle scores | Yes |
 | `results/hpn_dream_caspots_summary.json` | Native-versus-cross specificity test | Yes |
 | `figs/Fig1.pdf` | Fig. 1, six-stage workflow | Yes |
-| `figs/Fig2a.pdf`, `figs/Fig2b.pdf` | Fig. 2, GIM Petri nets | Yes |
-| `figs/Fig3.pdf` | Fig. 3, benchmark validation | Yes |
-| `results/scalability_structure.csv` | State/relation sizes in Section 3.2 | Yes |
-| `results/scalability_runtime.csv` | Reference timing series for Fig. 4 | No, machine-dependent |
-| `figs/Fig4.pdf` | Fig. 4, scalability | No, timing panel is machine-dependent |
-| `results/phase6_comparisons.csv` | Curated case-study relation table | Yes |
-| `figs/Fig5a.pdf`, `figs/Fig5b.pdf` | Fig. 5, GIM reachability systems | Yes |
-| `figs/Fig6a.pdf`, `figs/Fig6b.pdf` | Fig. 6, RCD Petri nets | Yes |
-| `figs/Fig7a.pdf`, `figs/Fig7b.pdf` | Fig. 7, robustness and null reference | Yes |
-| `figs/Fig8.pdf` | Fig. 8, blinded held-out validation | Yes |
+| `figs/Fig2a.pdf`, `figs/Fig2b.pdf` | Fig. 4, GIM Petri nets | Yes |
+| `figs/Fig3.pdf` | Fig. 2, benchmark validation | Yes |
+| `results/scalability_structure.csv` | State/relation sizes in Section 3.3 | Yes |
+| `results/scalability_runtime.csv` | Reference timing series described in Section 3.3 | No, machine-dependent |
+| `figs/Fig4.pdf` | Repository-only scalability plot | No, timing panel is machine-dependent |
+| `results/phase6_comparisons.csv` | Table 4, curated model-pair relations | Yes |
+| `figs/Fig5a.pdf`, `figs/Fig5b.pdf` | Repository-only GIM reachability systems | Yes |
+| `figs/Fig6a.pdf`, `figs/Fig6b.pdf` | Repository-only RCD Petri nets | Yes |
+| `figs/Fig7a.pdf`, `figs/Fig7b.pdf` | Repository-only robustness and null plots | Yes |
+| `figs/Fig8.pdf` | Fig. 3, blinded held-out validation | Yes |
 
 The command also regenerates PNG previews and the earlier provenance,
 interface, conservation and generalization diagnostics retained in the
@@ -227,7 +228,7 @@ the committed versions. Runtime measurements are excluded from the byte-level
 check because performance cannot be identical across processors. The benchmark
 still asserts deterministic model sizes, relation sizes and formal outcomes.
 
-## 7. Compile the JMCS manuscript
+## 7. Compile the JBCB manuscript
 
 ```bash
 make manuscript
@@ -236,13 +237,14 @@ make manuscript
 Equivalent manual command:
 
 ```bash
-cd paper/jmcs
-latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+cd paper/jbcb
+latexmk -pdf -interaction=nonstopmode -halt-on-error main_jbcb.tex
 ```
 
-The expected output is `paper/jmcs/main.pdf`. The source uses the unmodified
-official `ISRP` class in submission mode, JMCS theorem environments, an
-alphabetical reference list, MSC2020 codes and the required AI-use declaration.
+The expected output is `paper/jbcb/main_jbcb.pdf`. The source uses the
+unmodified official `ws-jbcb` class, class-native theorem environments,
+first-appearance numeric citations through `ws-jbcb.bst`, American English, and
+a 184-word abstract.
 
 ## 8. Build the submission ZIP
 
@@ -253,19 +255,19 @@ make package
 This writes and verifies:
 
 ```text
-submission_jmcs/JMCS_submission.zip
+submission_jbcb/JBCB_submission.zip
 ```
 
-The ZIP contains the main source, manual alphabetical references, official JMCS
-class/logo, compiled PDF and the 12 vector artwork files composing the eight
-figures. Build auxiliaries and logs are removed. The complete reproducibility
-materials remain in the repository at the public URL stated in the manuscript.
+The ZIP contains the main source, BibTeX database, official JBCB class and style,
+compiled PDF, and five vector files composing four figures. Build auxiliaries
+and logs are removed. The complete reproducibility materials remain in the
+repository at the public URL stated in the manuscript.
 To verify the archive independently:
 
 ```bash
-unzip submission_jmcs/JMCS_submission.zip -d /tmp/jmcs-check
-cd /tmp/jmcs-check
-latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+unzip submission_jbcb/JBCB_submission.zip -d /tmp/jbcb-check
+cd /tmp/jbcb-check
+latexmk -pdf -interaction=nonstopmode -halt-on-error main_jbcb.tex
 ```
 
 ## 9. Interpretation boundary
@@ -289,8 +291,8 @@ results are exposed so those assumptions can be audited or replaced.
 - If a graph is blank or `pydot` fails, verify `dot -V`.
 - If external validation cannot start, verify `ltscompare --version` or set
   `MCRL2_LTSCOMPARE` to the executable path.
-- If `latexmk` cannot find the class, compile from `paper/jmcs`; the required
-  `resources/ISRP.cls` and `resources/jmcs.jpg` files are local.
+- If `latexmk` cannot find the class, compile from `paper/jbcb`; the required
+  `ws-jbcb.cls` and `ws-jbcb.bst` files are local.
 - If `make verify` reports only timing differences, confirm that the runtime CSV
   is excluded by the current Makefile pathspec.
 - If a deterministic CSV differs, run `make test` first and report the Python

@@ -1,16 +1,17 @@
-# A graded behavioural comparison framework for labelled models
+# Auditing observable behavior in qualitative biological network models
 
 [![Reproducibility](https://github.com/cero1979/BisimulationMol/actions/workflows/reproduce.yml/badge.svg)](https://github.com/cero1979/BisimulationMol/actions/workflows/reproduce.yml)
 
 This repository is the end-to-end reproducibility package for the manuscript:
 
-> *A graded behavioural comparison framework for labelled Petri nets and
-> qualitative network models*
+> *A formal and reproducible framework for auditing observable behavior in
+> qualitative biological network models*
 
-The current manuscript is prepared for the **Journal of Mathematics and Computer
-Science (JMCS)**. Its contribution is a formal and computational framework for
-reporting the strongest supported behavioural relation between two finite
-labelled models under a declared interface. It does **not** infer experimental
+The current manuscript is prepared for the **Journal of Bioinformatics and
+Computational Biology (JBCB)** using the author-supplied World Scientific class.
+Its contribution is a formal and computational framework for reporting the
+strongest supported behavioral relation between two finite labeled models under
+a declared interface. It does **not** infer experimental
 or organism-level biological equivalence from graph structure.
 
 ## Reproduction levels
@@ -25,7 +26,7 @@ and contact the source repositories only when a file is absent or invalid.
 | Core | Re-run formal tests, figures and deterministic tables | `make public-models hpn-data verify` | Python, Graphviz, mCRL2 |
 | Full | Recompute CASPOTS scores, notebook, manuscript and upload ZIPs | `make caspots-validation notebook manuscript package` | Core tools, Conda, LaTeX |
 
-`make verify` is the primary reproducibility check. It runs 32 tests,
+`make verify` is the primary reproducibility check. It runs 35 tests,
 regenerates the scientific outputs and fails if any deterministic tracked
 result differs. Runtime measurements are reported but excluded from byte-level
 comparison because they depend on hardware.
@@ -55,7 +56,7 @@ A second adversarial pass adds four targeted safeguards:
 
 1. **Direct graphlet comparison.** PN-GDDA is now executed with the published
    151-graphlet/592-slot Holmes catalog on canonical Petri-net encodings and on
-   all five native curated pairs. LTS-GDA remains a separate labelled
+   all five native curated pairs. LTS-GDA remains a separate labeled
    reachable-state comparator for heterogeneous input formats.
 2. **Update-semantics sensitivity.** Every HPN-DREAM pair is recomputed under a
    global synchronous stress semantics; seven of nine classes persist and two
@@ -72,10 +73,10 @@ A second adversarial pass adds four targeted safeguards:
 | Validation layer | Result | Supported interpretation |
 |---|---|---|
 | Six construction-ground-truth pairs | 6/6 formal classes recovered | The implementation distinguishes equivalence, directional simulation and non-comparability |
-| Independent mCRL2 oracle | 24/24 synthetic/public strong and weak decisions agree | The principal formal decisions are not specific to the Python implementation |
+| Independent mCRL2 oracle | 42/42 synthetic, public-model and HPN strong/weak decisions agree | The principal formal decisions are not specific to the Python implementation |
 | Exhaustive simulation-game oracle | 67,600/67,600 ordered pairs agree | Directional simulation has an independent audit on the declared finite universe |
 | Direct PN-GDDA audit | Holmes score matches to 12 decimals; PN-GDDA is 2/6 at 0.9 and at most 4/6 over every score threshold | The published structural comparator is executed rather than approximated |
-| Native Petri-net comparison | All five PN-GDDA scores are 0.991-1.000 while formal classes range from weak equivalence to non-comparability | Local Petri-net structure does not determine labelled reachable behaviour |
+| Native Petri-net comparison | All five PN-GDDA scores are 0.991-1.000 while formal classes range from weak equivalence to non-comparability | Local Petri-net structure does not determine labeled reachable behavior |
 | Labelled graphlet comparator | LTS-GDA 4/6 versus summary profile 3/6 | Retaining local labels improves the structural baseline but does not recover branching semantics |
 | HPN-DREAM cross-cell comparisons | 18/18 Python/mCRL2 decisions agree | The data-conditioned transition systems are reproducibly classified |
 | Asynchronous/synchronous stress | 7/9 classes preserved | Two containment conclusions are explicitly update-semantics dependent |
@@ -119,7 +120,7 @@ non-equivalences. No alternative threshold exceeds 4/6 because label mismatch
 and label-order swap tie both positive controls at `1.0`. On native nets, even RCD (one-way simulation) scores `1.0000`
 and AID (not comparable) scores `0.9907`.
 
-LTS-GDA uses four graphlet-degree orbits and labelled local motifs so that
+LTS-GDA uses four graphlet-degree orbits and labeled local motifs so that
 Petri-net, SBML-qual, GINML and inferred Boolean inputs can be compared in the
 common reachable-state representation. It is explicitly a different,
 label-aware comparator.
@@ -190,11 +191,11 @@ notebooks/metodologia_multiescala.ipynb
 make_figures.py                   Regenerates figures and machine-readable results
 results/                          CSV and LaTeX result tables
 figs/                             Regenerated figures (git-ignored)
-paper/jmcs/main.tex               Current manuscript in the official JMCS class
-paper/jmcs/references_jmcs.tex    Alphabetical, verified JMCS reference list
-scripts/build_jmcs_package.py     Builds and checks the clean JMCS upload ZIP
-CLAIM_AUDIT.md                    Evidence status for material manuscript claims
-REFERENCE_AUDIT.md                Per-reference metadata and DOI audit
+paper/jbcb/main_jbcb.tex          Current manuscript in the official JBCB class
+paper/jbcb/references_jbcb.bib    Verified World Scientific bibliography
+scripts/build_jbcb_package.py     Builds and checks the clean JBCB upload ZIP
+CLAIM_AUDIT_JBCB.md               Evidence status for manuscript claims
+REFERENCE_AUDIT_JBCB.md           Per-reference metadata and DOI audit
 REPRODUCIBILITY.md                Reviewer-oriented reproduction guide
 ```
 
@@ -235,13 +236,13 @@ make manuscript
 make package
 ```
 
-The archive is `submission_jmcs/JMCS_submission.zip`. It contains `main.tex`,
-the alphabetical reference source, the official `ISRP.cls` and journal logo,
-the compiled PDF, and 12 vector files composing the eight figures. The builder
-compiles inside `submission_jmcs/`, rejects broken references and box overflow,
-removes auxiliary files, and checks ZIP integrity. Code, public models, tests,
-result tables and the executed notebook remain available in this repository as
-the reproducibility package.
+The archive is `submission_jbcb/JBCB_submission.zip`. It contains
+`main_jbcb.tex`, `references_jbcb.bib`, the unmodified `ws-jbcb.cls` and
+`ws-jbcb.bst`, the compiled PDF, and the five vector files used by the four
+figures. The builder compiles inside `submission_jbcb/`, rejects broken
+references and box overflow, removes auxiliary files, and checks ZIP integrity.
+Code, public models, tests, result tables, and the executed notebook remain in
+this repository as the reproducibility package.
 
 ## Reproducibility contract
 

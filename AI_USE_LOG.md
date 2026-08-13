@@ -49,3 +49,20 @@ No mathematical proof in the JMCS revision has been recorded by Codex as
 verified by the author. Computational checks passed, but they do not replace
 that intellectual review. The manuscript must not be submitted until the author
 has reviewed the items above and can truthfully accept the declaration.
+
+## JBCB adaptation (2026-08-13)
+
+| Task | Codex activity | Scientific boundary |
+|---|---|---|
+| Journal migration | Applied the unmodified author-supplied `ws-jbcb.cls` and `ws-jbcb.bst`; rewrote the title, abstract, introduction, section balance, citations, and declarations for JBCB. | Numerical results and source models were not changed. |
+| Scientific compression | Integrated methods and results, tightened proofs and discussion, and moved the machine-dependent scaling plot to repository-only material. | The theorem, four propositions, branching example, benchmark, GINsim, HPN-DREAM/CASPOTS, and GIM Petri-net diagrams remain. |
+| Formal audit | Reviewed orientation, `tau` semantics, fixed-point deletion, hierarchy, silent refinement, label-blind limitation, and branching direction; added three missing semantic regressions. | Tests support code consistency and do not replace author proof review. |
+| Reference audit | Resolved 20 cited DOIs through Crossref and checked the Milner book by ISBN. | No citation was added solely because it appeared in the target journal. |
+| Reproducibility | Ran 35 tests with mCRL2 202607.0 and regenerated deterministic results byte-for-byte. | Machine-dependent runtime values were restored and no scientific result changed. |
+| Delivery | Built and independently compiled a ten-file JBCB submission ZIP and visually inspected the 17-page PDF. | No submission, remote push, or release tag was performed. |
+
+The current disclosure text includes organization, journal-format adaptation,
+and reproducibility checks rather than describing the use as language-only.
+Exact JBCB placement/wording and every proof remain pending author approval, as
+recorded in `AI_DISCLOSURE_QUERY_JBCB.md` and
+`FORMAL_RESULTS_AUDIT_JBCB.md`.
