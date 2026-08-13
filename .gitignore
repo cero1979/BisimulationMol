@@ -100,6 +100,7 @@ build*.log
 !submission_jbcb/ws-jbcb.bst
 !submission_jbcb/main_jbcb.pdf
 !submission_jbcb/Fig*.pdf
-!submission_jbcb/JBCB_submission_flat.zip
+!submission_jbcb/bibliography_jbcb.bbl
+!submission_jbcb/JBCB_EditorialManager.zip
 !audit/jbcb_final/
 !audit/jbcb_final/*.log

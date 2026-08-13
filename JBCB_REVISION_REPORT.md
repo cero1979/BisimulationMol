@@ -20,7 +20,9 @@ biological narrative context only. Both were preserved. The author-supplied
 - Citations are superscript numeric, ordered by first appearance, and placed
   after punctuation.
 - Figures have captions below; tables use class-native captions above.
-- The Editorial Manager archive contains ten root-level files and no subfolders.
+- The Editorial Manager archive contains ten root-level files and no subfolders;
+  it supplies a prebuilt `.bbl` and omits the compiled PDF to avoid a duplicate
+  basename with the primary TeX source.
 - Class-native theorem/proof environments are used without `amsthm`.
 - The only compile warning is the `hyperref` page-height warning also induced by
   the official template's load order; there are no box, citation, or reference

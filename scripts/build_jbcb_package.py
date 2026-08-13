@@ -13,11 +13,13 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "paper" / "jbcb"
 FIGURES = ROOT / "figs"
 SUBMISSION = ROOT / "submission_jbcb"
-ARCHIVE_NAME = "JBCB_submission_flat.zip"
+ARCHIVE_NAME = "JBCB_EditorialManager.zip"
+GENERATED_BBL = "main_jbcb.bbl"
+SUBMISSION_BBL = "bibliography_jbcb.bbl"
 
 SOURCE_FILES = ("main_jbcb.tex", "references_jbcb.bib")
 RESOURCE_FILES = ("ws-jbcb.cls", "ws-jbcb.bst")
-FIGURE_FILES = ("Fig1.pdf", "Fig2a.pdf", "Fig2b.pdf", "Fig3.pdf", "Fig8.pdf")
+FIGURE_FILES = ("Fig1.pdf", "Fig3.pdf", "Fig8.pdf", "Fig2a.pdf", "Fig2b.pdf")
 BUILD_FILES = (
     "main_jbcb.aux",
     "main_jbcb.bbl",
@@ -74,6 +76,20 @@ def compile_clean_source() -> None:
     require(SUBMISSION / "main_jbcb.pdf")
 
 
+def prepare_editorial_manager_bibliography() -> None:
+    """Replace the BibTeX call with a prebuilt BBL for the EM PDF builder."""
+    generated = require(SUBMISSION / GENERATED_BBL)
+    shutil.copy2(generated, SUBMISSION / SUBMISSION_BBL)
+
+    manuscript = require(SUBMISSION / "main_jbcb.tex")
+    source = manuscript.read_text(encoding="utf-8")
+    bibtex_block = "\\bibliographystyle{ws-jbcb}\n\\bibliography{references_jbcb}"
+    bbl_input = f"\\input{{{SUBMISSION_BBL}}}"
+    if source.count(bibtex_block) != 1:
+        raise RuntimeError("Expected exactly one BibTeX block in main_jbcb.tex")
+    manuscript.write_text(source.replace(bibtex_block, bbl_input), encoding="utf-8")
+
+
 def build_package() -> Path:
     if SUBMISSION.is_symlink():
         raise RuntimeError(f"Refusing to replace symlink: {SUBMISSION}")
@@ -86,6 +102,16 @@ def build_package() -> Path:
     for name in FIGURE_FILES:
         shutil.copy2(require(FIGURES / name), SUBMISSION / name)
 
+    # First compile generates the journal-formatted bibliography.
+    compile_clean_source()
+    prepare_editorial_manager_bibliography()
+
+    for name in BUILD_FILES:
+        path = SUBMISSION / name
+        if path.exists():
+            path.unlink()
+
+    # Verify the exact source that Editorial Manager will receive.
     compile_clean_source()
 
     for name in BUILD_FILES:
@@ -94,9 +120,11 @@ def build_package() -> Path:
             path.unlink()
 
     package_files = [
-        *(SUBMISSION / name for name in SOURCE_FILES + RESOURCE_FILES),
+        SUBMISSION / "main_jbcb.tex",
+        SUBMISSION / SUBMISSION_BBL,
+        SUBMISSION / "references_jbcb.bib",
+        *(SUBMISSION / name for name in RESOURCE_FILES),
         *(SUBMISSION / name for name in FIGURE_FILES),
-        SUBMISSION / "main_jbcb.pdf",
     ]
     archive_path = SUBMISSION / ARCHIVE_NAME
     with zipfile.ZipFile(archive_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
