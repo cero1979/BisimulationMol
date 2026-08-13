@@ -1,0 +1,830 @@
+Latexmk: This is Latexmk, John Collins, 26 Dec. 2019, version: 4.67.
+Rule 'pdflatex': The following rules & subrules became out-of-date:
+      'pdflatex'
+------------
+Run number 1 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -interaction=nonstopmode -halt-on-error -recorder  "main_jbcb.tex"'
+------------
+Latexmk: applying rule 'pdflatex'...
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./main_jbcb.tex
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-03-06> (./ws-jbcb.cls
+Document Class: ws-jbcb 2026/05/18 v1.5g Standardized LaTeX document class
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/rotating.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-def/pdftex.def)))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/base/ifthen.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/amsfonts.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/amssymb.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsopn.sty)))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/cite/cite.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-cfg/color.cfg))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/local/texlive/2020/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/iftex/iftex.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/pdftexcmds/pdftexcmds.sty
+(/usr/local/texlive/2020/texmf-dist/tex/generic/infwarerr/infwarerr.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/auxhook/auxhook.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/kvoptions/kvoptions.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/etexcmds/etexcmds.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/url/url.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/local/texlive/2020/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/generic/atbegshi/atbegshi.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/local/texlive/2020/texmf-dist/tex/latex/atveryend/atveryend.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+
+(/usr/local/texlive/2020/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+))) (/usr/local/texlive/2020/texmf-dist/tex/latex/tools/array.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/tools/tabularx.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/xurl/xurl.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def)
+(./main_jbcb.aux)
+(/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/local/texlive/2020/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+
+Package hyperref Warning: Height of page (\paperheight) is invalid (0.0pt),
+(hyperref)                using 11in.
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/gettitlestring/gettitlestring.s
+ty)) (/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd)
+
+LaTeX Warning: Citation `Murata1989' on page 1 undefined on input line 90.
+
+
+LaTeX Warning: Citation `ChaouiyaPetriBio2007' on page 1 undefined on input lin
+e 90.
+
+
+LaTeX Warning: Citation `Li2006' on page 1 undefined on input line 90.
+
+
+LaTeX Warning: Citation `Fisher2007' on page 1 undefined on input line 90.
+
+
+LaTeX Warning: Citation `Szawulak2022' on page 1 undefined on input line 95.
+
+[1{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+
+LaTeX Warning: Citation `Yizengaw2026' on page 2 undefined on input line 106.
+
+
+LaTeX Warning: Citation `Naldi2018' on page 2 undefined on input line 134.
+
+
+LaTeX Warning: Citation `Chaouiya2013SBML' on page 2 undefined on input line 13
+4.
+
+
+LaTeX Warning: Citation `Traynard2016' on page 2 undefined on input line 134.
+
+
+LaTeX Warning: Citation `AbouJaoude2009' on page 2 undefined on input line 134.
+
+
+
+LaTeX Warning: Citation `Hill2016' on page 2 undefined on input line 136.
+
+
+LaTeX Warning: Citation `Razzaq2018' on page 2 undefined on input line 136.
+
+[2]
+
+LaTeX Warning: Reference `fig:pipeline' on page 3 undefined on input line 161.
+
+
+LaTeX Warning: Reference `sec:applications' on page 3 undefined on input line 2
+01.
+
+[3 <./figures/Fig1.pdf>]
+
+LaTeX Warning: Reference `def:petri-net' on page 4 undefined on input line 213.
+
+
+
+LaTeX Warning: Reference `def:weak-simulation' on page 4 undefined on input lin
+e 256.
+
+
+LaTeX Warning: Citation `Milner1989' on page 4 undefined on input line 264.
+
+
+LaTeX Warning: Citation `Sangiorgi2011' on page 4 undefined on input line 264.
+
+
+LaTeX Warning: Reference `eq:simulation-orientation' on page 4 undefined on inp
+ut line 265.
+
+[4]
+
+LaTeX Warning: Reference `def:weak-traces' on page 5 undefined on input line 28
+7.
+
+
+LaTeX Warning: Reference `def:classifier' on page 5 undefined on input line 312
+.
+
+
+LaTeX Warning: Reference `eq:classifier' on page 5 undefined on input line 320.
+
+
+[5]
+
+LaTeX Warning: Reference `def:weak-simulation' on page 6 undefined on input lin
+e 349.
+
+
+LaTeX Warning: Reference `def:weak-simulation' on page 6 undefined on input lin
+e 367.
+
+
+LaTeX Warning: Reference `def:bisimulation' on page 6 undefined on input line 3
+68.
+
+
+LaTeX Warning: Reference `def:weak-move' on page 6 undefined on input line 380.
+
+
+
+LaTeX Warning: Reference `def:weak-traces' on page 6 undefined on input line 38
+0.
+
+
+LaTeX Warning: Reference `prop:silent-refinement' on page 6 undefined on input 
+line 397.
+
+
+LaTeX Warning: Reference `ex:branching' on page 6 undefined on input line 397.
+
+[6]
+
+LaTeX Warning: Reference `prop:label-blind' on page 7 undefined on input line 4
+49.
+
+[7]
+
+LaTeX Warning: Reference `alg:pipeline' on page 8 undefined on input line 479.
+
+
+LaTeX Warning: Reference `eq:classifier' on page 8 undefined on input line 493.
+
+
+
+LaTeX Warning: Reference `ex:branching' on page 8 undefined on input line 506.
+
+
+LaTeX Warning: Reference `tab:synthetic' on page 8 undefined on input line 507.
+
+
+
+LaTeX Warning: Reference `fig:benchmark' on page 8 undefined on input line 535.
+
+
+
+LaTeX Warning: Citation `Szawulak2022' on page 8 undefined on input line 554.
+
+[8]
+
+LaTeX Warning: Citation `Radom2017' on page 9 undefined on input line 571.
+
+[9 <./figures/Fig3.pdf>]
+
+LaTeX Warning: Citation `Bunte2019' on page 10 undefined on input line 576.
+
+
+LaTeX Warning: Reference `thm:fixed-point' on page 10 undefined on input line 5
+87.
+
+
+LaTeX Warning: Citation `Naldi2018' on page 10 undefined on input line 618.
+
+
+LaTeX Warning: Citation `Traynard2016' on page 10 undefined on input line 618.
+
+
+LaTeX Warning: Citation `Chaouiya2013SBML' on page 10 undefined on input line 6
+18.
+
+
+LaTeX Warning: Citation `AbouJaoude2009' on page 10 undefined on input line 618
+.
+
+
+LaTeX Warning: Reference `tab:public-controls' on page 10 undefined on input li
+ne 623.
+
+[10]
+
+LaTeX Warning: Citation `Hill2016' on page 11 undefined on input line 647.
+
+
+LaTeX Warning: Citation `Razzaq2018' on page 11 undefined on input line 647.
+
+
+LaTeX Warning: Reference `tab:hpn-medoids' on page 11 undefined on input line 6
+51.
+
+
+LaTeX Warning: Citation `Pauleve2020' on page 11 undefined on input line 676.
+
+
+LaTeX Warning: Citation `Razzaq2018' on page 11 undefined on input line 676.
+
+[11]
+
+LaTeX Warning: Reference `fig:hpn-validation' on page 12 undefined on input lin
+e 695.
+
+
+LaTeX Warning: Citation `Quimbaya2012' on page 12 undefined on input line 718.
+
+
+LaTeX Warning: Citation `ClavijoBuritica2023' on page 12 undefined on input lin
+e 718.
+
+
+LaTeX Warning: Citation `Hanahan2022' on page 12 undefined on input line 718.
+
+
+LaTeX Warning: Citation `Yoshiyama2013' on page 12 undefined on input line 718.
+
+
+
+LaTeX Warning: Reference `fig:gim-petri' on page 12 undefined on input line 723
+.
+
+[12 <./figures/Fig8.pdf>]
+
+LaTeX Warning: Reference `tab:case' on page 13 undefined on input line 752.
+
+[13 <./figures/Fig2a.pdf> <./figures/Fig2b.pdf>]
+
+LaTeX Warning: Reference `prop:hierarchy' on page 14 undefined on input line 79
+4.
+
+
+LaTeX Warning: Reference `prop:label-blind' on page 14 undefined on input line 
+804.
+
+
+LaTeX Warning: Reference `ex:branching' on page 14 undefined on input line 805.
+
+
+
+LaTeX Warning: Reference `prop:silent-refinement' on page 14 undefined on input
+ line 823.
+
+
+LaTeX Warning: Citation `Pauleve2020' on page 14 undefined on input line 830.
+
+[14]
+
+LaTeX Warning: Citation `Razzaq2018' on page 15 undefined on input line 850.
+
+[15]
+No file main_jbcb.bbl.
+[16] (./main_jbcb.aux)
+
+Package rerunfilecheck Warning: File `main_jbcb.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ){/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
+}</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
+</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></
+usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><
+/usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
+usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></u
+sr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr
+/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/l
+ocal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/loc
+al/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local
+/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/t
+exlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texl
+ive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive
+/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/20
+20/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2020/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2020/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2020/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2020/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2020/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2020/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2020/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2020/texmf-dist
+/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2020/texmf-
+dist/fonts/type1/public/cm-super/sfrm0800.pfb>
+Output written on main_jbcb.pdf (16 pages, 492360 bytes).
+Transcript written on main_jbcb.log.
+Latexmk: Non-existent bbl file 'main_jbcb.bbl'
+ No file main_jbcb.bbl.
+Latexmk: References changed.
+Latexmk: References changed.
+Latexmk: Log file says output to 'main_jbcb.pdf'
+Latexmk: List of undefined refs and citations:
+  Citation `AbouJaoude2009' on page 10 undefined on input line 618
+  Citation `AbouJaoude2009' on page 2 undefined on input line 134
+  Citation `Bunte2019' on page 10 undefined on input line 576
+  Citation `Chaouiya2013SBML' on page 10 undefined on input line 618
+  Citation `Chaouiya2013SBML' on page 2 undefined on input line 134
+  Citation `ChaouiyaPetriBio2007' on page 1 undefined on input line 90
+  Citation `ClavijoBuritica2023' on page 12 undefined on input line 718
+  Citation `Fisher2007' on page 1 undefined on input line 90
+  Citation `Hanahan2022' on page 12 undefined on input line 718
+  Citation `Hill2016' on page 11 undefined on input line 647
+  Citation `Hill2016' on page 2 undefined on input line 136
+  Citation `Li2006' on page 1 undefined on input line 90
+  Citation `Milner1989' on page 4 undefined on input line 264
+  Citation `Murata1989' on page 1 undefined on input line 90
+  Citation `Naldi2018' on page 10 undefined on input line 618
+  Citation `Naldi2018' on page 2 undefined on input line 134
+  Citation `Pauleve2020' on page 11 undefined on input line 676
+  Citation `Pauleve2020' on page 14 undefined on input line 830
+  Citation `Quimbaya2012' on page 12 undefined on input line 718
+  Citation `Radom2017' on page 9 undefined on input line 571
+  Citation `Razzaq2018' on page 11 undefined on input line 647
+  Citation `Razzaq2018' on page 11 undefined on input line 676
+  Citation `Razzaq2018' on page 15 undefined on input line 850
+  Citation `Razzaq2018' on page 2 undefined on input line 136
+  Citation `Sangiorgi2011' on page 4 undefined on input line 264
+  Citation `Szawulak2022' on page 1 undefined on input line 95
+  Citation `Szawulak2022' on page 8 undefined on input line 554
+  Citation `Traynard2016' on page 10 undefined on input line 618
+  Citation `Traynard2016' on page 2 undefined on input line 134
+  Citation `Yizengaw2026' on page 2 undefined on input line 106
+  Citation `Yoshiyama2013' on page 12 undefined on input line 718
+  Reference `alg:pipeline' on page 8 undefined on input line 479
+  Reference `def:bisimulation' on page 6 undefined on input line 368
+  Reference `def:classifier' on page 5 undefined on input line 312
+  Reference `def:petri-net' on page 4 undefined on input line 213
+  Reference `def:weak-move' on page 6 undefined on input line 380
+  Reference `def:weak-simulation' on page 4 undefined on input line 256
+  Reference `def:weak-simulation' on page 6 undefined on input line 349
+  Reference `def:weak-simulation' on page 6 undefined on input line 367
+  Reference `def:weak-traces' on page 5 undefined on input line 287
+  Reference `def:weak-traces' on page 6 undefined on input line 380
+  Reference `eq:classifier' on page 5 undefined on input line 320
+  Reference `eq:classifier' on page 8 undefined on input line 493
+  Reference `eq:simulation-orientation' on page 4 undefined on input line 265
+  Reference `ex:branching' on page 14 undefined on input line 805
+  Reference `ex:branching' on page 6 undefined on input line 397
+  Reference `ex:branching' on page 8 undefined on input line 506
+  Reference `fig:benchmark' on page 8 undefined on input line 535
+  Reference `fig:gim-petri' on page 12 undefined on input line 723
+  Reference `fig:hpn-validation' on page 12 undefined on input line 695
+  Reference `fig:pipeline' on page 3 undefined on input line 161
+  Reference `prop:hierarchy' on page 14 undefined on input line 794
+  Reference `prop:label-blind' on page 14 undefined on input line 804
+  Reference `prop:label-blind' on page 7 undefined on input line 449
+  Reference `prop:silent-refinement' on page 14 undefined on input line 823
+  Reference `prop:silent-refinement' on page 6 undefined on input line 397
+  Reference `sec:applications' on page 3 undefined on input line 201
+  Reference `tab:case' on page 13 undefined on input line 752
+  Reference `tab:hpn-medoids' on page 11 undefined on input line 651
+  Reference `tab:public-controls' on page 10 undefined on input line 623
+  Reference `tab:synthetic' on page 8 undefined on input line 507
+  Reference `thm:fixed-point' on page 10 undefined on input line 587
+=== TeX engine is 'pdfTeX'
+Latexmk: Found bibliography file(s) [references_jbcb.bib]
+Rule 'bibtex main_jbcb': File changes, etc:
+   Changed files, or newly in use since previous run(s):
+      'main_jbcb.aux'
+------------
+Run number 1 of rule 'bibtex main_jbcb'
+------------
+------------
+Running 'bibtex  "main_jbcb"'
+------------
+Latexmk: applying rule 'bibtex main_jbcb'...
+For rule 'bibtex main_jbcb', running '&run_bibtex(  )' ...
+This is BibTeX, Version 0.99d (TeX Live 2020)
+The top-level auxiliary file: main_jbcb.aux
+The style file: ws-jbcb.bst
+Database file #1: references_jbcb.bib
+Rule 'pdflatex': File changes, etc:
+   Changed files, or newly in use since previous run(s):
+      'main_jbcb.aux'
+      'main_jbcb.bbl'
+      'main_jbcb.out'
+------------
+Run number 2 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -interaction=nonstopmode -halt-on-error -recorder  "main_jbcb.tex"'
+------------
+Latexmk: applying rule 'pdflatex'...
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./main_jbcb.tex
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-03-06> (./ws-jbcb.cls
+Document Class: ws-jbcb 2026/05/18 v1.5g Standardized LaTeX document class
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/rotating.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-def/pdftex.def)))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/base/ifthen.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/amsfonts.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/amssymb.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsopn.sty)))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/cite/cite.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-cfg/color.cfg))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/local/texlive/2020/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/iftex/iftex.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/pdftexcmds/pdftexcmds.sty
+(/usr/local/texlive/2020/texmf-dist/tex/generic/infwarerr/infwarerr.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/auxhook/auxhook.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/kvoptions/kvoptions.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/etexcmds/etexcmds.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/url/url.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/local/texlive/2020/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/generic/atbegshi/atbegshi.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/local/texlive/2020/texmf-dist/tex/latex/atveryend/atveryend.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+
+(/usr/local/texlive/2020/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+))) (/usr/local/texlive/2020/texmf-dist/tex/latex/tools/array.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/tools/tabularx.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/xurl/xurl.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def)
+(./main_jbcb.aux)
+(/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/local/texlive/2020/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+
+Package hyperref Warning: Height of page (\paperheight) is invalid (0.0pt),
+(hyperref)                using 11in.
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/gettitlestring/gettitlestring.s
+ty)) (./main_jbcb.out) (./main_jbcb.out)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd)
+
+LaTeX Warning: Citation `Murata1989' on page 1 undefined on input line 90.
+
+
+LaTeX Warning: Citation `ChaouiyaPetriBio2007' on page 1 undefined on input lin
+e 90.
+
+
+LaTeX Warning: Citation `Li2006' on page 1 undefined on input line 90.
+
+
+LaTeX Warning: Citation `Fisher2007' on page 1 undefined on input line 90.
+
+
+LaTeX Warning: Citation `Szawulak2022' on page 1 undefined on input line 95.
+
+[1{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+
+LaTeX Warning: Citation `Yizengaw2026' on page 2 undefined on input line 106.
+
+
+LaTeX Warning: Citation `Naldi2018' on page 2 undefined on input line 134.
+
+
+LaTeX Warning: Citation `Chaouiya2013SBML' on page 2 undefined on input line 13
+4.
+
+
+LaTeX Warning: Citation `Traynard2016' on page 2 undefined on input line 134.
+
+
+LaTeX Warning: Citation `AbouJaoude2009' on page 2 undefined on input line 134.
+
+
+
+LaTeX Warning: Citation `Hill2016' on page 2 undefined on input line 136.
+
+
+LaTeX Warning: Citation `Razzaq2018' on page 2 undefined on input line 136.
+
+[2] [3 <./figures/Fig1.pdf>]
+
+LaTeX Warning: Citation `Milner1989' on page 4 undefined on input line 264.
+
+
+LaTeX Warning: Citation `Sangiorgi2011' on page 4 undefined on input line 264.
+
+[4] [5] [6] [7]
+
+LaTeX Warning: Citation `Szawulak2022' on page 8 undefined on input line 554.
+
+[8]
+
+LaTeX Warning: Citation `Radom2017' on page 9 undefined on input line 571.
+
+[9 <./figures/Fig3.pdf>]
+
+LaTeX Warning: Citation `Bunte2019' on page 10 undefined on input line 576.
+
+
+LaTeX Warning: Citation `Naldi2018' on page 10 undefined on input line 618.
+
+
+LaTeX Warning: Citation `Traynard2016' on page 10 undefined on input line 618.
+
+
+LaTeX Warning: Citation `Chaouiya2013SBML' on page 10 undefined on input line 6
+18.
+
+
+LaTeX Warning: Citation `AbouJaoude2009' on page 10 undefined on input line 618
+.
+
+[10]
+
+LaTeX Warning: Citation `Hill2016' on page 11 undefined on input line 647.
+
+
+LaTeX Warning: Citation `Razzaq2018' on page 11 undefined on input line 647.
+
+
+LaTeX Warning: Citation `Pauleve2020' on page 11 undefined on input line 676.
+
+
+LaTeX Warning: Citation `Razzaq2018' on page 11 undefined on input line 676.
+
+[11]
+
+LaTeX Warning: Citation `Quimbaya2012' on page 12 undefined on input line 718.
+
+
+LaTeX Warning: Citation `ClavijoBuritica2023' on page 12 undefined on input lin
+e 718.
+
+
+LaTeX Warning: Citation `Hanahan2022' on page 12 undefined on input line 718.
+
+
+LaTeX Warning: Citation `Yoshiyama2013' on page 12 undefined on input line 718.
+
+
+[12 <./figures/Fig8.pdf>] [13 <./figures/Fig2a.pdf> <./figures/Fig2b.pdf>]
+
+LaTeX Warning: Citation `Pauleve2020' on page 14 undefined on input line 830.
+
+[14]
+
+LaTeX Warning: Citation `Razzaq2018' on page 15 undefined on input line 850.
+
+[15] (./main_jbcb.bbl [16]) [17] (./main_jbcb.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ){/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
+}</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
+</usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></
+usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></us
+r/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></u
+sr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
+r/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr
+/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/l
+ocal/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/loc
+al/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local
+/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/t
+exlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/tex
+live/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texliv
+e/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2
+020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2020
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2020/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2020/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2020/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2020/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2020/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2020/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2020/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2020/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2020/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2020/texmf-dist/fonts/
+type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2020/texmf-dist/fo
+nts/type1/public/cm-super/sfrm0800.pfb>
+Output written on main_jbcb.pdf (17 pages, 549249 bytes).
+Transcript written on main_jbcb.log.
+Latexmk: Found input bbl file 'main_jbcb.bbl'
+Latexmk: References changed.
+Latexmk: Log file says output to 'main_jbcb.pdf'
+Latexmk: List of undefined refs and citations:
+  Citation `AbouJaoude2009' on page 10 undefined on input line 618
+  Citation `AbouJaoude2009' on page 2 undefined on input line 134
+  Citation `Bunte2019' on page 10 undefined on input line 576
+  Citation `Chaouiya2013SBML' on page 10 undefined on input line 618
+  Citation `Chaouiya2013SBML' on page 2 undefined on input line 134
+  Citation `ChaouiyaPetriBio2007' on page 1 undefined on input line 90
+  Citation `ClavijoBuritica2023' on page 12 undefined on input line 718
+  Citation `Fisher2007' on page 1 undefined on input line 90
+  Citation `Hanahan2022' on page 12 undefined on input line 718
+  Citation `Hill2016' on page 11 undefined on input line 647
+  Citation `Hill2016' on page 2 undefined on input line 136
+  Citation `Li2006' on page 1 undefined on input line 90
+  Citation `Milner1989' on page 4 undefined on input line 264
+  Citation `Murata1989' on page 1 undefined on input line 90
+  Citation `Naldi2018' on page 10 undefined on input line 618
+  Citation `Naldi2018' on page 2 undefined on input line 134
+  Citation `Pauleve2020' on page 11 undefined on input line 676
+  Citation `Pauleve2020' on page 14 undefined on input line 830
+  Citation `Quimbaya2012' on page 12 undefined on input line 718
+  Citation `Radom2017' on page 9 undefined on input line 571
+  Citation `Razzaq2018' on page 11 undefined on input line 647
+  Citation `Razzaq2018' on page 11 undefined on input line 676
+  Citation `Razzaq2018' on page 15 undefined on input line 850
+  Citation `Razzaq2018' on page 2 undefined on input line 136
+  Citation `Sangiorgi2011' on page 4 undefined on input line 264
+  Citation `Szawulak2022' on page 1 undefined on input line 95
+  Citation `Szawulak2022' on page 8 undefined on input line 554
+  Citation `Traynard2016' on page 10 undefined on input line 618
+  Citation `Traynard2016' on page 2 undefined on input line 134
+  Citation `Yizengaw2026' on page 2 undefined on input line 106
+  Citation `Yoshiyama2013' on page 12 undefined on input line 718
+=== TeX engine is 'pdfTeX'
+Latexmk: Found bibliography file(s) [references_jbcb.bib]
+Rule 'bibtex main_jbcb': File changes, etc:
+   Changed files, or newly in use since previous run(s):
+      'main_jbcb.aux'
+------------
+Run number 2 of rule 'bibtex main_jbcb'
+------------
+------------
+Running 'bibtex  "main_jbcb"'
+------------
+Latexmk: applying rule 'bibtex main_jbcb'...
+For rule 'bibtex main_jbcb', running '&run_bibtex(  )' ...
+This is BibTeX, Version 0.99d (TeX Live 2020)
+The top-level auxiliary file: main_jbcb.aux
+The style file: ws-jbcb.bst
+Database file #1: references_jbcb.bib
+Rule 'pdflatex': File changes, etc:
+   Changed files, or newly in use since previous run(s):
+      'main_jbcb.aux'
+------------
+Run number 3 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -interaction=nonstopmode -halt-on-error -recorder  "main_jbcb.tex"'
+------------
+Latexmk: applying rule 'pdflatex'...
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./main_jbcb.tex
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-03-06> (./ws-jbcb.cls
+Document Class: ws-jbcb 2026/05/18 v1.5g Standardized LaTeX document class
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/rotating.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-def/pdftex.def)))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/base/ifthen.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/amsfonts.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/amssymb.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsmath/amsopn.sty)))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/cite/cite.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/graphics-cfg/color.cfg))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/local/texlive/2020/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/iftex/iftex.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/pdftexcmds/pdftexcmds.sty
+(/usr/local/texlive/2020/texmf-dist/tex/generic/infwarerr/infwarerr.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/auxhook/auxhook.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/kvoptions/kvoptions.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/etexcmds/etexcmds.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/url/url.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/local/texlive/2020/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/generic/atbegshi/atbegshi.sty))
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/local/texlive/2020/texmf-dist/tex/latex/atveryend/atveryend.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+
+(/usr/local/texlive/2020/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+))) (/usr/local/texlive/2020/texmf-dist/tex/latex/tools/array.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/tools/tabularx.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/xurl/xurl.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def)
+(./main_jbcb.aux)
+(/usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/local/texlive/2020/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+
+Package hyperref Warning: Height of page (\paperheight) is invalid (0.0pt),
+(hyperref)                using 11in.
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/local/texlive/2020/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/local/texlive/2020/texmf-dist/tex/generic/gettitlestring/gettitlestring.s
+ty)) (./main_jbcb.out) (./main_jbcb.out)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/local/texlive/2020/texmf-dist/tex/latex/amsfonts/umsb.fd) [1{/usr/local/t
+exlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3 <./figures/Fi
+g1.pdf>] [4] [5] [6] [7] [8] [9 <./figures/Fig3.pdf>] [10] [11] [12 <./figures/
+Fig8.pdf>] [13 <./figures/Fig2a.pdf> <./figures/Fig2b.pdf>] [14] [15]
+(./main_jbcb.bbl [16]) [17] (./main_jbcb.aux) ){/usr/local/texlive/2020/texmf-d
+ist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2020/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2020/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2020/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/local/texlive/2020/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2020/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2020/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2020/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2020/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2020/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2020/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr6.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr7.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmr9.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmss10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmsy10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmsy6.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmsy7.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mti10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+ti8.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti
+9.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10
+.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/symbols/ms
+bm10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfrm08
+00.pfb>
+Output written on main_jbcb.pdf (17 pages, 543832 bytes).
+Transcript written on main_jbcb.log.
+Latexmk: Found input bbl file 'main_jbcb.bbl'
+Latexmk: Log file says output to 'main_jbcb.pdf'
+=== TeX engine is 'pdfTeX'
+Latexmk: Found bibliography file(s) [references_jbcb.bib]
+Latexmk: All targets () are up-to-date

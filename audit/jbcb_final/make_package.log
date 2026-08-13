@@ -1,0 +1,10 @@
+python tools/check_jbcb_abstract.py paper/jbcb/main_jbcb.tex
+Abstract words: 184
+python tools/check_jbcb_english.py paper/jbcb/main_jbcb.tex
+British-spelling findings: 0
+cd paper/jbcb && latexmk -pdf -interaction=nonstopmode -halt-on-error main_jbcb.tex
+Latexmk: This is Latexmk, John Collins, 26 Dec. 2019, version: 4.67.
+Latexmk: All targets () are up-to-date
+python scripts/build_jbcb_package.py
+Built /Users/cero/Downloads/Articulos/CompAlgMolCancer/submission_jbcb/JBCB_submission.zip
+Verified 10 files: main_jbcb.tex, references_jbcb.bib, ws-jbcb.cls, ws-jbcb.bst, figures/Fig1.pdf, figures/Fig2a.pdf, figures/Fig2b.pdf, figures/Fig3.pdf, figures/Fig8.pdf, main_jbcb.pdf
