@@ -4,7 +4,7 @@
 # ---------------------------------------------------------------------------
 PY ?= python
 
-.PHONY: help setup public-models hpn-data hpn-validation caspots-validation external-validation pn-gdda holmes-pn-gdda analysis test figures notebook verify manuscript package jmcs-manuscript jmcs-package netmahib-manuscript netmahib-package clean
+.PHONY: help setup public-models hpn-data hpn-validation caspots-validation external-validation pn-gdda holmes-pn-gdda analysis test figures notebook verify manuscript package jbcb-manuscript jbcb-package jmcs-manuscript jmcs-package netmahib-manuscript netmahib-package clean
 
 help:
 	@echo "Targets:"
@@ -21,8 +21,10 @@ help:
 	@echo "  figures     Regenerate every figure and result table"
 	@echo "  notebook    Execute the analysis notebook end to end"
 	@echo "  verify      Check deterministic results after regeneration"
-	@echo "  manuscript  Compile the current JMCS manuscript"
-	@echo "  package     Build and verify the self-contained JMCS submission ZIP"
+	@echo "  manuscript  Compile the current JBCB manuscript"
+	@echo "  package     Build and verify the self-contained JBCB submission ZIP"
+	@echo "  jbcb-manuscript  Compile the current JBCB manuscript explicitly"
+	@echo "  jbcb-package     Build the current JBCB submission ZIP explicitly"
 	@echo "  jmcs-manuscript  Compile the current JMCS manuscript explicitly"
 	@echo "  jmcs-package     Build the current JMCS submission ZIP explicitly"
 	@echo "  netmahib-manuscript  Compile the superseded Springer manuscript"
@@ -76,9 +78,17 @@ verify: test figures
 		&& echo "OK: deterministic results regenerated identically." \
 		|| { echo "ERROR: deterministic results changed after regeneration."; exit 1; }
 
-manuscript: jmcs-manuscript
+manuscript: jbcb-manuscript
 
-package: jmcs-package
+package: jbcb-package
+
+jbcb-manuscript:
+	$(PY) tools/check_jbcb_abstract.py paper/jbcb/main_jbcb.tex
+	$(PY) tools/check_jbcb_english.py paper/jbcb/main_jbcb.tex
+	cd paper/jbcb && latexmk -pdf -interaction=nonstopmode -halt-on-error main_jbcb.tex
+
+jbcb-package: jbcb-manuscript
+	$(PY) scripts/build_jbcb_package.py
 
 jmcs-manuscript:
 	cd paper/jmcs && latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex

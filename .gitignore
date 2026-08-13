@@ -46,6 +46,9 @@ submission/netmahib_reproducibility.zip
 # are declared after the generic LaTeX/PDF exclusions below.
 submission_jmcs/*
 
+# Clean JBCB delivery directory. Exceptions are declared at the end.
+submission_jbcb/*
+
 # ---------------------------------------------------------------------------
 # Python
 # ---------------------------------------------------------------------------
@@ -91,3 +94,13 @@ build*.log
 !submission_jmcs/JMCS_submission.zip
 !audit/jmcs_final/
 !audit/jmcs_final/*.log
+!submission_jbcb/main_jbcb.tex
+!submission_jbcb/references_jbcb.bib
+!submission_jbcb/ws-jbcb.cls
+!submission_jbcb/ws-jbcb.bst
+!submission_jbcb/main_jbcb.pdf
+!submission_jbcb/figures/
+!submission_jbcb/figures/*.pdf
+!submission_jbcb/JBCB_submission.zip
+!audit/jbcb_final/
+!audit/jbcb_final/*.log
