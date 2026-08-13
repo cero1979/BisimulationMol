@@ -40,6 +40,64 @@ class FormalPropertyTests(unittest.TestCase):
         self.assertTrue(cbm.weak_simulates(early_choice, late_choice))
         self.assertFalse(cbm.weak_simulates(late_choice, early_choice))
 
+    def test_mutual_simulation_does_not_imply_bisimilarity(self) -> None:
+        left = cbm.LTS(
+            "a-bc-plus-ab",
+            ["l0", "lbc", "lb", "lbt", "lct", "lbt2"],
+            0,
+            [
+                (0, "a", 1),
+                (0, "a", 2),
+                (1, "b", 3),
+                (1, "c", 4),
+                (2, "b", 5),
+            ],
+        )
+        right = cbm.LTS(
+            "a-bc",
+            ["r0", "rbc", "rbt", "rct"],
+            0,
+            [(0, "a", 1), (1, "b", 2), (1, "c", 3)],
+        )
+
+        self.assertTrue(cbm.weak_simulates(left, right))
+        self.assertTrue(cbm.weak_simulates(right, left))
+        self.assertFalse(cbm.weak_bisimilar(left, right))
+        self.assertEqual(mb.classify_pair(left, right)["formal_class"], "mutual simulation")
+
+    def test_truncated_trace_match_does_not_claim_exact_trace_equality(self) -> None:
+        left = mb.linear_workflow(4)
+        right = mb.add_observable_branch(left, source=3, label="late_extra")
+        alphabet = left.observables | right.observables
+
+        self.assertEqual(
+            cbm.observable_language(left, 2, alphabet),
+            cbm.observable_language(right, 2, alphabet),
+        )
+        self.assertNotEqual(
+            cbm.observable_language(left, 6, alphabet),
+            cbm.observable_language(right, 6, alphabet),
+        )
+
+    def test_tau_closure_matches_zero_or_more_internal_steps(self) -> None:
+        direct = cbm.LTS("direct", ["d0", "d1"], 0, [(0, "a", 1)])
+        refined = cbm.LTS(
+            "refined",
+            ["r0", "r1", "r2", "r3", "r4"],
+            0,
+            [
+                (0, cbm.TAU, 1),
+                (1, cbm.TAU, 2),
+                (2, "a", 3),
+                (3, cbm.TAU, 4),
+            ],
+        )
+
+        self.assertEqual(refined.tau_closure(0), frozenset({0, 1, 2}))
+        self.assertEqual(refined.weak_step(0, "a"), frozenset({3, 4}))
+        self.assertFalse(cbm.strong_bisimilar(direct, refined))
+        self.assertTrue(cbm.weak_bisimilar(direct, refined))
+
     def test_simulation_orientation_is_reference_contained_in_candidate(self) -> None:
         reference = mb.linear_workflow(3)
         candidate = mb.add_observable_branch(reference, source=1, label="extra")
