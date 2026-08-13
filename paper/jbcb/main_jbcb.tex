@@ -509,7 +509,10 @@ $a.(b+c)$ versus $a.b+a.c$ from Example~\ref{ex:branching}. Table
 \begin{table}[t]
 \tbl{Controlled benchmark; the expected class is not used by the classifier.
 \label{tab:synthetic}}{
-\begin{tabularx}{\textwidth}{@{}p{0.22\textwidth}p{0.25\textwidth}YY@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.70in}%
+>{\raggedright\arraybackslash}p{1.10in}%
+>{\raggedright\arraybackslash}p{1.20in}%
+>{\raggedright\arraybackslash}p{1.20in}@{}}
 \toprule
 Case & Change & Expected & Observed \\
 \colrule
@@ -520,7 +523,7 @@ Order swap & preserve counts, change order & not comparable & not comparable \\
 Added branch & add an outcome & reference in candidate & reference in candidate \\
 Early/late choice & move decision point & candidate in reference & candidate in reference \\
 \botrule
-\end{tabularx}}
+\end{tabular}}
 \end{table}
 
 Weak bisimulation recovered all six binary weak-equivalence decisions. Truncated
@@ -754,7 +757,7 @@ three different behavioral classes.
 \begin{table}[t]
 \tbl{Curated model-pair outputs. Relations and $d_6$ are interface-conditional;
 PN-GDDA is structural.\label{tab:case}}{
-\begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}Xp{0.24\textwidth}ccc@{}}
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{1.05in}>{\raggedright\arraybackslash}p{1.05in}rrr@{}}
 \toprule
 Module & Process & Formal class & $d_6$ & PN-592 & Orbit-576 \\
 \colrule
@@ -764,7 +767,7 @@ SPS & cell-cycle control & weak bisimulation & 0.000 & 1.0000 & 1.0000 \\
 RCD & death/autophagy & plant in animal & 0.143 & 1.0000 & 1.0000 \\
 AID & immune control & non-comparable & 0.429 & 0.9907 & 0.9904 \\
 \botrule
-\end{tabularx}}
+\end{tabular}}
 \end{table}
 
 The GIM reachable systems make the weak relation inspectable in the repository:
