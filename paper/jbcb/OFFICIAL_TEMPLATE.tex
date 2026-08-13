@@ -1,0 +1,419 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Text Area : 8in (include Runningheads) x 5in
+%% ws-jbcb.tex : 18-05-2026
+%% Tex file to use with ws-jbcb.cls written in LaTeX2e.
+%% The content, structure, format and layout of this style file is the
+%% property of World Scientific Publishing Co. Pte. Ltd.
+%% Copyright 2026 by World Scientific Publishing Co.
+%% All rights are reserved.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\documentclass[wsdraft]{ws-jbcb}
+\documentclass{ws-jbcb}
+
+\usepackage[super]{cite}
+\usepackage{xcolor}
+\usepackage[verbose,hypertexnames=false]{hyperref}
+\hypersetup{colorlinks=false,allbordercolors=blue,pdfborderstyle={/S/U/W 1}}
+% \label, \ref and \cite commands are highly recommended
+
+\begin{document}
+
+\markboth{F. Author \& S. Author (authors' names)}{Instructions for typing manuscripts (paper's title)}
+
+%%%%%%%%%%%%%%%%%%%%% Publisher's Area please ignore %%%%%%%%%%%%%%%
+%
+\catchline{}{}{}{}{}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Instructions for typesetting manuscripts\\
+using \LaTeX\footnote{For the title, try not to use more than
+3 lines. Typeset the title in 10~pt Roman, sentence case and
+boldface.}
+}
+
+\author{First Author\footnote{Typeset names in 8~pt Roman, upper and lower case. Use the footnote to indicate the present or permanent address of the author.}}
+
+\address{University Department, University Name, Address\\
+City, State ZIP/Zone,
+Country\footnote{State completely without abbreviations, the
+affiliation and mailing address, including country. Typeset in 8~pt
+Times italic.}\\
+first\_author@university.edu}
+
+\author{Second Author\footnote{Use the footnote to indicate the Corresponding author.}}
+
+\address{Group, Laboratory, Address\\
+City, State ZIP/Zone, Country\\
+second\_author@group.com}
+
+\maketitle
+
+\begin{history}
+\received{(Day Month Year)}
+\revised{(Day Month Year)}
+\accepted{(Day Month Year)}
+\published{(Day Month Year)}
+\end{history}
+
+\begin{abstract}
+The abstract should summarize the context, content
+and conclusions of the paper in less than 200 words. It should
+not contain any references or displayed equations. Typeset the
+abstract in 8~pt Times roman with baselineskip of 10~pt, making
+an indentation of 1.5 pica on the left and right margins.
+\end{abstract}
+
+\keywords{Keyword1; keyword2; keyword3.}
+
+\section{General Appearance}
+Contributions to {\it Journal of Bioinformatics and Computational
+Biology} are to be\break in American English. Authors are encouraged
+to have their contribution checked\break for grammar. American spelling
+should be used. Abbreviations are allowed but should be spelled out in
+full when first used. Integers ten and below are to be spelled out.
+Italicize foreign language phrases (e.g.~Latin, French).  Upon
+acceptance, authors are required to submit their data source file
+including postscript files for figures.
+
+The text is to be typeset in 10~pt Times roman, single spaced with
+baselineskip of 13~pt. Text area (including copyright block) is 8~inches high and 5~inches wide for the first page.  Text area (excluding running title) is 7.7~inches high and 5~inches wide for subsequent pages. Final pagination and insertion of running titles will be done by the publisher.
+
+\section{Major Headings}
+Major headings should be typeset in boldface with the first letter of
+important words capitalized.
+
+\subsection{Sub-headings}
+Sub-headings should be typeset in boldface italic and capitalize
+the first letter of the first word only. Section number to be in
+boldface roman.
+
+\subsubsection{Sub-subheadings}
+Typeset sub-subheadings in medium face italic and capitalize the
+first letter of the first word only. Section numbers to be in
+roman.
+
+\subsection{Numbering and spacing}
+Sections, sub-sections and sub-subsections are numbered in
+Arabic. Use double spacing before all section headings, and
+single spacing after section headings. Flush left all paragraphs
+that follow after section headings.
+
+\subsection{Lists of items}
+Lists may be laid out with each item marked by a bullet:
+\begin{itemlist}
+ \item item one,
+ \item item two,
+ \item item three.
+\end{itemlist}
+Items may also be numbered in lowercase roman numerals:
+\begin{romanlist}[(iii)]
+ \item item one
+ \item item two
+	\begin{alphlist}[(b)]
+	\item Lists within lists can be numbered with lowercase
+              roman letters,
+	\item second item.
+	\end{alphlist}
+\item item three
+\end{romanlist}
+
+\section{Equations}
+Displayed equations should be numbered consecutively in each
+section, with the number set flush right and enclosed in
+parentheses
+\begin{equation}
+\mu(n, t) = {\sum^\infty_{i=1} 1(d_i < t, N(d_i) = n) \over
+\int^t_{\sigma=0} 1(N(\sigma) = n)d\sigma}\,.
+\label{this}
+\end{equation}
+
+Equations should be referred to in abbreviated form,
+e.g.~``Eq.~(\ref{this})''. In multiple-line
+equations, the number should be given on the last line.
+
+For multiline equations, prefer using \verb|align| or \verb|align*| instead of \verb|eqnarray|.
+\begin{align}
+g(x) & = \sum_{k=1}^{N} y_k g(x_k) \nonumber\\
+& = \sum_{k=1}^{N} y_k \sum_{l=1}^{M} b_{kl} w_l \nonumber\\
+& = \sum_{k=1}^{N} \sum_{l=1}^{M} b_{kl} y_k w_l
+\end{align}
+
+Displayed equations are to be centered on the page width.
+Standard English letters like x are to appear as $x$
+(italicized) in the text if they are used as mathematical
+symbols. Punctuation marks are used at the end of equations as
+if they appeared directly in the text.
+
+\section{Theorem Environments}
+
+\begin{theorem}
+\label{thm1}
+Theorems$,$ lemmas$,$ etc. are to be numbered consecutively in the
+paper. Use double spacing before and after theorems$,$ lemmas$,$ etc.
+\end{theorem}
+
+The citation command can be used to cross-link for theorem
+declaration, see Theorem~\ref{thm1}.
+
+\begin{proof}
+Proofs should end with a box.
+\end{proof}
+
+\vspace{-16pt}
+\section{Illustrations and Photographs}
+Figures are to be inserted in the text nearest their first reference.
+Where possible, figures should be embedded in electronic form from
+scanned images or a computer-based drawing package. If the author requires the
+publisher to reduce the figures, ensure that the figures (including
+letterings and numbers) are large enough to be clearly seen after
+reduction. If photographs are to be used, only black and white ones
+are acceptable.
+
+\begin{figure}[t]
+\centerline{\includegraphics[width=5.5cm]{jbcbf1}}
+\vspace*{8pt}
+\caption{A schematic illustration of dissociative recombination. The
+direct mechanism, 4m$^2_\pi$ is initiated when the
+molecular ion S$_{\rm L}$ captures an electron with kinetic energy.}
+\label{fig1}
+\alttext{Description of the figure}
+\end{figure}
+
+Figures are to be sequentially numbered in Arabic numerals. The
+caption must be placed below the figure. Typeset in 8~pt Times roman
+with baselineskip of 10~pt. Use double spacing between a caption and
+the text that follows immediately.
+
+\pagebreak
+
+Previously published material must be accompanied by written
+permission from the author and publisher.
+
+\subsection{Color illustrations and images}
+Please prepare all line drawings, halftones (gray scale) and color
+illustrations in high resolution.
+
+\subsubsection{The requirements}
+\begin{enumerate}
+\item 600 dpi for line drawings (black and white).
+\item 300 dpi for halftones (gray scale). Do not convert from color
+images as they reproduce very poorly.
+\item 300 dpi for color images. Must be in
+CMYK (Cyan, Magenta, Yellow and Black) for color separation.
+RGB (Red, Green and Blue) is unacceptable for color separation work.
+Color images to be printed in color are allowed only as agreed
+in the contract.
+\item Ensure all labels/annotations are sharp and clear for reproduction.
+Easy-to-read typeface/font like Arial, Helvetica or Times Roman are
+recommended for the labels.
+\item To provide softcopy of the illustrations in either eps, ps, tif,
+jpg, gif or bmp format, preferable on a PC platform. All illustrations
+should be embedded in the text. At the same time provide the illustration,
+example, John$\_$fig1.eps, Hogn$\_$fig2.eps, or
+John$\_$fig1.tif, Hogn$\_$fig2.tif.
+\end{enumerate}
+
+\subsubsection{Color charge}
+Contributors have to pay the following additional cost:
+\begin{romanlist}
+\item US\$200 for each color illustration;
+\item an additional US\$100 for Color Supporting Information that
+must be scanned.
+\end{romanlist}
+
+A single figure is defined as original art that can be processed as a
+unit and printed on one page without intervening type.
+
+\section{Recommended Article Length}
+
+\begin{center}
+\vspace{5pt}
+\begin{tabular}{@{}l@{\hspace{0.5in}}c@{}}
+\Hline\\[-8pt]
+{\bf Category} &{\bf Free Reformatted Page} \\[3pt]
+\hline\\[-8pt]
+Research Paper & 15\\
+Critical Comments & 10\\
+Survey/Reviews & 15\\
+Tutorial Papers & 30\\
+In silico studies (open access)	&\phantom{0}0\\[3pt]
+\Hline
+\end{tabular}
+\vspace{10pt}
+\end{center}
+
+Please note that {\bf US\$40 per reformatted page} will be charged for
+any article exceeding the recommended length.
+
+Articles in ``In silico studies'' category will only be considered for open access publication. Article Processing Charge is charged to make an article in open access publication.
+
+\section{Billing Address}
+Billing address and contact numbers, together with the manuscripts, should
+be provided during submission. Please indicate illustrations that
+are designated for color print.
+
+\begin{table}[b]
+\tbl{Comparison of acoustic for frequencies for piston-cylinder problem.}
+{\begin{tabular}{@{}cccc@{}}
+\toprule
+Piston mass & Analytical frequency & TRIA6-$S_1$ model &\% Error \\
+& (Rad/s) & (Rad/s) \\
+\colrule
+1.0\hphantom{00} & \hphantom{0}281.0 & \hphantom{0}280.81 & 0.07 \\[2pt]
+0.1\hphantom{00} & \hphantom{0}876.0 & \hphantom{0}875.74 & 0.03 \\[2pt]
+0.01\hphantom{0} & 2441.0 & 2441.0\hphantom{0} & 0.0\hphantom{0} \\[2pt]
+0.001 & 4130.0 & 4129.3\hphantom{0} & 0.16\\
+\botrule
+\end{tabular}}
+\begin{tabnote}
+Table notes
+\end{tabnote}
+\begin{tabfootnote}
+\tabmark{a} Table footnote A\\
+\tabmark{b} Table footnote B
+\end{tabfootnote}
+\end{table}
+
+\section{Tables}
+Tables should be inserted in the text as close to the point of
+reference as possible. Some space should be left above and below
+the table.
+
+Tables should be numbered sequentially in the text in Arabic
+numerals. Captions are to be centralized above the tables.
+Typeset tables and captions in 8~pt Times roman with
+baselineskip of 10~pt.
+
+If tables need to extend over to a second page, the continuation of
+the table should be preceded by a caption, e.g.~``{\it Table~1}
+$(${\it Continued}$)$''.
+
+\section{References}
+References in the text are to be numbered consecutively in
+Arabic numerals, in the order of first appearance. They are to
+be typed in superscripts after punctuation marks,
+e.g.~``$\ldots$ in the statement.\cite{joliat}''
+
+References are to be listed in the order cited in the text. Use
+the style shown in the following examples. For journal names,
+use the standard abbreviations. Typeset references in 9~pt Times
+roman.
+
+\section{Footnotes}
+Footnotes should be numbered sequentially in superscript
+lowercase roman letters.\footnote{Footnotes should be
+typeset in 8~pt Times roman at the bottom of the page.}
+
+\section*{Note Added}
+Additional notes can be added before Acknowledgment.
+
+\section*{Acknowledgments}
+This section should come before the Appendices. Funding
+information may also be included here.
+
+\section*{ORCID}
+You are encouraged to include in your user information the ORCID (\url{https://orcid.org/}) or register for one if you don't have it. This ID will help to identify you in the researcher community and make it easier to keep track of all your publications.
+Please provide a valid ORCID here, e.g.,
+
+\noindent Josiah Carberry - \url{https://orcid.org/0000-0002-1825-0097}
+
+\noindent Rajesh Babu - \url{https://orcid.org/0009-0006-0415-6880}
+
+\appendix
+
+\section{Appendices}
+Appendices should be used only when absolutely necessary. They
+should come before the References. If there is more than one
+appendix, number them alphabetically. Equations number
+occurring in the Appendix is a continuation from the last
+equation number of the main text
+\begin{equation}
+\mu(n, t) = {\sum^\infty_{i=1} 1(d_i < t, N(d_i) = n) \over
+\int^t_{\sigma=0} 1(N(\sigma) = n)d\sigma}\,.
+\label{appeqn}
+\end{equation}
+
+\begin{thebibliography}{0}
+\bibitem{beeson} Beeson MJ, {\it Foundations of Constructive Mathematics},
+Springer, Berlin, 1985, \url{https://doi.org/10.1007/978-3-642-68952-9}.
+
+\bibitem{clark} Clark KL, Negations as failure, in Gallaire H,
+Winker J (eds.), {\it Logic and Data Bases}, Plenum Press, New York,
+pp.~293--306, 1973, \url{https://doi.org/10.1007/978-1-4684-3384-5_11}.
+
+\bibitem{tamassia} Tamassia R, Batini C, Talamo M,
+An algorithm for automatic layout of entity relationship diagrams,
+in Davis CG, Jajodia S, Ng PA, Yeh RT (eds.),
+{\it Entity-Relationship Approach to Software Engineering,
+Proc. 3rd Int. Conf. Entity-Relationship Approach},
+North-Holland, Amsterdam, pp.~421--439, 1983.
+
+\bibitem{gewirtz} Gewirtz WL, Investigations in the theory of
+descriptive complexity, Ph. D. Thesis, New York University, 1974.
+
+\bibitem{joliat} Joliat M, A simple technique for partial elimination of
+unit productions from LR({\it k}) parsers, {\it IEEE Trans Comput}
+{\bf 27}:753--764, 1976, \url{https://doi.org/10.1109/TC.1976.1674686}.
+
+\bibitem{lorentz} Lorentz R, Benson DB,
+Deterministic and nondeterministic flow-chart interpretations,
+{\it J Comput System Sci} {\bf 27}:400--433, 1983 \url{https://doi.org/10.1016/0022-0000(83)90050-8}.
+\end{thebibliography}
+
+\bigskip\bigskip
+\noindent
+\parbox{5truein}{
+\begin{minipage}[b]{1truein}
+\centerline{\includegraphics[width=1in,height=1.25in]{john}}
+\end{minipage}
+\hfill         %to 2nd column
+\begin{minipage}[b]{3.85truein}
+{\bf Andr\'e Kaup} received the Diploma and Doctoral degrees,
+both in electrical engineering, from Aachen University of Technology
+(RWTH), Aachen, Germany, in 1989 and 1995, respectively.
+
+\hglue15pt {From 1989 to 1995, he was with the Institute for Communication
+Engineering, RWTH, where he was responsible for industrial as well as
+academic research projects in the area of high-resolution digital
+color imaging, object-based image analysis,\hfilneg}
+\end{minipage} } %close for parbox
+
+\vspace*{4.8pt}
+\noindent
+and coding and models for human perception. In 1995, he joined the
+Networks and Video Communications Department, Siemens Corporate
+Technology, Munich,\break
+Germany, where he is responsible for several
+European research projects in the area of very low bit rate video
+coding and mobile multimedia communications.
+
+\indent
+Dr. Kaup is a member of the Informationstechnische Gesellschaft
+(ITG/VDE). He is an active member in ITU-T SG 16 standardization and
+Head of the German ISO/MPEG delegation.
+
+\newpage
+
+%\vspace*{13pt}	%SECOND PHOTO
+\noindent
+\parbox{5truein}{
+\begin{minipage}[t]{1truein}
+\centerline{\includegraphics[width=1in,height=1.28in]{yaming}}
+\end{minipage}
+\hfill         %to 2nd column
+\begin{minipage}[b]{3.85truein}
+{{\bf Yaming Wang} received his M.Sc. degree in Electrical Engineering
+from Zhejiang University of Technology, China, and his Ph.D. degree in
+Biomedical Engineering from Zhejiang University, China, in 1996 and
+2000, respectively.
+
+\hglue 15pt From August 2000 to August 2001, he was at The Hong Kong
+University of Science and Technology as a postdoctoral fellow. He is
+currently in the Department of Electronic Engineering, Zhejiang
+Institute of Science and Technology.}
+\end{minipage} } %close for parbox
+\vfill\eject
+
+\end{document} 

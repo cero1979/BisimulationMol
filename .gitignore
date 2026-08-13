@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# Track the current JMCS manuscript source and the retained prior-journal source.
+# Track the current JBCB/JMCS sources and the retained prior-journal source.
 # Other manuscript versions and local LaTeX build products remain untracked.
 # ---------------------------------------------------------------------------
 paper/*
@@ -17,6 +17,13 @@ paper/jmcs/*
 !paper/jmcs/resources/
 !paper/jmcs/resources/ISRP.cls
 !paper/jmcs/resources/jmcs.jpg
+!paper/jbcb/
+paper/jbcb/*
+!paper/jbcb/*.tex
+!paper/jbcb/*.bib
+!paper/jbcb/*.md
+!paper/jbcb/ws-jbcb.cls
+!paper/jbcb/ws-jbcb.bst
 
 # Elsevier LaTeX template bundle (only used to typeset the manuscript)
 els-cas-templates/
@@ -72,6 +79,7 @@ env/
 build*.log
 
 !paper/jmcs/main.pdf
+!paper/jbcb/main_jbcb.pdf
 !submission_jmcs/main.tex
 !submission_jmcs/references_jmcs.tex
 !submission_jmcs/main.pdf
