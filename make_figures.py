@@ -30,6 +30,7 @@ import pydot
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 import concurrent_biomodels as cbm  # noqa: E402
+import gim_interface_analysis as gim  # noqa: E402
 import hpn_dream_validation as hpn  # noqa: E402
 import method_benchmark as mb  # noqa: E402
 import pn_gdda  # noqa: E402
@@ -477,8 +478,8 @@ def reviewer_objection_table():
         ),
         (
             "The observational interface may determine the answer.",
-            "The interface is declared as the hypothesis, tested by global label permutation and by targeted single-label mismatch.",
-            "nullbaseline.csv; interface_necessity.csv",
+            "Three literature-motivated GIM interfaces are executed on unchanged structures: A/B are weakly bisimilar and mechanism-resolved C is non-comparable.",
+            "gim_interface_sensitivity.csv; gim_interface_justification.csv",
         ),
         (
             "Trace distance is not equivalent to bisimulation.",
@@ -617,59 +618,84 @@ def fig_method_benchmark():
     correctness = np.column_stack([prediction == expected for _, prediction in methods])
 
     fig, (ax0, ax1) = plt.subplots(
-        1, 2, figsize=(11.2, 4.2), gridspec_kw={"width_ratios": [1.7, 1]}
+        2, 1, figsize=(7.3, 7.5), gridspec_kw={"height_ratios": [1.55, 1]}
     )
-    ax0.imshow(correctness.astype(int), cmap="RdYlGn", vmin=0, vmax=1, aspect="auto")
     ax0.set_xticks(range(len(methods)))
-    ax0.set_xticklabels([name for name, _ in methods], fontsize=8)
+    ax0.set_xticklabels([name for name, _ in methods], fontsize=9)
     ax0.set_yticks(range(len(df)))
-    ax0.set_yticklabels(df["case"], fontsize=8)
+    expected_labels = [
+        f"{case} ({'equivalent' if expected[i] else 'not equivalent'})"
+        for i, case in enumerate(df["case"])
+    ]
+    ax0.set_yticklabels(expected_labels, fontsize=9)
+    ax0.set_xlim(-0.5, len(methods) - 0.5)
+    ax0.set_ylim(len(df) - 0.5, -0.5)
+    ax0.set_xticks(np.arange(-0.5, len(methods), 1), minor=True)
+    ax0.set_yticks(np.arange(-0.5, len(df), 1), minor=True)
+    ax0.grid(which="minor", color="#dddddd", linewidth=0.8)
+    ax0.tick_params(which="minor", bottom=False, left=False)
     for i in range(correctness.shape[0]):
         for j in range(correctness.shape[1]):
             prediction = methods[j][1][i]
+            color = "#2f7d4a" if correctness[i, j] else "#b34234"
+            ax0.scatter(
+                j,
+                i,
+                s=380,
+                marker="o" if correctness[i, j] else "X",
+                color=color,
+                edgecolor="#333333",
+                linewidth=0.7,
+                zorder=2,
+            )
             ax0.text(
                 j,
                 i,
-                "correct" if correctness[i, j] else "error",
+                "E" if prediction else "N",
                 ha="center",
                 va="center",
-                fontsize=7,
+                fontsize=9,
+                fontweight="bold",
                 color="white",
+                zorder=3,
             )
-            ax0.text(
-                j,
-                i + 0.25,
-                "equiv." if prediction else "not equiv.",
-                ha="center",
-                va="center",
-                fontsize=6,
-                color="white",
-            )
-    ax0.set_title("Case-level equivalence decisions")
-    ax0.set_xlabel("Method")
+    ax0.set_title("(a) Predeclared construction-level decisions")
+    ax0.set_xlabel("E = equivalent; N = not equivalent; red X = incorrect")
 
     colors = [C_PLANT, C_GOLD, "#7a5195", C_HUMAN, C_RED]
-    bars = ax1.bar(
-        accuracy["method"], accuracy["accuracy"], color=colors, edgecolor="#333333"
+    y_positions = np.arange(len(accuracy))
+    bars = ax1.barh(
+        y_positions,
+        accuracy["accuracy"],
+        color=colors,
+        edgecolor="#333333",
     )
-    ax1.set_ylim(0, 1.08)
-    ax1.set_ylabel("Accuracy against construction ground truth")
-    ax1.set_xticks(range(len(accuracy)))
-    ax1.set_xticklabels(
-        ["Weak\nbisim.", "Trace\nequality", "PN-GDDA\n592", "LTS-GDA", "Structural\nprofile"],
-        fontsize=8,
+    ax1.set_xlim(0, 1.08)
+    ax1.set_xlabel("Agreement with construction ground truth")
+    ax1.set_yticks(y_positions)
+    ax1.set_yticklabels(
+        ["Weak bisimulation", "Trace equality", "PN-GDDA 592", "LTS-GDA", "Structural profile"],
+        fontsize=9,
     )
-    ax1.set_title("Binary equivalence accuracy")
-    for bar, value in zip(bars, accuracy["accuracy"]):
+    ax1.invert_yaxis()
+    ax1.set_title("(b) Software-verification summary")
+    for bar, value, n_cases in zip(
+        bars, accuracy["accuracy"], accuracy["n_cases"]
+    ):
         ax1.text(
-            bar.get_x() + bar.get_width() / 2,
-            value + 0.025,
-            f"{value:.3f}",
-            ha="center",
-            va="bottom",
-            fontsize=8,
+            value + 0.018,
+            bar.get_y() + bar.get_height() / 2,
+            f"{int(round(value * n_cases))}/{int(n_cases)}",
+            ha="left",
+            va="center",
+            fontsize=9,
         )
-    fig.tight_layout()
+    fig.suptitle(
+        "Controlled benchmark: software verification only",
+        fontsize=12,
+        fontweight="bold",
+    )
+    fig.tight_layout(rect=(0, 0, 1, 0.95))
     save_artwork(fig, os.path.join(FIG, "fig_benchmark_validation.png"))
     plt.close(fig)
     return df, accuracy
@@ -703,7 +729,7 @@ def external_validation_tables():
 
 
 def fig_hpn_dream_validation():
-    """Blind held-out validation on three public HPN-DREAM model families."""
+    """Exploratory held-out analysis on three public HPN-DREAM families."""
     hpn.write_results(use_mcrl2=True)
     formal = pd.read_csv(os.path.join(RES, "hpn_dream_formal_data_validation.csv"))
     caspots_path = os.path.join(RES, "hpn_dream_caspots_rmse.csv")
@@ -720,7 +746,7 @@ def fig_hpn_dream_validation():
     )
     stats = hpn.concordance_test(formal.to_dict("records"))
 
-    fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(10.4, 4.1))
+    fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(11.2, 4.8))
     vmax = max(0.013, float(matrix.to_numpy().max()))
     image = ax0.imshow(matrix, cmap="YlOrRd", vmin=0, vmax=vmax, aspect="equal")
     ax0.set_xticks(range(len(hpn.CELLS)))
@@ -729,11 +755,11 @@ def fig_hpn_dream_validation():
     ax0.set_yticklabels(hpn.CELLS)
     ax0.set_xlabel("Held-out target cell line")
     ax0.set_ylabel("Blind source-model medoid")
-    ax0.set_title("CASPOTS excess RMSE")
+    ax0.set_title("(a) CASPOTS excess RMSE")
     for i, source in enumerate(hpn.CELLS):
         for j, target in enumerate(hpn.CELLS):
             value = matrix.loc[source, target]
-            ax0.text(j, i, f"{value:.4f}", ha="center", va="center", fontsize=8)
+            ax0.text(j, i, f"{value:.4f}", ha="center", va="center", fontsize=9)
             if source == target:
                 ax0.add_patch(
                     plt.Rectangle(
@@ -743,29 +769,35 @@ def fig_hpn_dream_validation():
                 )
     fig.colorbar(image, ax=ax0, fraction=0.046, pad=0.04)
 
-    order = ["one_way_simulation", "not_comparable"]
-    labels = ["One-way\nsimulation", "Not\ncomparable"]
+    order = [
+        "left_simulated_by_right",
+        "right_simulated_by_left",
+        "no_simulation_relation",
+    ]
+    labels = [
+        r"Left $\preceq$ right",
+        r"Right $\preceq$ left",
+        "No simulation\nrelation",
+    ]
     colors = {"mTORi": C_HUMAN, "IGF1+mTORi": C_PLANT, "4EBP1+mTORi": C_GOLD}
     markers = {"mTORi": "o", "IGF1+mTORi": "s", "4EBP1+mTORi": "^"}
-    for position, formal_class in enumerate(order):
-        subset = formal[formal["formal_class"] == formal_class]
+    condition_offsets = {"mTORi": -0.08, "IGF1+mTORi": 0.0, "4EBP1+mTORi": 0.08}
+    legend_conditions = set()
+    for position, direction in enumerate(order):
+        subset = formal[formal["relation_direction"] == direction]
         for condition, group in subset.groupby("condition", sort=False):
-            offsets = (
-                np.linspace(-0.08, 0.08, len(group))
-                if len(group) > 1
-                else np.array([0.0])
-            )
             ax1.scatter(
-                position + offsets,
+                np.full(len(group), position + condition_offsets[condition]),
                 group["experimental_rmse"],
                 color=colors[condition],
                 marker=markers[condition],
                 edgecolor="#333333",
                 linewidth=0.5,
                 s=48,
-                label=condition if position == 0 else None,
+                label=condition if condition not in legend_conditions else None,
                 zorder=3,
             )
+            legend_conditions.add(condition)
         if len(subset):
             ax1.hlines(
                 subset["experimental_rmse"].median(),
@@ -777,24 +809,259 @@ def fig_hpn_dream_validation():
     ax1.set_xticks(range(len(order)))
     ax1.set_xticklabels(labels)
     ax1.set_ylabel("Between-cell post-zero profile RMSE")
-    ax1.set_title("Data distance by formal class")
+    ax1.set_title("(b) Held-out distance by relation direction")
     ax1.text(
         0.02,
         0.98,
-        f"ordinal-class $\\rho$={stats['formal_class_spearman_rho']:.2f}\n"
-        f"exact $p$={stats['formal_class_exact_permutation_p_one_sided']:.3f}\n"
-        f"LTS-GDA distance $\\rho$={stats['graphlet_distance_spearman_rho']:.2f}\n"
-        f"exact $p$={stats['graphlet_distance_exact_permutation_p_one_sided']:.3f}",
+        "Nominal, direction-preserving summary\n"
+        "n=3 per displayed category\n"
+        "No scalar class test performed",
         transform=ax1.transAxes,
         ha="left",
         va="top",
-        fontsize=8,
+        fontsize=9,
     )
-    ax1.legend(frameon=False, fontsize=7, loc="lower right")
+    ax1.legend(frameon=False, fontsize=8, loc="lower right")
     fig.tight_layout()
     save_artwork(fig, os.path.join(FIG, "fig_hpn_dream_validation.png"))
     plt.close(fig)
     return formal, blind, stats
+
+
+def _panel_box(ax, xy, width, height, text, facecolor, edgecolor, fontsize=7.5):
+    box = mpatches.FancyBboxPatch(
+        xy,
+        width,
+        height,
+        boxstyle="round,pad=0.012,rounding_size=0.018",
+        facecolor=facecolor,
+        edgecolor=edgecolor,
+        linewidth=1.2,
+    )
+    ax.add_patch(box)
+    ax.text(
+        xy[0] + width / 2,
+        xy[1] + height / 2,
+        text,
+        ha="center",
+        va="center",
+        fontsize=fontsize,
+    )
+    return box
+
+
+def _panel_arrow(ax, start, end, color="#555555", style="-"):
+    arrow = mpatches.FancyArrowPatch(
+        start,
+        end,
+        arrowstyle="-|>",
+        mutation_scale=9,
+        color=color,
+        linewidth=1.2,
+        linestyle=style,
+        shrinkA=2,
+        shrinkB=2,
+    )
+    ax.add_patch(arrow)
+
+
+def fig_gim_interface_case():
+    """Biologist-facing GIM summary tied directly to the executed interfaces."""
+    rows = gim.analysis_rows(k=6)
+    gim.write_outputs()
+
+    fig = plt.figure(figsize=(7.4, 8.7))
+    grid = fig.add_gridspec(
+        2, 2, height_ratios=(1.08, 0.92), hspace=0.32, wspace=0.22
+    )
+    ax_a = fig.add_subplot(grid[0, :])
+    ax_b = fig.add_subplot(grid[1, 0])
+    ax_c = fig.add_subplot(grid[1, 1])
+
+    # Panel A: biological abstraction in matched process columns.
+    ax_a.set_xlim(0, 1)
+    ax_a.set_ylim(0, 1)
+    ax_a.axis("off")
+    ax_a.set_title(
+        "(a) Encoded DNA-damage control: shared functions, distinct implementations",
+        loc="left",
+        fontweight="bold",
+        fontsize=9.5,
+    )
+    stage_x = [0.18, 0.41, 0.64, 0.87]
+    stage_names = ["Detect", "Checkpoint", "Repair/recover", "Terminal response"]
+    for x, label in zip(stage_x, stage_names):
+        ax_a.text(x, 0.91, label, ha="center", va="center", fontsize=7.5, fontweight="bold")
+    ax_a.text(0.01, 0.67, "Animal/\nhuman", color=C_HUMAN, fontsize=8, fontweight="bold", va="center")
+    ax_a.text(0.01, 0.27, r"$\it{Arabidopsis}$", color=C_PLANT, fontsize=8, fontweight="bold", va="center")
+
+    animal_text = [
+        "ATM / ATR\nchannels",
+        "CHK1/2\np53-p21",
+        "HR/NHEJ;\nBER/NER",
+        "Apoptosis",
+    ]
+    plant_text = [
+        "ATM / ATR\nchannels",
+        "SOG1-WEE1;\nSMR checkpoint",
+        "HR/NHEJ;\nexcision repair",
+        "SMR induction\nthen combined plant\nterminal outcome*",
+    ]
+    shared_face = "#edf4fb"
+    plant_face = "#edf7ef"
+    terminal_face = "#fff0e8"
+    width, height = 0.17, 0.22
+    for row_y, labels, organism_color in (
+        (0.56, animal_text, C_HUMAN),
+        (0.16, plant_text, C_PLANT),
+    ):
+        for index, (x, label) in enumerate(zip(stage_x, labels)):
+            face = terminal_face if index == 3 else (
+                shared_face if row_y > 0.5 else plant_face
+            )
+            _panel_box(
+                ax_a,
+                (x - width / 2, row_y),
+                width,
+                height,
+                label,
+                face,
+                organism_color if index == 3 else "#666666",
+                fontsize=6.8 if row_y < 0.5 and index == 3 else 7.2,
+            )
+            if index:
+                _panel_arrow(
+                    ax_a,
+                    (stage_x[index - 1] + width / 2, row_y + height / 2),
+                    (x - width / 2, row_y + height / 2),
+                    color=organism_color,
+                )
+    ax_a.text(
+        0.5,
+        0.03,
+        "*The encoded plant net combines differentiation/endoreduplication as one terminal outcome; "
+        "the two are not separately inferred.",
+        ha="center",
+        va="center",
+        fontsize=6.8,
+        color="#444444",
+    )
+
+    # Panel B: the common coarse observable control flow.
+    ax_b.set_xlim(0, 1)
+    ax_b.set_ylim(0, 1)
+    ax_b.axis("off")
+    ax_b.set_title(
+        "(b) Coarse interface:\nmatched observable control flow",
+        loc="left",
+        fontweight="bold",
+        fontsize=8.8,
+    )
+    box_w, box_h = 0.25, 0.13
+    process = [
+        (0.02, 0.67, "damage\ndetection"),
+        (0.37, 0.67, "checkpoint\nactivation"),
+        (0.72, 0.67, "repair"),
+    ]
+    for x, y, label in process:
+        _panel_box(ax_b, (x, y), box_w, box_h, label, "#f4f4f4", "#555555", 7.2)
+    _panel_arrow(ax_b, (0.27, 0.735), (0.37, 0.735))
+    _panel_arrow(ax_b, (0.62, 0.735), (0.72, 0.735))
+    _panel_box(ax_b, (0.55, 0.34), 0.19, 0.12, "restoration", "#edf7ef", C_PLANT, 7.2)
+    _panel_box(ax_b, (0.78, 0.34), 0.19, 0.12, "cell-cycle\nexit", "#fff0e8", C_RED, 7.2)
+    _panel_arrow(ax_b, (0.845, 0.67), (0.65, 0.46))
+    _panel_arrow(ax_b, (0.845, 0.67), (0.875, 0.46))
+    ax_b.text(
+        0.5,
+        0.18,
+        r"Organism-specific relays and terminal implementations are $\tau$-internal.",
+        ha="center",
+        fontsize=7.1,
+        color="#555555",
+    )
+    ax_b.text(
+        0.5,
+        0.07,
+        "Both encoded LTSs can match every displayed branch weakly.",
+        ha="center",
+        fontsize=7.1,
+        fontweight="bold",
+    )
+
+    # Panel C: executed classification as observational resolution changes.
+    ax_c.axis("off")
+    ax_c.set_title(
+        "(c) Interface refinement:\nexecuted result",
+        loc="left",
+        fontweight="bold",
+        fontsize=8.8,
+    )
+    table_rows = []
+    class_labels = {
+        "weak_bisimulation": "weak bisimulation",
+        "not_comparable": "not comparable",
+        "animal_simulated_by_plant": "animal <= plant",
+        "plant_simulated_by_animal": "plant <= animal",
+        "mutual_simulation": "mutual simulation",
+    }
+    for row in rows:
+        table_rows.append(
+            [
+                row["interface_id"],
+                f"{row['pn_gdda_592_similarity']:.4f}",
+                class_labels[row["formal_class"]].replace(" ", "\n"),
+                f"{row['trace_distance_k6']:.3f}",
+            ]
+        )
+    table = ax_c.table(
+        cellText=table_rows,
+        colLabels=["ID", "PN-GDDA", "Formal class", r"$d_6$"],
+        colWidths=[0.14, 0.25, 0.42, 0.17],
+        cellLoc="center",
+        loc="upper center",
+        bbox=(0.0, 0.48, 1.0, 0.41),
+    )
+    table.auto_set_font_size(False)
+    table.set_fontsize(6.7)
+    for (row_index, column_index), cell in table.get_celld().items():
+        cell.set_edgecolor("#777777")
+        cell.set_linewidth(0.7)
+        if row_index == 0:
+            cell.set_facecolor("#e8edf2")
+            cell.set_text_props(fontweight="bold")
+        elif column_index == 2:
+            cell.set_facecolor("#edf7ef" if row_index < 3 else "#fff0e8")
+    ax_c.text(
+        0.02,
+        0.36,
+        "A  Shared functions; mechanisms hidden.",
+        fontsize=6.8,
+        va="top",
+    )
+    ax_c.text(
+        0.02,
+        0.27,
+        "B  Damage/ATM/ATR/repair exposed;\n    terminal fate collapsed.",
+        fontsize=6.8,
+        va="top",
+    )
+    ax_c.text(
+        0.02,
+        0.14,
+        "C  Apoptosis, SMR, and the plant terminal\n    outcome distinguished.",
+        fontsize=6.8,
+        va="top",
+    )
+    fig.suptitle(
+        "GIM: encoded functional correspondence depends on observational resolution",
+        fontsize=10.2,
+        fontweight="bold",
+        y=0.982,
+    )
+    fig.subplots_adjust(top=0.93)
+    save_artwork(fig, os.path.join(FIG, "fig_gim_interface_case.png"))
+    plt.close(fig)
+    return pd.DataFrame(rows)
 
 
 def fig_scalability():
@@ -866,8 +1133,11 @@ def export_netmahib_artwork() -> None:
     """Create submission-facing vector filenames in citation order."""
     aliases = {
         "Fig1.pdf": "fig_pipeline.pdf",
+        "Fig2.pdf": "fig_gim_interface_case.pdf",
         "Fig2a.pdf": "fig_ddr_petri_animal.pdf",
         "Fig2b.pdf": "fig_ddr_petri_plant.pdf",
+        "FigS1a.pdf": "fig_ddr_petri_animal.pdf",
+        "FigS1b.pdf": "fig_ddr_petri_plant.pdf",
         "Fig3.pdf": "fig_benchmark_validation.pdf",
         "Fig4.pdf": "fig_scalability.pdf",
         "Fig5a.pdf": "fig_ddr_lts_animal.pdf",
@@ -885,7 +1155,7 @@ def export_netmahib_artwork() -> None:
 def main():
     print(">> Independent method benchmark")
     benchmark_df, accuracy_df = fig_method_benchmark()
-    print(">> mCRL2 and public-model validation")
+    print(">> mCRL2 and public-model software verification")
     (
         public_models_df,
         public_validation_df,
@@ -893,13 +1163,15 @@ def main():
         public_semantics_df,
         simulation_oracle_df,
     ) = external_validation_tables()
-    print(">> Blind HPN-DREAM held-out validation")
+    print(">> Exploratory HPN-DREAM held-out analysis")
     hpn_formal_df, hpn_caspots_df, hpn_stats = fig_hpn_dream_validation()
     print(">> Scalability benchmark")
     scalability_df = fig_scalability()
     print(">> Phase 1: hallmarks");          fig_phase1()
     print(">> Phase 2: conservation");       fig_phase2()
     print(">> Pipeline");                    fig_pipeline()
+    print(">> GIM multi-interface case study")
+    gim_interface_df = fig_gim_interface_case()
 
     print(">> Phase 4: Petri nets (GIM & RCD)")
     draw_petri(cbm.ddr_animal(), os.path.join(FIG, "fig_ddr_petri_animal.png"),
@@ -971,12 +1243,12 @@ def main():
     print(simulation_oracle_df.to_string(index=False))
     print("\n== Public-model semantic sensitivity ==")
     print(public_semantics_df.to_string(index=False))
-    print("\n== HPN-DREAM held-out validation ==")
+    print("\n== Exploratory HPN-DREAM held-out analysis ==")
     print(hpn_formal_df[[
         "condition", "left_cell", "right_cell", "formal_class",
         "experimental_rmse", "trace_distance_k6"
     ]].to_string(index=False))
-    print("Class/data exact test:", hpn_stats)
+    print("Nominal relation/data summary and continuous diagnostics:", hpn_stats)
     print("Blind CASPOTS scores:")
     print(hpn_caspots_df[[
         "source_cell", "target_cell", "native_context", "model_rmse", "excess_rmse"

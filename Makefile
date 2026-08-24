@@ -4,14 +4,15 @@
 # ---------------------------------------------------------------------------
 PY ?= python
 
-.PHONY: help setup public-models hpn-data hpn-validation caspots-validation external-validation pn-gdda holmes-pn-gdda analysis test figures notebook verify manuscript package jbcb-manuscript jbcb-package jmcs-manuscript jmcs-package netmahib-manuscript netmahib-package clean
+.PHONY: help setup public-models gim-interface hpn-data hpn-validation caspots-validation external-validation pn-gdda holmes-pn-gdda analysis test figures notebook verify manuscript package jbcb-manuscript jbcb-package jmcs-manuscript jmcs-package netmahib-manuscript netmahib-package clean
 
 help:
 	@echo "Targets:"
 	@echo "  setup       Install Python dependencies"
 	@echo "  public-models  Download and hash-check the two public GINsim models"
+	@echo "  gim-interface  Run the three-interface GIM sensitivity analysis"
 	@echo "  hpn-data     Download and hash-check public HPN-DREAM/CASPOTS artifacts"
-	@echo "  hpn-validation  Run blind formal/data validation and mCRL2 cross-checks"
+	@echo "  hpn-validation  Run the exploratory held-out HPN analysis and mCRL2 checks"
 	@echo "  caspots-validation  Recompute repeated held-out RMSE in pinned conda env"
 	@echo "  external-validation  Run mCRL2, public-model and exhaustive simulation validation"
 	@echo "  pn-gdda     Audit the 151/592 catalog and print direct native-net scores"
@@ -36,6 +37,9 @@ setup:
 
 public-models:
 	$(PY) scripts/fetch_public_models.py
+
+gim-interface:
+	$(PY) src/gim_interface_analysis.py
 
 hpn-data:
 	$(PY) scripts/fetch_hpn_dream.py
@@ -63,10 +67,11 @@ analysis:
 test:
 	$(PY) -m unittest discover -s tests -v
 
-figures: public-models hpn-data
+figures: public-models hpn-data gim-interface
 	$(PY) make_figures.py
 
 notebook:
+	$(PY) scripts/update_notebook_netmahib.py
 	$(PY) -m jupyter nbconvert --to notebook --execute --inplace \
 		notebooks/metodologia_multiescala.ipynb
 

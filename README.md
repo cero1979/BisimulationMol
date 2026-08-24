@@ -26,7 +26,8 @@ and contact the source repositories only when a file is absent or invalid.
 | Core | Re-run formal tests, figures and deterministic tables | `make public-models hpn-data verify` | Python, Graphviz, mCRL2 |
 | Full | Recompute CASPOTS scores, notebook, manuscript and upload ZIPs | `make caspots-validation notebook manuscript package` | Core tools, Conda, LaTeX |
 
-`make verify` is the primary reproducibility check. It runs 35 tests,
+`make verify` is the primary reproducibility check. It runs the complete test
+suite,
 regenerates the scientific outputs and fails if any deterministic tracked
 result differs. Runtime measurements are reported but excluded from byte-level
 comparison because they depend on hardware.
@@ -40,12 +41,14 @@ The study addresses five recurring validity risks:
    biological equivalence.
 2. **Claim discipline.** Every result is stated as a relation between curated
    models conditional on their encoded transitions and observational interface.
-3. **Independent validation.** Six synthetic pairs have construction-level
-   ground truth; all strong and weak decisions are cross-checked with mCRL2,
-   and the full path is exercised on two public GINsim models.
-4. **Scalability and case-study role.** Runtime and candidate-relation growth are
-   measured up to 129 x 145 states. The Arabidopsis-animal comparison is an
-   illustration of the workflow, not biological validation of the species.
+3. **Independent formal/software verification.** Six synthetic pairs have
+   construction-level ground truth; all strong and weak decisions are
+   cross-checked with mCRL2, and the full path is exercised on two public GINsim
+   models. These controls do not constitute biological validation.
+4. **GIM interface sensitivity.** The same animal/human and Arabidopsis Petri-net
+   structures are evaluated at coarse, pathway-resolved and mechanism-resolved
+   interfaces. Weak bisimulation at A/B becomes non-comparability at C while
+   PN-GDDA remains `0.9976`.
 5. **Held-out biological data.** Structure-only representatives of three public
    HPN-DREAM Boolean-network families are fixed without test-value access,
    cross-checked with mCRL2 and scored on reserved mTOR-inhibitor responses.
@@ -64,24 +67,28 @@ A second adversarial pass adds four targeted safeguards:
 3. **Independent simulation oracle.** A separately coded attacker-defender
    game agrees with the production preorder on all 67,600 ordered comparisons
    among every one- and two-state LTS over `{a, tau}`.
-4. **Current positioning.** The manuscript now cites direct Petri-net graphlet,
+4. **Evidence taxonomy.** Formal correctness, software verification,
+   executable-model support and independent biological interpretation are
+   reported as four separate layers.
+5. **Current positioning.** The manuscript now cites direct Petri-net graphlet,
    most-permissive Boolean-network, model-checking and data-informed inference
    literature, with an explicit novelty matrix and stated residual limits.
 
 ## Main results
 
-| Validation layer | Result | Supported interpretation |
+| Evidence item | Result | Supported interpretation |
 |---|---|---|
 | Six construction-ground-truth pairs | 6/6 formal classes recovered | The implementation distinguishes equivalence, directional simulation and non-comparability |
 | Independent mCRL2 oracle | 42/42 synthetic, public-model and HPN strong/weak decisions agree | The principal formal decisions are not specific to the Python implementation |
 | Exhaustive simulation-game oracle | 67,600/67,600 ordered pairs agree | Directional simulation has an independent audit on the declared finite universe |
 | Direct PN-GDDA audit | Holmes score matches to 12 decimals; PN-GDDA is 2/6 at 0.9 and at most 4/6 over every score threshold | The published structural comparator is executed rather than approximated |
 | Native Petri-net comparison | All five PN-GDDA scores are 0.991-1.000 while formal classes range from weak equivalence to non-comparability | Local Petri-net structure does not determine labeled reachable behavior |
+| GIM interface sensitivity | A/B: weak bisimulation and `d6=0`; C: neither simulation direction and `d6=0.352941`; PN-GDDA fixed at `0.9976` | Encoded high-level correspondence breaks when organism-specific terminal mechanisms are observed |
 | Labelled graphlet comparator | LTS-GDA 4/6 versus summary profile 3/6 | Retaining local labels improves the structural baseline but does not recover branching semantics |
 | HPN-DREAM cross-cell comparisons | 18/18 Python/mCRL2 decisions agree | The data-conditioned transition systems are reproducibly classified |
 | Asynchronous/synchronous stress | 7/9 classes preserved | Two containment conclusions are explicitly update-semantics dependent |
 | Held-out native-cell ranking | Native model first or tied in 2/3 cells; exact `p=0.25` | Compatibility is reproduced; cell specificity is not established |
-| Formal class versus experimental distance | Spearman `rho=0.091`; exact `p=0.111` | No empirical concordance is established in this sample |
+| Formal relation versus experimental distance | Six one-way and three non-comparable pairs, with direction retained; no scalar class test | The relation is nominal/directional and `n=9` is too small for an ordinal association claim |
 | LTS-GDA distance versus experimental distance | Spearman `rho=0.669`; exact `p=0.097` | Stronger observed association, still inconclusive under the exact test |
 
 Machine-readable evidence is in
@@ -92,9 +99,12 @@ Machine-readable evidence is in
 [`results/pn_gdda_threshold_sensitivity.csv`](results/pn_gdda_threshold_sensitivity.csv),
 [`results/mcrl2_synthetic_validation.csv`](results/mcrl2_synthetic_validation.csv),
 [`results/simulation_oracle_exhaustive.csv`](results/simulation_oracle_exhaustive.csv),
+[`results/gim_interface_sensitivity.csv`](results/gim_interface_sensitivity.csv),
+[`results/gim_interface_justification.csv`](results/gim_interface_justification.csv),
 [`results/hpn_dream_semantic_sensitivity.csv`](results/hpn_dream_semantic_sensitivity.csv),
 [`results/hpn_dream_formal_data_validation.csv`](results/hpn_dream_formal_data_validation.csv)
-and [`results/hpn_dream_caspots_summary.json`](results/hpn_dream_caspots_summary.json).
+[`results/hpn_dream_concordance.json`](results/hpn_dream_concordance.json), and
+[`results/hpn_dream_caspots_summary.json`](results/hpn_dream_caspots_summary.json).
 
 The synthetic suite recovers all six predeclared formal classes: strong
 equivalence, weak equivalence, two directions of one-way simulation, and two
@@ -140,14 +150,16 @@ semantic assumption visible rather than treating it as neutral.
 The data-backed analysis adds 284 public CASPOTS networks for BT20, BT549 and
 MCF7. Across three shared held-out perturbations, Python and mCRL2 agree on all
 18 strong/weak decisions: six cross-cell pairs have one-way simulation and
-three are not comparable. CASPOTS compatibility RMSE is reproduced twice
-identically, but native medoids rank first or tie in only two of three cell
-lines. Neither native specificity (exact p=0.25) nor formal-class/data
-concordance (p=0.111) is established. LTS-GDA distance gives `rho=0.669` but
-remains inconclusive (`p=0.097`). Synchronous updating preserves seven classes
-and changes two one-way simulations to non-comparability. These negative and
-sensitivity results delimit the method; they are not evidence of prognostic
-performance.
+three are not comparable. The former scalar formal-class coding was removed
+because the relation categories are not ordinal and one-way simulation is
+directional. The revised output retains three relations in each direction and
+three pairs with no simulation, and performs no class/RMSE inferential test.
+CASPOTS compatibility RMSE is reproduced twice identically, but native medoids
+rank first or tie in only two of three cell lines (exact `p=0.25`). LTS-GDA
+distance gives `rho=0.669` but remains inconclusive (`p=0.097`). Synchronous
+updating preserves seven classes and changes two one-way simulations to
+non-comparability. These negative and sensitivity results delimit the method;
+they are not evidence of prognostic performance.
 
 ### Data separation and provenance
 
@@ -165,16 +177,20 @@ The current reference scalability run reached 129 x 145 states and approximately
 0.6 s on an Apple M3 Pro. Timings are machine-dependent; model sizes,
 relations and classifications are deterministic.
 
-In the illustrative curated case, GIM, DCE and SPS are weakly bisimilar, RCD
-has one-way simulation, and AID is not comparable. These outputs describe the
-encoded models at the selected interface resolution only.
+In the central GIM case, the unchanged structures have PN-GDDA `0.9976`.
+Interfaces A (coarse) and B (pathway-resolved with terminal fate collapsed) are
+weakly bisimilar; Interface C distinguishes apoptosis, SMR induction and the
+encoded plant terminal outcome and is non-comparable in both directions. RCD is
+a secondary one-way-containment case, while DCE, SPS and AID are supporting
+examples. All outputs describe encoded models at declared interfaces only.
 
 ## Repository layout
 
 ```text
 src/concurrent_biomodels.py       Formal engine and curated case-study models
+src/gim_interface_analysis.py     Three biologically motivated GIM interfaces
 src/pn_gdda.py                    Direct 151/592 PN-GDDA and Holmes audit
-src/method_benchmark.py           Synthetic validation, baselines and scaling
+src/method_benchmark.py           Synthetic verification, baselines and scaling
 src/public_validation.py          SBML/GINML import, AUT export and mCRL2 oracle
 src/hpn_dream_validation.py       Blind public-model/data comparison and exact test
 src/simulation_oracle.py          Independent game oracle and exhaustive LTS audit
@@ -184,6 +200,7 @@ tests/test_method_benchmark.py    Regression and construction-ground-truth tests
 tests/test_pn_gdda.py             Catalog, Holmes-score and direct-baseline tests
 tests/test_external_validation.py Public-model and independent-oracle tests
 tests/test_hpn_dream_validation.py Data integrity, anti-leakage and mCRL2 tests
+tests/test_gim_interface_analysis.py GIM definitions, classes and fixed structures
 tests/test_simulation_oracle.py    Exhaustive one-/two-state preorder agreement
 tests/test_formal_properties.py    Hierarchy, refinement, branching and orientation tests
 notebooks/metodologia_multiescala.ipynb
@@ -202,7 +219,7 @@ REPRODUCIBILITY.md                Reviewer-oriented reproduction guide
 ## Quick start
 
 Python 3.10 or newer, system Graphviz and mCRL2 202607.0 are required for the
-complete validation. The formal engine and model importers use only the Python
+complete verification. The formal engine and model importers use only the Python
 standard library.
 
 ```bash
@@ -212,8 +229,9 @@ make hpn-data
 make verify
 ```
 
-For individual stages, use `make pn-gdda`, `make external-validation`,
-`make hpn-validation`, `make test`, `make figures` or `make notebook`. Expected numeric results,
+For individual stages, use `make gim-interface`, `make pn-gdda`,
+`make external-validation`, `make hpn-validation`, `make test`, `make figures`
+or `make notebook`. Expected numeric results,
 artifact-to-figure mappings and troubleshooting are documented in
 [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md).
 
@@ -236,10 +254,10 @@ make manuscript
 make package
 ```
 
-The upload archive is `submission_jbcb/JBCB_EditorialManager.zip`. It contains
+The upload archive is `JBCB-1505-revised.zip`. It contains
 `main_jbcb.tex`, a prebuilt `bibliography_jbcb.bbl`, the BibTeX database, the
-unmodified `ws-jbcb.cls` and `ws-jbcb.bst`, and the five vector figure files.
-All ten files are stored at the ZIP root because Editorial Manager rejects
+unmodified `ws-jbcb.cls` and `ws-jbcb.bst`, and the six vector figure files.
+All eleven files are stored at the ZIP root because Editorial Manager rejects
 LaTeX archives containing subfolders. The local preview PDF is deliberately not
 inside the ZIP: Editorial Manager warns against uploading a PDF and TeX source
 with the same basename. The builder verifies the exact `.bbl`-based upload

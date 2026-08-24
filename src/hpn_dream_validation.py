@@ -508,6 +508,19 @@ def _formal_class(weak: bool, left_by_right: bool, right_by_left: bool) -> str:
     return "not_comparable"
 
 
+def _relation_direction(weak: bool, left_by_right: bool, right_by_left: bool) -> str:
+    """Preserve the orientation that the aggregate formal class omits."""
+    if weak:
+        return "weak_bisimulation"
+    if left_by_right and right_by_left:
+        return "mutual_simulation"
+    if left_by_right:
+        return "left_simulated_by_right"
+    if right_by_left:
+        return "right_simulated_by_left"
+    return "no_simulation_relation"
+
+
 def validation_rows(
     use_mcrl2: bool = True,
     hidden_initial: bool = False,
@@ -568,6 +581,9 @@ def validation_rows(
                     "left_simulated_by_right": left_by_right,
                     "right_simulated_by_left": right_by_left,
                     "formal_class": _formal_class(weak, left_by_right, right_by_left),
+                    "relation_direction": _relation_direction(
+                        weak, left_by_right, right_by_left
+                    ),
                     "trace_distance_k6": distance,
                     "lts_gda_similarity": graphlet_similarity,
                     "hidden_initial_value": int(hidden_initial),
@@ -644,7 +660,13 @@ def spearman(left: Sequence[float], right: Sequence[float]) -> float:
 
 
 def concordance_test(rows: Sequence[Mapping[str, object]]) -> Dict[str, object]:
-    """Exact one-sided permutation test, stratified by perturbation condition."""
+    """Exploratory metric/data concordance without ordinalising relations.
+
+    Formal relation classes are nominal and one-way simulation is directional,
+    so no scalar class encoding or class/RMSE inferential test is performed.
+    Predeclared continuous trace and LTS-GDA diagnostics retain their exact,
+    condition-stratified permutation tests.
+    """
     grouped = []
     for condition in (item.name for item in COMMON_CONDITIONS):
         group = [row for row in rows if row["condition"] == condition]
@@ -655,48 +677,94 @@ def concordance_test(rows: Sequence[Mapping[str, object]]) -> Dict[str, object]:
     graphlet_distance = [
         1.0 - float(row["lts_gda_similarity"]) for group in grouped for row in group
     ]
-    class_score = {
-        "weak_bisimulation": 0.0,
-        "mutual_simulation": 1 / 3,
-        "one_way_simulation": 2 / 3,
-        "not_comparable": 1.0,
-    }
-    formal_class = [
-        class_score[str(row["formal_class"])] for group in grouped for row in group
-    ]
     empirical_groups = [
         [float(row["experimental_rmse"]) for row in group] for group in grouped
     ]
     empirical = [value for group in empirical_groups for value in group]
-    observed_class = spearman(formal_class, empirical)
     observed_trace = spearman(trace_distance, empirical)
     observed_graphlet = spearman(graphlet_distance, empirical)
-    null_class = []
     null_trace = []
     null_graphlet = []
     permutations = [list(itertools.permutations(group)) for group in empirical_groups]
     for combination in itertools.product(*permutations):
         permuted = [value for group in combination for value in group]
-        null_class.append(spearman(formal_class, permuted))
         null_trace.append(spearman(trace_distance, permuted))
         null_graphlet.append(spearman(graphlet_distance, permuted))
-    p_class = sum(value >= observed_class - 1e-12 for value in null_class) / len(null_class)
     p_trace = sum(value >= observed_trace - 1e-12 for value in null_trace) / len(null_trace)
     p_graphlet = sum(
         value >= observed_graphlet - 1e-12 for value in null_graphlet
     ) / len(null_graphlet)
+    relation_order = (
+        "weak_bisimulation",
+        "mutual_simulation",
+        "one_way_simulation",
+        "not_comparable",
+    )
+    formal_class_summary = {}
+    for relation in relation_order:
+        values = [
+            float(row["experimental_rmse"])
+            for row in rows
+            if str(row["formal_class"]) == relation
+        ]
+        if values:
+            formal_class_summary[relation] = {
+                "n": len(values),
+                "rmse_min": min(values),
+                "rmse_median": statistics.median(values),
+                "rmse_max": max(values),
+            }
+
+    direction_order = (
+        "weak_bisimulation",
+        "mutual_simulation",
+        "left_simulated_by_right",
+        "right_simulated_by_left",
+        "no_simulation_relation",
+    )
+    direction_summary = {}
+    for direction in direction_order:
+        values = [
+            float(row["experimental_rmse"])
+            for row in rows
+            if str(
+                row.get(
+                    "relation_direction",
+                    _relation_direction(
+                        bool(row["weak_bisimilar"]),
+                        bool(row["left_simulated_by_right"]),
+                        bool(row["right_simulated_by_left"]),
+                    ),
+                )
+            )
+            == direction
+        ]
+        if values:
+            direction_summary[direction] = {
+                "n": len(values),
+                "rmse_min": min(values),
+                "rmse_median": statistics.median(values),
+                "rmse_max": max(values),
+            }
+
     return {
         "n_model_pair_conditions": len(rows),
         "n_conditions": len(grouped),
-        "formal_class_spearman_rho": observed_class,
-        "formal_class_exact_permutation_p_one_sided": p_class,
+        "formal_relation_analysis": "nominal and direction-preserving descriptive summary",
+        "formal_class_scalar_encoding_used": False,
+        "formal_class_inferential_test_performed": False,
+        "reason_no_formal_class_inference": (
+            "n=9 is too small and directional simulation classes do not define a "
+            "biologically justified one-dimensional order"
+        ),
+        "formal_class_rmse_summary": formal_class_summary,
+        "relation_direction_rmse_summary": direction_summary,
         "trace_distance_spearman_rho": observed_trace,
         "trace_distance_exact_permutation_p_one_sided": p_trace,
         "graphlet_distance_spearman_rho": observed_graphlet,
         "graphlet_distance_exact_permutation_p_one_sided": p_graphlet,
-        "null_permutations": len(null_class),
-        "primary_formal_metric": "ordinal formal class",
-        "secondary_formal_metric": "weak observable trace Jaccard distance at k=6",
+        "null_permutations": len(null_trace),
+        "continuous_formal_diagnostic": "weak observable trace Jaccard distance at k=6",
         "structural_baseline_metric": "one minus LTS-GDA similarity",
         "experimental_metric": "RMSE over common post-zero held-out values",
     }

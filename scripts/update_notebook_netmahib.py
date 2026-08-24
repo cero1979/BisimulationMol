@@ -1,4 +1,4 @@
-"""Apply the NetMAHIB benchmark section to the reproducibility notebook.
+"""Apply the JBCB major-revision analyses to the reproducibility notebook.
 
 The transformation is idempotent: cells tagged ``netmahib-benchmark`` are
 replaced on every run, while the existing biological case-study cells and their
@@ -16,9 +16,9 @@ TAG = "netmahib-benchmark"
 
 
 TITLE = """# Auditing observable behaviour in qualitative biological network models
-### Reproducible method validation and an Arabidopsis-animal case study
+### JBCB major revision: reproducible verification and multi-interface GIM case study
 
-This notebook executes the computational framework reported in the NetMAHIB
+This notebook executes the computational framework reported in the revised JBCB
 manuscript. The primary object of inference is a **pair of explicit qualitative
 models under a declared observational interface**. Formal equivalence between
 those models is not interpreted as organism-level or experimental biological
@@ -26,7 +26,7 @@ equivalence.
 
 The notebook has two logically separate parts:
 
-1. **Method validation independent of the biological case study.** Six synthetic
+1. **Formal/software verification independent of the biological case study.** Six synthetic
    model pairs have construction-level ground truth. Strong and weak results are
    cross-checked with mCRL2, and the import-to-comparison workflow is tested on
    two externally authored GINsim models: mammalian cell-cycle regulation and
@@ -38,10 +38,10 @@ The notebook has two logically separate parts:
    simulation is independently checked by an attacker--defender game over every
    one- and two-state LTS on the declared audit alphabet. The HPN comparisons are
    also repeated under global synchronous updates.
-2. **Illustrative biological case study.** Literature-curated plant and
-   animal/human Petri nets are compared for selected cancer-relevant modules.
-   These results describe the encoded models only and are reported conditionally
-   on the chosen abstraction and interface.
+2. **Central biological case study.** Three literature-motivated interfaces test
+   where the encoded animal/human and Arabidopsis DNA-damage models retain or
+   lose behavioral correspondence. Supporting curated modules remain secondary.
+   Every result is conditional on the encoded models, semantics, and interface.
 
 Additional diagnostics audit transition provenance, interface sensitivity,
 silent-refinement invariance, label-permutation nulls, seed sensitivity and trace
@@ -60,14 +60,15 @@ SUMMARY = """## Summary
   the 260 LTSs with at most two states and labels in `{a, tau}`.
 - The public mammalian cell-cycle and p53--Mdm2 models generate nontrivial
   asynchronous systems of 826 and 17 reachable states, respectively. Their
-  controls validate the software path on external dynamics, not biological truth.
+  controls verify the software path on external dynamics, not biological truth.
 - Structure-only medoids from 72 BT20, 191 BT549 and 21 MCF7 public Boolean
   networks generate nine genuinely cross-model comparisons under shared held-out
   perturbations. Python and mCRL2 agree on all decisions: six pairs have one-way
   simulation and three are not comparable.
 - CASPOTS held-out compatibility is reproduced deterministically, but native
   medoids rank first or tie in only two of three cell lines. Native specificity
-  (p=0.25) and formal-class/data concordance (p=0.111) are not established.
+  remains unsupported (p=0.25). Formal relation classes are summarized
+  nominally with direction preserved; no ordinal class test is used.
 - Weak bisimulation gives the correct binary equivalence decision in every case;
   trace equality scores 5/6, LTS-GDA 4/6, the structural profile 3/6 and direct
   PN-GDDA 2/6. PN-GDDA calls all six pairs equivalent at the diagnostic 0.9
@@ -82,11 +83,10 @@ SUMMARY = """## Summary
 - Runtime and candidate-relation size are reported explicitly; timings are
   machine-dependent, while all categorical outputs and model sizes are
   deterministic.
-- In the illustrative case study, the **curated models** for `GIM`, `DCE` and
-  `SPS` are weakly bisimilar under their declared interfaces; `RCD` is related by
-  one-way simulation and `AID` is not comparable. Nevertheless, all five direct
-  PN-GDDA scores exceed 0.99, exposing the distinction between local structure
-  and labelled reachable behaviour.
+- The unchanged GIM Petri-net structures score 0.9976 by PN-GDDA under all
+  interfaces. Interfaces A (coarse) and B (pathway-level) are weakly bisimilar
+  with d6=0, whereas interface C (terminal mechanism resolved) is not
+  comparable with d6=0.352941.
 - These model-level results do not establish experimental equivalence between
   Arabidopsis and human biology. They identify conditional hypotheses and
   demonstrate how the software classifies explicit network models.
@@ -130,6 +130,11 @@ def main() -> None:
             "import public_validation as pv",
             "import public_validation as pv\nimport hpn_dream_validation as hpn",
         )
+    if "import gim_interface_analysis as gim" not in setup.source:
+        setup.source = setup.source.replace(
+            "import hpn_dream_validation as hpn",
+            "import hpn_dream_validation as hpn\nimport gim_interface_analysis as gim",
+        )
     if "import simulation_oracle as sim_oracle" not in setup.source:
         setup.source = setup.source.replace(
             "import hpn_dream_validation as hpn",
@@ -143,13 +148,13 @@ def main() -> None:
 
     benchmark_cells = [
         tag(nbformat.v4.new_markdown_cell(
-            """## Independent method validation
+            """## Independent formal/software verification
 
 The suite below is generated without using any biological case-study model.
 Each pair is constructed to instantiate a known relation, so the expected result
 is fixed before the algorithms are run. The binary task asks whether a pair is
-strongly or weakly equivalent; one-way simulations remain visible as a separate,
-graded outcome."""
+strongly or weakly equivalent; one-way simulations remain visible as separate,
+direction-preserving outcomes. This is not biological validation."""
         )),
         tag(nbformat.v4.new_code_cell(
             """benchmark = pd.DataFrame(mb.validation_benchmark(n_steps=12, seed=17, k=8))
@@ -280,7 +285,36 @@ assert simulation_audit["complete_agreement"]
 print("OK: mCRL2 and the exhaustive simulation-game oracle agree with every declared audit.")"""
         )),
         tag(nbformat.v4.new_markdown_cell(
-            """### Blinded HPN-DREAM validation against held-out data
+            """### GIM as a biological observational-interface experiment
+
+The animal/human and Arabidopsis Petri-net structures are held fixed. Three
+literature-motivated interfaces are declared before interpreting the formal
+outcomes: A observes shared functions, B separates damage, signalling and
+repair channels, and C additionally distinguishes apoptosis from the encoded
+plant SMR and terminal response. Thus any change below is caused by
+observational resolution rather than topology."""
+        )),
+        tag(nbformat.v4.new_code_cell(
+            """gim_output_paths = gim.write_outputs()
+gim_interfaces = pd.DataFrame(gim.analysis_rows(k=6))
+display(gim_interfaces[[
+    "interface_id", "interface_name", "observable_labels",
+    "animal_model_states", "plant_model_states",
+    "animal_simulated_by_plant", "plant_simulated_by_animal",
+    "formal_class", "trace_distance_k6", "pn_gdda_592_similarity"
+]])
+
+assert list(gim_interfaces["formal_class"]) == [
+    "weak_bisimulation", "weak_bisimulation", "not_comparable"
+]
+assert np.allclose(gim_interfaces["trace_distance_k6"], [0.0, 0.0, 6 / 17])
+assert gim_interfaces["pn_gdda_592_similarity"].nunique() == 1
+assert not gim_interfaces["structure_changed_between_interfaces"].any()
+assert all(path.exists() for path in gim_output_paths)
+print("OK: unchanged structure, interface-dependent GIM behavioural result.")"""
+        )),
+        tag(nbformat.v4.new_markdown_cell(
+            """### Exploratory HPN-DREAM check against held-out data
 
 The public BT20, BT549 and MCF7 families were inferred from learning data by
 Razzaq et al. A representative is selected solely from within-family clause
@@ -289,9 +323,9 @@ files. The exact intersection of three mTOR-inhibitor conditions and seven
 PI3K/MAPK/mTOR readouts defines the comparison before response values are used.
 
 This is not another transformed control. The source models, cell contexts and
-experimental profiles are genuinely distinct. A negative result is retained:
-the analysis tests both held-out compatibility and whether native-cell models
-outperform models inferred for other cell lines."""
+experimental profiles are genuinely distinct. The analysis remains exploratory.
+Formal relations are nominal and one-way simulation is directional, so no
+ordinal class score or class/RMSE inferential test is computed."""
         )),
         tag(nbformat.v4.new_code_cell(
             """import json
@@ -310,7 +344,7 @@ display(hpn_medoids[[
 ]])
 display(hpn_formal[[
     "condition", "left_cell", "right_cell", "left_states", "right_states",
-    "formal_class", "experimental_rmse", "trace_distance_k6",
+    "formal_class", "relation_direction", "experimental_rmse", "trace_distance_k6",
     "lts_gda_similarity",
     "python_mcrl2_strong_agree", "python_mcrl2_weak_agree"
 ]])
@@ -319,13 +353,16 @@ display(hpn_caspots[hpn_caspots["selection"] == "blind_structure_medoid"][[
     "source_cell", "target_cell", "native_context", "discrete_rmse",
     "model_rmse", "excess_rmse", "deterministic_across_repeats"
 ]])
-print("Exact class/data test:", hpn_stats)
+print("Nominal relation/data summary and continuous diagnostics:", hpn_stats)
 print("Native specificity:", hpn_caspots_summary)
 
 assert not hpn_medoids["selection_uses_heldout_data"].any()
 assert hpn_formal["python_mcrl2_strong_agree"].all()
 assert hpn_formal["python_mcrl2_weak_agree"].all()
 assert not hpn_formal["weak_bisimilar"].any()
+assert not hpn_stats["formal_class_scalar_encoding_used"]
+assert not hpn_stats["formal_class_inferential_test_performed"]
+assert "formal_class_spearman_rho" not in hpn_stats
 assert int(hpn_semantics["class_preserved"].sum()) == 7
 assert hpn_caspots["deterministic_across_repeats"].all()
 print("OK: independent models and held-out data were evaluated without test leakage.")"""

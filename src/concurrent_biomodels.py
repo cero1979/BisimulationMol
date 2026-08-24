@@ -699,16 +699,17 @@ def ddr_animal() -> PetriNet:
 
 
 def ddr_plant() -> PetriNet:
-    """DNA damage response (Arabidopsis). ATM/ATR conserved; arrest via WEE1;
-    plant-specific CDK inhibitors (SMR) drive, under severe damage,
-    differentiation/endoreduplication (exit from the pool) instead of apoptosis.
-    SMR induction is an additional internal (tau) step."""
+    """DNA damage response (Arabidopsis). ATM/ATR signal through the
+    plant-specific SOG1 programme; WEE1 and SMR proteins inhibit cell-cycle
+    progression. The minimal net encodes an SMR-associated, combined
+    differentiation/endoreduplication terminal outcome and does not claim to
+    represent every tissue-dependent plant damage response."""
     T = [
         Transition("sense_DSB", {"stress": 1}, {"dsb": 1, "atm": 1}, "damage"),
         Transition("sense_SSB", {"stress": 1}, {"ssb": 1, "atr": 1}, "damage"),
         Transition("ATM_sig", {"atm": 1}, {"chk": 1}, TAU),
         Transition("ATR_sig", {"atr": 1}, {"chk": 1}, TAU),
-        Transition("CHK_signal", {"chk": 1}, {"trans": 1}, TAU),
+        Transition("SOG1_program", {"chk": 1}, {"trans": 1}, TAU),
         Transition("WEE1_arrest", {"trans": 1}, {"arrest": 1}, "checkpoint"),
         Transition("repair_HR_NHEJ", {"arrest": 1, "dsb": 1}, {"repairing": 1}, "repair"),
         Transition("repair_BER_NER", {"arrest": 1, "ssb": 1}, {"repairing": 1}, "repair"),
@@ -718,6 +719,225 @@ def ddr_plant() -> PetriNet:
         Transition("differentiation", {"smr": 1}, {"differentiated": 1}, "exit_cycle"),
     ]
     return PetriNet("GIM_plant", T, {"stress": 1})
+
+
+# The three interfaces below are biological hypotheses fixed independently of
+# their formal outcomes.  They expose progressively more of the same two GIM
+# nets; no places, arcs, transitions, or initial markings are changed.
+GIM_INTERFACE_SPECS: Dict[str, Dict[str, object]] = {
+    "A": {
+        "name": "coarse functional/process",
+        "biological_question": (
+            "Do the encoded models preserve a shared high-level damage-response "
+            "control structure when organism-specific implementation is hidden?"
+        ),
+        "rationale": (
+            "Damage detection, checkpoint activation, repair, restoration, and "
+            "loss of proliferative capacity are observed as functional processes."
+        ),
+        "literature_keys": (
+            "JacksonBartek2009;Yoshiyama2013;DeSchutter2007;Adachi2011;"
+            "FulcherSablowski2009"
+        ),
+        "animal_labels": {
+            "sense_DSB": "damage_detection",
+            "sense_SSB": "damage_detection",
+            "p53_p21_arrest": "checkpoint_activation",
+            "repair_HR_NHEJ": "repair",
+            "repair_BER_NER": "repair",
+            "repair_ok": "restoration",
+            "apoptosis": "cell_cycle_exit",
+        },
+        "plant_labels": {
+            "sense_DSB": "damage_detection",
+            "sense_SSB": "damage_detection",
+            "WEE1_arrest": "checkpoint_activation",
+            "repair_HR_NHEJ": "repair",
+            "repair_BER_NER": "repair",
+            "repair_ok": "restoration",
+            "differentiation": "cell_cycle_exit",
+        },
+    },
+    "B": {
+        "name": "intermediate pathway",
+        "biological_question": (
+            "Does the relation persist when damage channel, ATM/ATR signalling, "
+            "and repair family are distinguished but terminal fate is collapsed?"
+        ),
+        "rationale": (
+            "The interface separates DSB-associated and replication-stress "
+            "channels and broad repair families while retaining a common "
+            "functional checkpoint and cell-cycle-exit readout."
+        ),
+        "literature_keys": (
+            "BlackfordJackson2017;Yoshiyama2013;DeSchutter2007;Ogita2018;"
+            "ManovaGruszka2015"
+        ),
+        "animal_labels": {
+            "sense_DSB": "dsb_detection",
+            "sense_SSB": "replication_stress_detection",
+            "ATM_CHK2": "atm_pathway_signal",
+            "ATR_CHK1": "atr_pathway_signal",
+            "p53_p21_arrest": "checkpoint_activation",
+            "repair_HR_NHEJ": "dsb_repair",
+            "repair_BER_NER": "excision_repair",
+            "repair_ok": "restoration",
+            "apoptosis": "cell_cycle_exit",
+        },
+        "plant_labels": {
+            "sense_DSB": "dsb_detection",
+            "sense_SSB": "replication_stress_detection",
+            "ATM_sig": "atm_pathway_signal",
+            "ATR_sig": "atr_pathway_signal",
+            "WEE1_arrest": "checkpoint_activation",
+            "repair_HR_NHEJ": "dsb_repair",
+            "repair_BER_NER": "excision_repair",
+            "repair_ok": "restoration",
+            "differentiation": "cell_cycle_exit",
+        },
+    },
+    "C": {
+        "name": "mechanism-resolved terminal fate",
+        "biological_question": (
+            "Do the encoded models remain behaviorally related when their "
+            "organism-specific terminal mechanisms are observable?"
+        ),
+        "rationale": (
+            "This interface retains the intermediate pathway distinctions and "
+            "separates mammalian apoptosis from plant SMR induction and the "
+            "model's combined differentiation/endoreduplication outcome."
+        ),
+        "literature_keys": (
+            "JacksonBartek2009;Yi2014;Adachi2011;FulcherSablowski2009;Ogita2018"
+        ),
+        "animal_labels": {
+            "sense_DSB": "dsb_detection",
+            "sense_SSB": "replication_stress_detection",
+            "ATM_CHK2": "atm_pathway_signal",
+            "ATR_CHK1": "atr_pathway_signal",
+            "p53_p21_arrest": "checkpoint_activation",
+            "repair_HR_NHEJ": "dsb_repair",
+            "repair_BER_NER": "excision_repair",
+            "repair_ok": "restoration",
+            "apoptosis": "apoptosis",
+        },
+        "plant_labels": {
+            "sense_DSB": "dsb_detection",
+            "sense_SSB": "replication_stress_detection",
+            "ATM_sig": "atm_pathway_signal",
+            "ATR_sig": "atr_pathway_signal",
+            "WEE1_arrest": "checkpoint_activation",
+            "repair_HR_NHEJ": "dsb_repair",
+            "repair_BER_NER": "excision_repair",
+            "repair_ok": "restoration",
+            "SMR_induction": "smr_induction",
+            "differentiation": "differentiation_or_endoreduplication",
+        },
+    },
+}
+
+
+GIM_INTERFACE_JUSTIFICATION: List[Dict[str, str]] = [
+    {
+        "event_process": "Damage sensing",
+        "animal_human_interpretation": (
+            "ATM-dominant DSB signalling and ATR-dominant replication-stress/ssDNA signalling"
+        ),
+        "arabidopsis_interpretation": (
+            "ATM and ATR initiate lesion- and replication-stress responses upstream of SOG1"
+        ),
+        "interface_status": (
+            "A: one observable damage_detection label; B/C: DSB and replication-stress labels"
+        ),
+        "biological_reason": (
+            "Detection is a shared function, while B/C retain the biologically relevant initiating channel."
+        ),
+        "literature_support": "BlackfordJackson2017;Yoshiyama2013;Adachi2011",
+    },
+    {
+        "event_process": "Checkpoint signalling and arrest",
+        "animal_human_interpretation": "CHK1/CHK2-p53-p21 control of cyclin-dependent kinases",
+        "arabidopsis_interpretation": "SOG1-regulated WEE1 and SMR checkpoint control",
+        "interface_status": (
+            "A: checkpoint observable, relays internal; B/C: ATM/ATR channels and checkpoint observable"
+        ),
+        "biological_reason": (
+            "The arrest function is comparable without treating p53 and SOG1 as orthologous mechanisms."
+        ),
+        "literature_support": "JacksonBartek2009;DeSchutter2007;Yi2014;Ogita2018",
+    },
+    {
+        "event_process": "DNA repair and recovery",
+        "animal_human_interpretation": "DSB repair and excision-repair families followed by recovery",
+        "arabidopsis_interpretation": "Conserved broad repair families followed by recovery",
+        "interface_status": (
+            "A: repair/restoration observables; B/C: DSB repair, excision repair, and restoration"
+        ),
+        "biological_reason": (
+            "Broad repair functions are conserved, but the qualitative nets do not encode pathway kinetics or fidelity."
+        ),
+        "literature_support": "JacksonBartek2009;ManovaGruszka2015;Yoshiyama2013",
+    },
+    {
+        "event_process": "Terminal response to unresolved damage",
+        "animal_human_interpretation": "Apoptotic removal from the proliferative pool",
+        "arabidopsis_interpretation": (
+            "SMR-associated arrest followed by a combined differentiation/endoreduplication model outcome"
+        ),
+        "interface_status": (
+            "A/B: common cell_cycle_exit observable; C: apoptosis, SMR induction, and plant outcome separated"
+        ),
+        "biological_reason": (
+            "A/B ask about loss of proliferative capacity; C tests mechanism-specific readouts. "
+            "The plant model does not resolve differentiation and endoreduplication as separate branches."
+        ),
+        "literature_support": "JacksonBartek2009;Yi2014;Adachi2011;FulcherSablowski2009",
+    },
+]
+
+
+def relabel_net_by_transition(
+    net: PetriNet, transition_labels: Dict[str, str], name: str | None = None
+) -> PetriNet:
+    """Clone a net while declaring observables by transition name.
+
+    Transitions omitted from ``transition_labels`` become internal.  Rejecting
+    unknown names prevents a misspelled biological interface from silently
+    changing an analysis.
+    """
+    names = {transition.name for transition in net.transitions}
+    unknown = set(transition_labels) - names
+    if unknown:
+        raise ValueError(f"Unknown transitions for {net.name}: {sorted(unknown)}")
+    transitions = [
+        Transition(
+            transition.name,
+            dict(transition.pre),
+            dict(transition.post),
+            transition_labels.get(transition.name, TAU),
+        )
+        for transition in net.transitions
+    ]
+    return PetriNet(name or net.name, transitions, dict(net.init))
+
+
+def gim_models_for_interface(interface_id: str) -> Tuple[PetriNet, PetriNet]:
+    """Return the unchanged GIM structures relabelled for interface A, B, or C."""
+    try:
+        specification = GIM_INTERFACE_SPECS[interface_id]
+    except KeyError as exc:
+        raise ValueError(f"Unknown GIM interface: {interface_id}") from exc
+    animal = relabel_net_by_transition(
+        ddr_animal(),
+        specification["animal_labels"],  # type: ignore[arg-type]
+        f"GIM_animal_interface_{interface_id}",
+    )
+    plant = relabel_net_by_transition(
+        ddr_plant(),
+        specification["plant_labels"],  # type: ignore[arg-type]
+        f"GIM_plant_interface_{interface_id}",
+    )
+    return animal, plant
 
 
 # --- Module DCE: deregulating cellular energetics ---------------------------
@@ -939,17 +1159,25 @@ MODULES: Dict[str, dict] = {
 #   CB2023 = Clavijo-Buritica et al. (2023);  Q2012 = Quimbaya et al. (2012).
 MODEL_PROVENANCE: Dict[str, List[Tuple[str, str, str]]] = {
     "GIM": [
-        ("sense_DSB", "ATM senses double-strand breaks", "CB2023"),
-        ("sense_SSB", "ATR senses single-strand breaks", "CB2023"),
-        ("ATM_CHK2 / ATR_CHK1 / ATM_sig / ATR_sig / CHK_signal",
-         "signal transduction to checkpoint mediators", "CB2023"),
+        ("sense_DSB", "ATM-associated double-strand-break signalling",
+         "JacksonBartek2009, BlackfordJackson2017, Yoshiyama2013"),
+        ("sense_SSB", "ATR-associated ssDNA/replication-stress signalling",
+         "BlackfordJackson2017, Yoshiyama2013"),
+        ("ATM_CHK2 / ATR_CHK1 / ATM_sig / ATR_sig / SOG1_program",
+         "animal checkpoint relays and the plant-specific SOG1 programme",
+         "BlackfordJackson2017, Adachi2011, Ogita2018"),
         ("CHK_p53 / p53_p21_arrest / WEE1_arrest",
-         "cell-cycle arrest (p53-p21-CDK / WEE1)", "CB2023"),
-        ("repair_HR_NHEJ / repair_BER_NER", "conserved DSB and excision repair", "CB2023"),
-        ("repair_ok / repair_fail", "successful restoration or irreparable damage", "CB2023"),
-        ("apoptosis (animal)", "canonical apoptotic exit", "CB2023"),
+         "cell-cycle arrest (p53-p21-CDK / SOG1-WEE1)",
+         "JacksonBartek2009, DeSchutter2007, Ogita2018"),
+        ("repair_HR_NHEJ / repair_BER_NER", "broad DSB and excision-repair families",
+         "JacksonBartek2009, ManovaGruszka2015"),
+        ("repair_ok / repair_fail", "encoded recovery or unresolved-damage branch",
+         "JacksonBartek2009, Yoshiyama2013"),
+        ("apoptosis (animal)", "encoded apoptotic loss from the proliferative pool",
+         "JacksonBartek2009"),
         ("SMR_induction + differentiation (plant)",
-         "SMR-driven differentiation/endoreduplication replaces apoptosis", "CB2023"),
+         "SMR-associated arrest and a combined differentiation/endoreduplication outcome",
+         "Yi2014, Adachi2011, FulcherSablowski2009"),
     ],
     "DCE": [
         ("glucose_uptake / glycolysis", "conserved glycolysis", "CB2023"),

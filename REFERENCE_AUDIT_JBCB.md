@@ -1,6 +1,6 @@
 # Reference Audit for JBCB
 
-Audit date: 2026-08-13. All 20 DOI-bearing cited records resolved through the
+Audit date: 2026-08-24. All 28 DOI-bearing cited records resolved through the
 Crossref Works API and matched the DOI and title. The non-DOI Milner book was
 checked by ISBN against the Open Library/Prentice Hall edition record. The audit
 does not treat publication in JBCB as a reason to cite an item.
@@ -28,10 +28,18 @@ does not treat publication in JBCB as a reason to cite an item.
 | ClavijoBuritica2023 | D. C. Clavijo-Buritica et al. | Arabidopsis and molecular machinery associated with cancer hallmarks | Heliyon 9(4) | 2023 | 10.1016/j.heliyon.2023.e15367 | yes | yes | KEEP_VERIFIED |
 | Hanahan2022 | D. Hanahan | Hallmarks of cancer: New dimensions | Cancer Discov. 12(1) | 2022 | 10.1158/2159-8290.CD-21-1059 | yes | yes | KEEP_VERIFIED |
 | Yoshiyama2013 | K. O. Yoshiyama et al. | DNA damage response in plants | Biology 2(4) | 2013 | 10.3390/biology2041338 | yes | yes | KEEP_VERIFIED |
+| JacksonBartek2009 | S. P. Jackson and J. Bartek | The DNA-damage response in human biology and disease | Nature 461(7267) | 2009 | 10.1038/nature08467 | yes | yes | KEEP_VERIFIED |
+| BlackfordJackson2017 | A. N. Blackford and S. P. Jackson | ATM, ATR, and DNA-PK: The trinity at the heart of the DNA damage response | Mol. Cell 66(6) | 2017 | 10.1016/j.molcel.2017.05.015 | yes | yes | KEEP_VERIFIED |
+| DeSchutter2007 | K. De Schutter et al. | Arabidopsis WEE1 kinase controls cell cycle arrest in response to activation of the DNA integrity checkpoint | Plant Cell 19(1) | 2007 | 10.1105/tpc.106.045047 | yes | yes | KEEP_VERIFIED |
+| Yi2014 | D. Yi et al. | The Arabidopsis SIAMESE-RELATED cyclin-dependent kinase inhibitors SMR5 and SMR7 regulate the DNA damage checkpoint in response to reactive oxygen species | Plant Cell 26(1) | 2014 | 10.1105/tpc.113.118943 | yes | yes | KEEP_VERIFIED |
+| Adachi2011 | S. Adachi et al. | Programmed induction of endoreduplication by DNA double-strand breaks in Arabidopsis | Proc. Natl. Acad. Sci. USA 108(24) | 2011 | 10.1073/pnas.1103584108 | yes | yes | KEEP_VERIFIED |
+| FulcherSablowski2009 | N. Fulcher and R. Sablowski | Hypersensitivity to DNA damage in plant stem cell niches | Proc. Natl. Acad. Sci. USA 106(49) | 2009 | 10.1073/pnas.0909218106 | yes | yes | KEEP_VERIFIED |
+| Ogita2018 | N. Ogita et al. | Identifying the target genes of SUPPRESSOR OF GAMMA RESPONSE 1 | Plant J. 94(3) | 2018 | 10.1111/tpj.13866 | yes | yes | KEEP_VERIFIED |
+| ManovaGruszka2015 | V. Manova and D. Gruszka | DNA damage and repair in plants---from models to crops | Front. Plant Sci. 6 | 2015 | 10.3389/fpls.2015.00885 | yes | yes | KEEP_VERIFIED |
 
 ## Printed-reference checks
 
-- 21 cited entries are printed; no uncited database entry is printed.
+- 29 cited entries are printed; no uncited database entry is printed.
 - `ws-jbcb.bst` numbers entries by first appearance.
 - Every `\cite` in the manuscript follows a punctuation mark.
 - The rendered citations are superscripts through `\usepackage[super]{cite}`.

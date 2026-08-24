@@ -1,15 +1,50 @@
 {
   "n_model_pair_conditions": 9,
   "n_conditions": 3,
-  "formal_class_spearman_rho": 0.09128709291752768,
-  "formal_class_exact_permutation_p_one_sided": 0.1111111111111111,
+  "formal_relation_analysis": "nominal and direction-preserving descriptive summary",
+  "formal_class_scalar_encoding_used": false,
+  "formal_class_inferential_test_performed": false,
+  "reason_no_formal_class_inference": "n=9 is too small and directional simulation classes do not define a biologically justified one-dimensional order",
+  "formal_class_rmse_summary": {
+    "one_way_simulation": {
+      "n": 6,
+      "rmse_min": 0.18548338629376107,
+      "rmse_median": 0.24181422976946154,
+      "rmse_max": 0.2775650222375332
+    },
+    "not_comparable": {
+      "n": 3,
+      "rmse_min": 0.2004067518442206,
+      "rmse_median": 0.20707024211425681,
+      "rmse_max": 0.30625328009383596
+    }
+  },
+  "relation_direction_rmse_summary": {
+    "left_simulated_by_right": {
+      "n": 3,
+      "rmse_min": 0.25589837040251756,
+      "rmse_median": 0.27565206422635075,
+      "rmse_max": 0.2775650222375332
+    },
+    "right_simulated_by_left": {
+      "n": 3,
+      "rmse_min": 0.18548338629376107,
+      "rmse_median": 0.19188439022318077,
+      "rmse_max": 0.2277300891364055
+    },
+    "no_simulation_relation": {
+      "n": 3,
+      "rmse_min": 0.2004067518442206,
+      "rmse_median": 0.20707024211425681,
+      "rmse_max": 0.30625328009383596
+    }
+  },
   "trace_distance_spearman_rho": -0.595879571531124,
   "trace_distance_exact_permutation_p_one_sided": 0.5555555555555556,
   "graphlet_distance_spearman_rho": 0.6694619270045784,
   "graphlet_distance_exact_permutation_p_one_sided": 0.09722222222222222,
   "null_permutations": 216,
-  "primary_formal_metric": "ordinal formal class",
-  "secondary_formal_metric": "weak observable trace Jaccard distance at k=6",
+  "continuous_formal_diagnostic": "weak observable trace Jaccard distance at k=6",
   "structural_baseline_metric": "one minus LTS-GDA similarity",
   "experimental_metric": "RMSE over common post-zero held-out values"
 }

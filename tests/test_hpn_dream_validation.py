@@ -63,9 +63,25 @@ class HpnDreamValidationTests(unittest.TestCase):
             all(0 not in map(int, row["common_times"].split(";")) for row in rows)
         )
         self.assertEqual(result["null_permutations"], 216)
-        self.assertGreaterEqual(result["formal_class_exact_permutation_p_one_sided"], 0)
-        self.assertLessEqual(result["formal_class_exact_permutation_p_one_sided"], 1)
+        self.assertFalse(result["formal_class_scalar_encoding_used"])
+        self.assertFalse(result["formal_class_inferential_test_performed"])
+        self.assertNotIn("formal_class_spearman_rho", result)
+        self.assertNotIn("formal_class_exact_permutation_p_one_sided", result)
         self.assertIn("graphlet_distance_exact_permutation_p_one_sided", result)
+
+    def test_one_way_simulation_direction_is_preserved(self) -> None:
+        rows = hpn.validation_rows(use_mcrl2=False)
+        directions = [row["relation_direction"] for row in rows]
+        self.assertEqual(directions.count("left_simulated_by_right"), 3)
+        self.assertEqual(directions.count("right_simulated_by_left"), 3)
+        self.assertEqual(directions.count("no_simulation_relation"), 3)
+        for row in rows:
+            if row["relation_direction"] == "left_simulated_by_right":
+                self.assertTrue(row["left_simulated_by_right"])
+                self.assertFalse(row["right_simulated_by_left"])
+            if row["relation_direction"] == "right_simulated_by_left":
+                self.assertFalse(row["left_simulated_by_right"])
+                self.assertTrue(row["right_simulated_by_left"])
 
     def test_synchronous_stress_preserves_seven_of_nine_classes(self) -> None:
         rows = hpn.semantic_sensitivity_rows()

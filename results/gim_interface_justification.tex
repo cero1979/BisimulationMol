@@ -1,0 +1,10 @@
+\begin{tabularx}{\textwidth}{@{}p{0.15\textwidth}YYYp{0.15\textwidth}@{}}
+\toprule
+Process & Animal/human & \textit{Arabidopsis} & Interface rationale & Support \\
+\colrule
+Damage sensing & ATM-dominant DSB signalling and ATR-dominant replication-stress/ssDNA signalling & ATM and ATR initiate lesion- and replication-stress responses upstream of SOG1 & A: one observable damage\_detection label; B/C: DSB and replication-stress labels. Detection is a shared function, while B/C retain the biologically relevant initiating channel. & BlackfordJackson2017;Yoshiyama2013;Adachi2011 \\
+Checkpoint signalling and arrest & CHK1/CHK2-p53-p21 control of cyclin-dependent kinases & SOG1-regulated WEE1 and SMR checkpoint control & A: checkpoint observable, relays internal; B/C: ATM/ATR channels and checkpoint observable. The arrest function is comparable without treating p53 and SOG1 as orthologous mechanisms. & JacksonBartek2009;DeSchutter2007;Yi2014;Ogita2018 \\
+DNA repair and recovery & DSB repair and excision-repair families followed by recovery & Conserved broad repair families followed by recovery & A: repair/restoration observables; B/C: DSB repair, excision repair, and restoration. Broad repair functions are conserved, but the qualitative nets do not encode pathway kinetics or fidelity. & JacksonBartek2009;ManovaGruszka2015;Yoshiyama2013 \\
+Terminal response to unresolved damage & Apoptotic removal from the proliferative pool & SMR-associated arrest followed by a combined differentiation/endoreduplication model outcome & A/B: common cell\_cycle\_exit observable; C: apoptosis, SMR induction, and plant outcome separated. A/B ask about loss of proliferative capacity; C tests mechanism-specific readouts. The plant model does not resolve differentiation and endoreduplication as separate branches. & JacksonBartek2009;Yi2014;Adachi2011;FulcherSablowski2009 \\
+\botrule
+\end{tabularx}

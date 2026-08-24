@@ -12,14 +12,21 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "paper" / "jbcb"
 FIGURES = ROOT / "figs"
-SUBMISSION = ROOT / "submission_jbcb"
-ARCHIVE_NAME = "JBCB_EditorialManager.zip"
+SUBMISSION = ROOT / "submission_jbcb_revision"
+ARCHIVE_NAME = "JBCB-1505-revised.zip"
 GENERATED_BBL = "main_jbcb.bbl"
 SUBMISSION_BBL = "bibliography_jbcb.bbl"
 
 SOURCE_FILES = ("main_jbcb.tex", "references_jbcb.bib")
 RESOURCE_FILES = ("ws-jbcb.cls", "ws-jbcb.bst")
-FIGURE_FILES = ("Fig1.pdf", "Fig3.pdf", "Fig8.pdf", "Fig2a.pdf", "Fig2b.pdf")
+FIGURE_FILES = (
+    "Fig1.pdf",
+    "Fig2.pdf",
+    "Fig3.pdf",
+    "Fig8.pdf",
+    "FigS1a.pdf",
+    "FigS1b.pdf",
+)
 BUILD_FILES = (
     "main_jbcb.aux",
     "main_jbcb.bbl",
@@ -28,6 +35,7 @@ BUILD_FILES = (
     "main_jbcb.fls",
     "main_jbcb.log",
     "main_jbcb.out",
+    "main_jbcb.pdf",
     "main_jbcb.synctex.gz",
 )
 
@@ -126,7 +134,7 @@ def build_package() -> Path:
         *(SUBMISSION / name for name in RESOURCE_FILES),
         *(SUBMISSION / name for name in FIGURE_FILES),
     ]
-    archive_path = SUBMISSION / ARCHIVE_NAME
+    archive_path = ROOT / ARCHIVE_NAME
     with zipfile.ZipFile(archive_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for path in package_files:
             archive.write(require(path), arcname=path.relative_to(SUBMISSION))

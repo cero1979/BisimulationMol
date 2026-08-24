@@ -24,6 +24,10 @@ universe without external dependencies.
 Direct PN-GDDA is implemented in `src/pn_gdda.py`; it generates the complete
 151-topology catalog, preserves the published/Holmes 592 orbit slots and emits
 a separate 576-orbit automorphism sensitivity audit.
+The three fixed GIM observational interfaces and their biological rationale are
+defined in `src/concurrent_biomodels.py`; `src/gim_interface_analysis.py`
+executes them on unchanged structures and writes both the sensitivity and
+justification tables.
 
 ## 1. Environment
 
@@ -75,7 +79,7 @@ The command downloads the public mammalian cell-cycle SBML-qual model and
 p53-Mdm2 GINML model only when absent, and refuses files whose SHA-256 differs
 from the manifest.
 
-Fetch and verify the independent HPN-DREAM validation material with:
+Fetch and verify the public HPN-DREAM held-out material with:
 
 ```bash
 make hpn-data
@@ -87,7 +91,7 @@ mTOR-inhibitor tests. Existing files are never trusted without a SHA-256 check.
 The historical MCF7 header uses an uppercase inhibitor suffix; only the temporary
 CASPOTS input header is normalized, and the original hash-pinned file is retained.
 
-## 3. Validate the formal implementation
+## 3. Verify the formal implementation
 
 ```bash
 make test
@@ -95,17 +99,26 @@ make test
 
 The tests require all six construction-ground-truth relations to be recovered,
 verify the intended failure modes of direct PN-GDDA, trace, LTS-GDA and structural baselines, retain
-the biological-case regression results, and check deterministic scaling
+the three GIM interface classifications and fixed structures, preserve weak
+simulation direction, reject obsolete ordinal class fields, and check deterministic scaling
 metadata. They also exhaustively compare the independent simulation game on
 67,600 ordered LTS pairs. When `ltscompare` is available, they require full
 mCRL2 agreement on the synthetic and public-model controls.
 
-Expected summary:
+The exact test count may increase as regression coverage is added; a successful
+run ends in `OK` with no skips except explicitly optional external tools.
 
-```text
-Ran 35 tests
-OK
+Run the GIM sensitivity analysis alone with:
+
+```bash
+make gim-interface
 ```
+
+It writes `results/gim_interface_sensitivity.csv`,
+`results/gim_interface_justification.csv`, and a LaTeX rendering of the
+justification table. Expected formal classes are weak bisimulation for A and B
+and non-comparability for C; PN-GDDA remains unchanged because the structures
+are fixed.
 
 Run the direct graphlet audit alone with:
 
@@ -131,7 +144,7 @@ compiles `scripts/HolmesPnGddaProbe.java` in a temporary directory and writes
 of the 151 topology signatures and 592 root assignments before comparing the
 reference score. Nothing from Holmes is redistributed in this repository.
 
-Run the external validation directly with:
+Run the external software verification directly with:
 
 ```bash
 make external-validation
@@ -141,7 +154,7 @@ This exports AUT files to a temporary directory, checks strong bisimulation,
 weak bisimulation and exact weak-trace equivalence with mCRL2, and runs the
 independent exhaustive weak-simulation game audit.
 
-Run the blind HPN-DREAM comparison with:
+Run the exploratory held-out HPN-DREAM comparison with:
 
 ```bash
 make hpn-validation
@@ -149,8 +162,11 @@ make hpn-validation
 
 The command selects one structure-only family medoid without opening a held-out
 file, constructs nine cross-cell pair--condition LTS comparisons, requires
-Python/mCRL2 agreement and executes the exact 216-permutation class/data test.
-It also writes the nine-pair asynchronous/synchronous sensitivity comparison.
+Python/mCRL2 agreement, and preserves both simulation directions. Formal classes
+are summarized nominally; no ordinal coding or class/RMSE inferential test is
+performed. The two predeclared continuous diagnostics retain their exact 216
+condition-stratified permutations. The command also writes the nine-pair
+asynchronous/synchronous sensitivity comparison.
 The CASPOTS environment command `make caspots-validation` recomputes 12 held-out
 compatibility scores twice and aborts if any optimum differs between repetitions.
 
@@ -172,7 +188,7 @@ The JBCB manuscript uses these generated outputs:
 | Output | Manuscript element | Deterministic? |
 |---|---|---|
 | `results/synthetic_benchmark.csv` | Table 1 and Section 3.1, including direct PN-GDDA | Yes |
-| `results/baseline_accuracy.csv` | Fig. 2, including PN-GDDA and LTS-GDA | Yes |
+| `results/baseline_accuracy.csv` | Controlled software-benchmark figure, including PN-GDDA and LTS-GDA | Yes |
 | `results/pn_gdda_catalog_validation.json` | 151/592 catalog audit, Holmes reference score and 576-orbit sensitivity | Yes |
 | `results/holmes_pn_gdda_external_validation.json` | Score produced by the hash-verified Holmes 1.1.1 JAR | Yes |
 | `results/pn_gdda_native_modules.csv` | Direct PN-GDDA on five original curated net pairs | Yes |
@@ -182,15 +198,19 @@ The JBCB manuscript uses these generated outputs:
 | `results/public_models.csv` | Public sources, sizes, conditions and hashes | Yes |
 | `results/public_model_validation.csv` | Six public-model controls and mCRL2 results | Yes |
 | `results/public_model_semantic_sensitivity.csv` | Public asynchronous/synchronous reachability | Yes |
+| `results/gim_interface_sensitivity.csv` | Central A/B/C GIM result table and figure | Yes |
+| `results/gim_interface_justification.csv` | Biological rationale and literature keys for GIM observables | Yes |
+| `results/gim_interface_justification.tex` | Generated LaTeX rendering of the rationale audit | Yes |
 | `results/hpn_dream_medoids.csv` | Blind family selection, hashes and anti-leakage flag | Yes |
 | `results/hpn_dream_formal_data_validation.csv` | Nine distinct-model/data comparisons and mCRL2 results | Yes |
-| `results/hpn_dream_concordance.json` | Exact class/data permutation test | Yes |
+| `results/hpn_dream_concordance.json` | Nominal direction summaries and exact continuous-diagnostic tests; no scalar class test | Yes |
 | `results/hpn_dream_semantic_sensitivity.csv` | Nine HPN asynchronous/synchronous class comparisons | Yes |
 | `results/hpn_dream_caspots_rmse.csv` | Repeated held-out medoid and family-oracle scores | Yes |
 | `results/hpn_dream_caspots_summary.json` | Native-versus-cross specificity test | Yes |
 | `figs/Fig1.pdf` | Fig. 1, six-stage workflow | Yes |
-| `figs/Fig2a.pdf`, `figs/Fig2b.pdf` | Fig. 4, GIM Petri nets | Yes |
-| `figs/Fig3.pdf` | Fig. 2, benchmark validation | Yes |
+| `figs/Fig2.pdf` | Central GIM biological abstraction and interface-sensitivity result | Yes |
+| `figs/FigS1a.pdf`, `figs/FigS1b.pdf` | Full GIM Petri nets retained in the appendix | Yes |
+| `figs/Fig3.pdf` | Controlled software/formal benchmark | Yes |
 | `results/scalability_structure.csv` | State/relation sizes in Section 3.3 | Yes |
 | `results/scalability_runtime.csv` | Reference timing series described in Section 3.3 | No, machine-dependent |
 | `figs/Fig4.pdf` | Repository-only scalability plot | No, timing panel is machine-dependent |
@@ -198,12 +218,12 @@ The JBCB manuscript uses these generated outputs:
 | `figs/Fig5a.pdf`, `figs/Fig5b.pdf` | Repository-only GIM reachability systems | Yes |
 | `figs/Fig6a.pdf`, `figs/Fig6b.pdf` | Repository-only RCD Petri nets | Yes |
 | `figs/Fig7a.pdf`, `figs/Fig7b.pdf` | Repository-only robustness and null plots | Yes |
-| `figs/Fig8.pdf` | Fig. 3, blinded held-out validation | Yes |
+| `figs/Fig8.pdf` | Exploratory direction-preserving HPN held-out display | Yes |
 
-The command also regenerates PNG previews and the earlier provenance,
-interface, conservation and generalization diagnostics retained in the
-repository. Those additional outputs support auditing but are not used to
-enlarge the revised paper's biological claim.
+The command also regenerates PNG previews and provenance, interface,
+conservation and generalization diagnostics retained in the repository. Those
+additional outputs support auditing but do not enlarge the revised paper's
+biological claim.
 
 ## 5. Execute the notebook
 
@@ -211,10 +231,11 @@ enlarge the revised paper's biological claim.
 make notebook
 ```
 
-The notebook is executed in place. Cells tagged `netmahib-benchmark` perform the
-synthetic controls, public GINsim controls, blinded HPN-DREAM validation,
-direct PN-GDDA/Holmes audit, graphlet/trace baselines, exhaustive simulation
-audit, semantic sensitivity and runtime scaling. The committed notebook includes outputs
+The notebook is first updated idempotently and then executed in place. Cells
+tagged `netmahib-benchmark` perform the synthetic controls, three-interface GIM
+experiment, public GINsim controls, exploratory HPN-DREAM check, direct
+PN-GDDA/Holmes audit, graphlet/trace baselines, exhaustive simulation audit,
+semantic sensitivity and runtime scaling. The committed notebook includes outputs
 so a reviewer can inspect the complete run without executing code first.
 
 ## 6. Check deterministic outputs
@@ -244,7 +265,7 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error main_jbcb.tex
 The expected output is `paper/jbcb/main_jbcb.pdf`. The source uses the
 unmodified official `ws-jbcb` class, class-native theorem environments,
 first-appearance numeric citations through `ws-jbcb.bst`, American English, and
-a 184-word abstract.
+an abstract checked against the journal limit by `tools/check_jbcb_abstract.py`.
 
 ## 8. Build the submission ZIP
 
@@ -255,20 +276,22 @@ make package
 This writes and verifies:
 
 ```text
-submission_jbcb/JBCB_EditorialManager.zip
+JBCB-1505-revised.zip
 ```
 
 The ZIP contains the main source, a prebuilt `.bbl`, the BibTeX database,
-official JBCB class and style, and five vector files composing four figures. All
-ten entries are at the archive root; no directory entries or subfolders are
+official JBCB class and style, and six vector files composing four main figures
+and two detailed appendix figures. All eleven entries are at the archive root;
+no directory entries or subfolders are
 permitted by Editorial Manager. The compiled preview PDF remains outside the
 ZIP to avoid a duplicate basename with the main TeX source. Build auxiliaries
 and logs are removed. The complete reproducibility materials remain in the
-repository at the public URL stated in the manuscript.
+repository at the public URL stated in the manuscript. The exact flat source set
+is also available in `submission_jbcb_revision/`.
 To verify the archive independently:
 
 ```bash
-unzip submission_jbcb/JBCB_EditorialManager.zip -d /tmp/jbcb-check
+unzip JBCB-1505-revised.zip -d /tmp/jbcb-check
 cd /tmp/jbcb-check
 latexmk -pdf -interaction=nonstopmode -halt-on-error main_jbcb.tex
 ```
@@ -276,18 +299,31 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error main_jbcb.tex
 ## 9. Interpretation boundary
 
 Reproduction establishes that direct PN-GDDA reconstructs the published/Holmes
-151/592 catalog and reference score, that two formal implementations return the reported strong
-and weak relations, that the public-model import path recovers the controlled
-transformations, that the production simulation preorder agrees with its game
-oracle on the declared finite universe, and that the HPN-DREAM medoids attain the reported held-out
-compatibility scores. The same data also fail to establish native-cell
-specificity (`p=0.25`), formal-class/data concordance (`p=0.111`) or a
-significant LTS-GDA/data association (`p=0.097`). Direct PN-GDDA also produces
-four synthetic false positives at the declared 0.9 diagnostic threshold. Two of nine directional
-classes change under synchronous updating. Reproduction
-therefore does not validate organism-level equivalence, kinetic completeness or
-prognostic utility. Model definitions, provenance, interfaces and negative
-results are exposed so those assumptions can be audited or replaced.
+151/592 catalog and reference score, that two formal implementations return the
+reported strong and weak relations, that the public-model import path recovers
+the controlled transformations, that the production simulation preorder agrees
+with its game oracle on the declared finite universe, and that GIM changes from
+weak bisimulation at A/B to non-comparability at C without structural changes.
+It also reproduces the reported HPN-DREAM held-out compatibility scores. Those
+data fail to establish native-cell specificity (`p=0.25`) or a significant
+LTS-GDA/data association (`p=0.097`). No formal-class/data scalar test is
+reported because directional relations do not define a justified ordinal scale.
+Direct PN-GDDA produces four construction-level false positives at the declared
+0.9 diagnostic threshold, which demonstrates only that it answers a different
+question. Two of nine HPN classes change under synchronous updating.
+Reproduction therefore does not validate organism-level equivalence, kinetic
+completeness or prognostic utility. Model definitions, provenance, interfaces
+and negative results are exposed so those assumptions can be audited or
+replaced.
+
+The repository uses the same four-layer evidence vocabulary as the manuscript:
+
+| Layer | Reproducible artifacts | Boundary |
+|---|---|---|
+| I Formal correctness | Definitions, proofs and formal-property tests | Mathematical claims only |
+| II Software/implementation verification | Constructed controls, mCRL2, game oracle and regression tests | Tested computation, not biology |
+| III Executable-model support | Hashes, import controls, provenance and explicit update semantics | Auditable model origin/assumptions, not experimental calibration |
+| IV Biological interpretation | Verified DDR literature and exploratory HPN held-out data | Plausibility or preliminary confrontation with data, not organism-level equivalence |
 
 ## 10. Troubleshooting
 

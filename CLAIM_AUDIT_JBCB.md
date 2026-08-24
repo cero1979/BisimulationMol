@@ -1,6 +1,6 @@
 # Claim Audit for JBCB
 
-Audit date: 2026-08-13. Formal proof claims that require the author's
+Audit date: 2026-08-24. Formal proof claims that require the author's
 intellectual sign-off are marked `NEEDS_AUTHOR_REVIEW`; this does not indicate a
 known error. No unsupported claim is retained in the manuscript.
 
@@ -23,7 +23,7 @@ known error. No unsupported claim is retained in the manuscript.
 | C15 | Synchronous GINsim runs reach 13 and 8 states with Jaccard 0.0157 and 0.471. | COMPUTATIONAL | `public_model_semantic_sensitivity.csv` | n/a | exact rows regenerated | source models | VERIFIED |
 | C16 | HPN family sizes are 72, 191, and 21; medoid rows are 24, 137, and 9. | REPRODUCIBILITY | `hpn_dream_medoids.csv` | n/a | anti-leakage and stability tests | pinned CASPOTS data | VERIFIED |
 | C17 | Nine HPN comparisons yield six one-way and three non-comparable classes. | EMPIRICAL | `hpn_dream_formal_data_validation.csv` | n/a | nine rows; Python/mCRL2 agree | HPN-DREAM/CASPOTS | VERIFIED |
-| C18 | Formal class has rho=0.091 and exact p=0.111. | EMPIRICAL | `hpn_dream_concordance.json` | exact 216-permutation design | exact values regenerated | held-out responses | VERIFIED |
+| C18 | No scalar formal-class association is reported because the directional relations have no justified one-dimensional order. | METHOD CORRECTION | `hpn_dream_concordance.json` | nominal/directional treatment | obsolete fields absent; explicit false flags | reviewer objection and relation semantics | VERIFIED |
 | C19 | Trace distance has rho=-0.596 and p=0.556. | EMPIRICAL | same JSON | exact 216-permutation design | exact values regenerated | held-out responses | VERIFIED |
 | C20 | LTS-GDA has rho=0.669 and exact p=0.097, which is inconclusive. | EMPIRICAL | same JSON | exact 216-permutation design | exact values regenerated | held-out responses | VERIFIED |
 | C21 | Native CASPOTS advantage is 0.00212 with exact p=0.25. | EMPIRICAL | `hpn_dream_caspots_summary.json` | exact eight-sign permutation | repeated scores deterministic | held-out responses | VERIFIED |
@@ -32,12 +32,18 @@ known error. No unsupported claim is retained in the manuscript.
 | C24 | GIM/DCE/SPS are weak, RCD one-way, and AID non-comparable at declared interfaces. | BIOLOGICAL INTERPRETATION | `phase6_comparisons.csv` | model-specific computation | deterministic outputs | manually curated models | CONDITIONAL |
 | C25 | Native PN-GDDA scores remain 0.9904--1.0000 while formal classes vary. | COMPUTATIONAL | `pn_gdda_native_modules.csv` | n/a | deterministic outputs | published/Holmes catalog | VERIFIED |
 | C26 | The applications do not establish prognosis, cell specificity, or organism-level equivalence. | BIOLOGICAL INTERPRETATION | scope and limitations | negative boundary, not a positive inference | C18--C24 | source provenance | CONDITIONAL |
+| C27 | The unchanged GIM structures reach 13 animal and 14 plant states and have PN-GDDA-592 similarity 0.9975846 under A/B/C. | COMPUTATIONAL | `gim_interface_sensitivity.csv` | fixed topology and initial marking | three deterministic rows; structure-change flag false | Holmes-compatible catalog | VERIFIED |
+| C28 | GIM Interfaces A and B are weakly bisimilar with both simulations and `d6=0`; Interface C is non-comparable in both directions with `d6=6/17`. | MODEL-DERIVED BIOLOGICAL RESULT | same CSV | exact formal computation | GIM interface regression tests | curated model definitions | VERIFIED_CONDITIONAL_ON_MODELS |
+| C29 | The GIM A/B-to-C change locates an observational boundary between shared encoded function and distinct terminal mechanisms. | BIOLOGICAL INTERPRETATION | Secs. 4.1-4.2 | inference from C27-C28 | unchanged structures isolate interface labels | verified DDR literature | CONDITIONAL |
+| C30 | HPN direction is preserved as 3 left-in-right, 3 right-in-left, and 3 no-simulation relations. | COMPUTATIONAL | `hpn_dream_formal_data_validation.csv` | exact category counts | regression test | held-out HPN model families | VERIFIED |
 
 ## Hostile-review conclusion
 
-The strongest remaining scientific objection is limited external empirical
-power: nine HPN pair-condition observations and manually curated cross-organism
-nets cannot establish predictive discrimination. The manuscript states that
-limitation in the abstract, results, discussion, and conclusion. It presents the
-contribution as a reproducible model audit with formal guarantees, not as a
-biological predictor. No `UNSUPPORTED` claim remains.
+The GIM interface experiment now provides a biologically interpretable
+model-level result, but the strongest remaining scientific objection is still
+limited external empirical power: nine HPN pair-condition observations and
+manually curated cross-organism nets cannot establish predictive discrimination
+or organism-level equivalence. The manuscript states that limitation in the
+abstract, results, discussion, and conclusion. It presents the contribution as
+a reproducible model audit with formal guarantees and a testable interface
+hypothesis, not as a biological predictor. No `UNSUPPORTED` claim remains.
