@@ -1,4 +1,4 @@
-"""Regression tests for the formal properties stated in the JMCS manuscript."""
+"""Regression tests for the formal properties stated in the Journal article."""
 
 from __future__ import annotations
 

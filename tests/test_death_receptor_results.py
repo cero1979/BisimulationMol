@@ -53,7 +53,7 @@ class DeathReceptorResultTests(unittest.TestCase):
 
     def test_sustained_positive_path_matches_original_source_rules(self):
         path=ROOT/'results/death_receptor_sustained_sparse_audit.json'
-        self.assertTrue(path.is_file(), 'The verified sustained audit must ship with R3')
+        self.assertTrue(path.is_file(), 'The verified sustained audit must ship with Journal')
         report=json.loads(path.read_text())
         self.assertTrue(report['confirmed'])
         self.assertEqual([r['accepted'] for r in report['checks']],[True,False])

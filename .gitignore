@@ -1,59 +1,13 @@
-# ---------------------------------------------------------------------------
-# Track the current JBCB/JMCS sources and the retained prior-journal source.
-# Other manuscript versions and local LaTeX build products remain untracked.
-# ---------------------------------------------------------------------------
-paper/*
-!paper/netmahib/
-paper/netmahib/*
-!paper/netmahib/main.tex
-!paper/netmahib/references.bib
-!paper/netmahib/sn-jnl.cls
-!paper/netmahib/sn-mathphys-ay.bst
-!paper/jmcs/
-paper/jmcs/*
-!paper/jmcs/*.tex
-!paper/jmcs/*.bib
-!paper/jmcs/*.md
-!paper/jmcs/resources/
-!paper/jmcs/resources/ISRP.cls
-!paper/jmcs/resources/jmcs.jpg
-!paper/jbcb/
-paper/jbcb/*
-!paper/jbcb/*.tex
-!paper/jbcb/*.bib
-!paper/jbcb/*.md
-!paper/jbcb/ws-jbcb.cls
-!paper/jbcb/ws-jbcb.bst
+# Regenerated working outputs; accepted Journal artifacts are tracked.
+/figs/
+/tmp/
+/output/
+Journal/*.png
 
-# Elsevier LaTeX template bundle (only used to typeset the manuscript)
-els-cas-templates/
-els-cas-templates.zip
-
-# Any PDF (base article, compiled manuscript, exported figures, ...)
-*.pdf
-
-# Regenerated figures: produced deterministically by `make figures`
-figs/
-tmp/
-
-# Locally generated submission bundles and superseded BioSystems packages.
-submission/biosystems_*/
-submission/netmahib_latex_flat/
-submission/netmahib_latex_flat.zip
-submission/netmahib_reproducibility.zip
-
-# Clean JMCS delivery directory. Explicit source and final-package exceptions
-# are declared after the generic LaTeX/PDF exclusions below.
-submission_jmcs/*
-
-# Clean JBCB delivery directory. Exceptions are declared at the end.
-submission_jbcb/*
-
-# ---------------------------------------------------------------------------
-# Python
-# ---------------------------------------------------------------------------
+# Python and notebook caches.
 __pycache__/
 *.py[cod]
+*.nb[ci]
 *.egg-info/
 .ipynb_checkpoints/
 .venv/
@@ -61,16 +15,13 @@ venv/
 env/
 .pytest_cache/
 
-# ---------------------------------------------------------------------------
-# Editors / OS
-# ---------------------------------------------------------------------------
+# Editors and operating-system files.
 .DS_Store
 .vscode/
 .idea/
+.superpowers/
 
-# ---------------------------------------------------------------------------
-# Stray LaTeX auxiliaries (in case a .tex is ever compiled inside the repo)
-# ---------------------------------------------------------------------------
+# LaTeX auxiliaries.
 *.aux
 *.bbl
 *.blg
@@ -79,43 +30,8 @@ env/
 *.fls
 *.fdb_latexmk
 *.synctex.gz
-build*.log
 
-!paper/jmcs/main.pdf
-!paper/jbcb/main_jbcb.pdf
-!submission_jmcs/main.tex
-!submission_jmcs/references_jmcs.tex
-!submission_jmcs/main.pdf
-!submission_jmcs/resources/
-!submission_jmcs/resources/ISRP.cls
-!submission_jmcs/resources/jmcs.jpg
-!submission_jmcs/figures/
-!submission_jmcs/figures/*.pdf
-!submission_jmcs/JMCS_submission.zip
-!audit/jmcs_final/
-!audit/jmcs_final/*.log
-!submission_jbcb/main_jbcb.tex
-!submission_jbcb/references_jbcb.bib
-!submission_jbcb/ws-jbcb.cls
-!submission_jbcb/ws-jbcb.bst
-!submission_jbcb/main_jbcb.pdf
-!submission_jbcb/Fig*.pdf
-!submission_jbcb/bibliography_jbcb.bbl
-!submission_jbcb/JBCB_EditorialManager.zip
-!audit/jbcb_final/
-!audit/jbcb_final/*.log
-
-# R2 delivery and immutable supplied R1 baseline; previews remain generated.
-!revision_R2/*.pdf
-!revision_R2/original_R1/*.pdf
-revision_R2/*.png
-revision_R2/validation_R1_extract.tex
-
-# R3 delivery; downloaded source literature and rendered previews stay local.
-!revision_R3/*.pdf
-revision_R3/*.png
-revision_R3/literature/
-
-# Public production artifacts; correspondence and build products stay local.
-!production_jbcb_R3/*.pdf
-production_jbcb_R3/email_to_production.txt
+# Local downloads are not experiment inputs.
+/els-cas-templates/
+/els-cas-templates.zip
+/1-s2.0-S2405844023025744-main.pdf

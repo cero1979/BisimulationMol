@@ -1,4 +1,0 @@
-python -m jupyter nbconvert --to notebook --execute --inplace \
-		notebooks/metodologia_multiescala.ipynb
-[NbConvertApp] Converting notebook notebooks/metodologia_multiescala.ipynb to notebook
-[NbConvertApp] Writing 914639 bytes to notebooks/metodologia_multiescala.ipynb

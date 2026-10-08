@@ -1,4 +1,4 @@
-"""Reproduce the R3 endpoint-matched death-receptor commitment comparison.
+"""Reproduce the Journal endpoint-matched death-receptor commitment comparison.
 
 Large deterministic graphs are regenerated, not loaded from Python pickle files.
 Optional raw AUT exports permit independent full-graph mCRL2 checks.
@@ -119,7 +119,7 @@ def main():
             print(model.name,protocol,summary['states'],summary['edges'],
                   summary['initial_reachable_terminal_fates'],flush=True)
             if args.export_aut:
-                directory = ROOT/'tmp/R3'
+                directory = ROOT/'tmp/Journal'
                 directory.mkdir(parents=True,exist_ok=True)
                 side = 'plus' if model.name=='DR-FB+' else 'minus'
                 e.write_aut(directory/(side+'-'+protocol+'.aut'))

@@ -1,0 +1,24 @@
+{
+  "journal": "Journal of Bioinformatics and Computational Biology",
+  "archive": "Journal.zip",
+  "archive_sha256": "995b071e54f574ddff440bd419c26480423da37feb44f715b3f4750d51c375d8",
+  "engine": "pdflatex",
+  "passes_per_master": 3,
+  "clean_source_build": true,
+  "clean_extracted_archive_build": true,
+  "sources_unchanged": true,
+  "warnings": [],
+  "files_sha256": {
+    "main.tex": "66f3feb9490396518d9d195fa3bd54afd68c2236e7704fcf4c2eeb7c0f067e00",
+    "supplement.tex": "9d98e906f3970d03e5f5b166da0bac927777c2428c784eca6c945983382daa94",
+    "ws-jbcb.cls": "2cbd45997f8e62bbb5d89797bcf1c7f1c640c91fbc60282e41360d91b100a9ec",
+    "Fig1.pdf": "3ebf17e7306c464baf983dd5d6283d1e737eb2cd2310604df30c35b63cf6f7ab",
+    "Fig2.pdf": "782fe2b4a38864fe9f935bd705dfe28e5f2126815122909b55554bc2db9f7694",
+    "Fig3.pdf": "02dda78a84652db6b5dae19aafd92c2ea8bab672e2ac085c77ac584e380a1001",
+    "Fig4.pdf": "cad0c845ab418ebb063743053fa9753ef27348581d01c2b17d00843c244276a4",
+    "SFig1.pdf": "140d0a757ddf879c5472c4f8819b2660f1894cca6a70c9f5f5ab61eadfdf0820",
+    "SFig2.pdf": "e640d4cc75655e15a681e8cf8c323c49b9a96be27485f79a8481592fa8d169ca",
+    "main.pdf": "73815b1a96a1dd4291f3365fde48fcee0a1612fed5a6f5ebbfeae57ef55d01b3",
+    "supplement.pdf": "c28bc288bb951a111e0375f3fed91aea579df9043841eb920c78943df9907ad6"
+  }
+}

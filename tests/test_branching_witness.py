@@ -2,7 +2,7 @@ import copy
 import unittest
 from src.concurrent_biomodels import LTS
 from src.method_benchmark import branching_time_trap
-from src.formal_revision_audit import hierarchy_pairs
+from src.formal_audit import hierarchy_pairs
 from src.branching_witness import find_branching_witness, verify_branching_witness, exact_traces
 
 

@@ -1,6 +1,0 @@
-cd paper/jmcs && latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
-Latexmk: This is Latexmk, John Collins, 26 Dec. 2019, version: 4.67.
-Latexmk: All targets () are up-to-date
-python scripts/build_jmcs_package.py
-Built /Users/cero/Downloads/Articulos/CompAlgMolCancer/submission_jmcs/JMCS_submission.zip
-Verified 17 files: main.tex, references_jmcs.tex, main.pdf, resources/ISRP.cls, resources/jmcs.jpg, figures/Fig1.pdf, figures/Fig2a.pdf, figures/Fig2b.pdf, figures/Fig3.pdf, figures/Fig4.pdf, figures/Fig5a.pdf, figures/Fig5b.pdf, figures/Fig6a.pdf, figures/Fig6b.pdf, figures/Fig7a.pdf, figures/Fig7b.pdf, figures/Fig8.pdf

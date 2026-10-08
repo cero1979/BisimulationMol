@@ -1,63 +1,67 @@
-# ---------------------------------------------------------------------------
-# Reproducibility Makefile for BisimulationMol
-# Run `make help` for the list of targets.
-# ---------------------------------------------------------------------------
+# Reproducibility targets for the accepted Journal of Bioinformatics and
+# Computational Biology article. Use PY=/path/to/python to select an interpreter.
 PY ?= python
 
-.PHONY: help setup public-models gim-interface hpn-data hpn-validation caspots-validation external-validation pn-gdda holmes-pn-gdda analysis test figures notebook verify manuscript package jbcb-manuscript jbcb-package jmcs-manuscript jmcs-package netmahib-manuscript netmahib-package clean
+.PHONY: help setup public-models hpn-data test gim-interface analysis \
+ external-validation formal-audit death-receptor death-receptor-word \
+ hpn-validation caspots-validation pn-gdda holmes-pn-gdda figures \
+ notebook verify manuscript package
 
 help:
-	@echo "Targets:"
-	@echo "  setup       Install Python dependencies"
-	@echo "  public-models  Download and hash-check the two public GINsim models"
-	@echo "  gim-interface  Run the three-interface GIM sensitivity analysis"
-	@echo "  hpn-data     Download and hash-check public HPN-DREAM/CASPOTS artifacts"
-	@echo "  hpn-validation  Run the exploratory held-out HPN analysis and mCRL2 checks"
-	@echo "  caspots-validation  Recompute repeated held-out RMSE in pinned conda env"
-	@echo "  external-validation  Run mCRL2, public-model and exhaustive simulation validation"
-	@echo "  pn-gdda     Audit the 151/592 catalog and print direct native-net scores"
-	@echo "  holmes-pn-gdda  Download/hash Holmes 1.1.1 and reproduce its reference score"
-	@echo "  analysis    Print per-module verdicts and diagnostics"
-	@echo "  test        Run construction-ground-truth and regression tests"
-	@echo "  figures     Regenerate every figure and result table"
-	@echo "  notebook    Execute the analysis notebook end to end"
-	@echo "  verify      Check deterministic results after regeneration"
-	@echo "  manuscript  Compile the current JBCB manuscript"
-	@echo "  package     Build and verify the self-contained JBCB submission ZIP"
-	@echo "  jbcb-manuscript  Compile the retained pre-R2 JBCB manuscript"
-	@echo "  jbcb-package     Build the retained R1 submission ZIP"
-	@echo "  jbcb-r2-audit    Recompute R2 independent quantifier/direction and mCRL2 checks"
-	@echo "  jbcb-r2-package  Assemble and clean-build all flat R2 archives"
-	@echo "  jbcb-r3-analysis Regenerate the fixed-interface death-receptor analysis"
-	@echo "  jbcb-r3-package  Assemble and clean-build all flat R3 archives"
-	@echo "  jmcs-manuscript  Compile the current JMCS manuscript explicitly"
-	@echo "  jmcs-package     Build the current JMCS submission ZIP explicitly"
-	@echo "  netmahib-manuscript  Compile the superseded Springer manuscript"
-	@echo "  netmahib-package     Build the superseded Springer submission ZIPs"
-	@echo "  clean       Remove regenerated figures and Python caches"
+	@echo "test                  Scientific and Journal artifact regression tests"
+	@echo "public-models hpn-data Verify the included public inputs"
+	@echo "death-receptor        Regenerate the main case and exact witnesses"
+	@echo "death-receptor-word   Independent mCRL2 sustained-word check"
+	@echo "formal-audit          Independent directional, hierarchy and exhaustive audits"
+	@echo "external-validation   mCRL2 public/synthetic controls and simulation oracle"
+	@echo "gim-interface         Regenerate the three-interface GIM comparison"
+	@echo "hpn-validation        Exploratory held-out formal/data comparison"
+	@echo "caspots-validation    Repeat held-out scores in the separate Conda environment"
+	@echo "pn-gdda               Direct graphlet catalog and native-net scores"
+	@echo "holmes-pn-gdda         Independent Holmes reference score (JDK/network needed)"
+	@echo "figures               Supporting experiments and the six Journal figures"
+	@echo "verify                Full regeneration and strict scientific-result comparison"
+	@echo "notebook              Execute the canonical experiment notebook"
+	@echo "manuscript / package  Clean-build Journal PDFs and the flat Journal.zip"
 
 setup:
 	$(PY) -m pip install -r requirements.txt
 
 public-models:
 	$(PY) scripts/fetch_public_models.py
+	$(PY) scripts/fetch_branching_models.py
+
+hpn-data:
+	$(PY) scripts/fetch_hpn_dream.py
+
+test:
+	$(PY) -m unittest discover -s tests -v
 
 gim-interface:
 	$(PY) src/gim_interface_analysis.py
 
-hpn-data:
-	$(PY) scripts/fetch_hpn_dream.py
+analysis:
+	$(PY) src/concurrent_biomodels.py
+
+external-validation: public-models
+	$(PY) src/public_validation.py
+	$(PY) src/simulation_oracle.py
+
+formal-audit:
+	$(PY) -m src.formal_audit
+	$(PY) scripts/run_formal_external_audit.py
+
+death-receptor: public-models
+	$(PY) scripts/run_branching_cases.py
+
+death-receptor-word:
+	$(PY) scripts/run_death_receptor_external_audit.py --sustained-word-only
 
 hpn-validation: hpn-data
 	$(PY) src/hpn_dream_validation.py
 
 caspots-validation: hpn-data
-	conda run -n bisimulationmol-hpn \
-		python scripts/run_caspots_hpn_validation.py --repeats 2
-
-external-validation: public-models
-	$(PY) src/public_validation.py
-	$(PY) src/simulation_oracle.py
+	conda run -n bisimulationmol-hpn python scripts/run_caspots_hpn_validation.py --repeats 2
 
 pn-gdda:
 	$(PY) -m src.pn_gdda
@@ -65,79 +69,20 @@ pn-gdda:
 holmes-pn-gdda:
 	$(PY) scripts/validate_holmes_pn_gdda.py
 
-analysis:
-	$(PY) src/concurrent_biomodels.py
-
-test:
-	$(PY) -m unittest discover -s tests -v
-
 figures: public-models hpn-data gim-interface
 	$(PY) make_figures.py
+	$(PY) scripts/make_gim_figure.py
+	$(PY) scripts/make_death_receptor_figure.py
 
 notebook:
-	$(PY) scripts/update_notebook_netmahib.py
 	$(PY) -m jupyter nbconvert --to notebook --execute --inplace \
 		notebooks/metodologia_multiescala.ipynb
 
-# Run timings and bounded-search progress depend on the machine. Model
-# structures, decisions, witnesses and declared limits remain strict checks.
-verify: test figures jbcb-r2-audit jbcb-r3-analysis
+# Only timings and declared search-progress counters are machine-dependent.
+verify: test figures formal-audit death-receptor death-receptor-word
 	$(PY) scripts/verify_result_reproducibility.py
 
-manuscript: jbcb-r3-manuscript
+manuscript:
+	$(PY) scripts/build_journal.py
 
-package: jbcb-r3-package
-
-.PHONY: jbcb-r3-analysis jbcb-r3-manuscript jbcb-r3-package
-
-jbcb-r3-analysis:
-	$(PY) scripts/fetch_branching_models.py
-	$(PY) scripts/run_branching_cases.py
-
-jbcb-r3-manuscript:
-	$(PY) scripts/make_revision_R3_figures.py
-	$(PY) scripts/assemble_jbcb_R3.py
-	$(PY) scripts/build_jbcb_R3_package.py
-
-jbcb-r3-package: jbcb-r3-manuscript
-
-.PHONY: jbcb-r2-audit jbcb-r2-manuscript jbcb-r2-package
-
-jbcb-r2-audit:
-	$(PY) -m src.formal_revision_audit
-	$(PY) scripts/run_R2_external_audit.py
-	$(PY) scripts/write_R2_direction_inventory.py
-
-jbcb-r2-manuscript:
-	$(PY) scripts/assemble_jbcb_R2.py
-	$(PY) scripts/make_revision_R2_figures.py
-	$(PY) tools/check_jbcb_abstract.py revision_R2/main_jbcb_R2.tex
-	$(PY) tools/check_jbcb_english.py revision_R2/main_jbcb_R2.tex
-	cd revision_R2 && latexmk -pdf -interaction=nonstopmode -halt-on-error main_jbcb_R2.tex Supplementary_Validation_R2.tex response_to_reviewer_R2.tex
-
-jbcb-r2-package: jbcb-r2-manuscript
-	$(PY) scripts/build_jbcb_R2_package.py
-
-jbcb-manuscript:
-	$(PY) tools/check_jbcb_abstract.py paper/jbcb/main_jbcb.tex
-	$(PY) tools/check_jbcb_english.py paper/jbcb/main_jbcb.tex
-	cd paper/jbcb && latexmk -pdf -interaction=nonstopmode -halt-on-error main_jbcb.tex
-
-jbcb-package: jbcb-manuscript
-	$(PY) scripts/build_jbcb_package.py
-
-jmcs-manuscript:
-	cd paper/jmcs && latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
-
-jmcs-package: jmcs-manuscript
-	$(PY) scripts/build_jmcs_package.py
-
-netmahib-manuscript:
-	cd paper/netmahib && latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
-
-netmahib-package: figures netmahib-manuscript
-	$(PY) scripts/build_netmahib_package.py
-
-clean:
-	rm -f figs/*.png
-	find . -name '__pycache__' -type d -prune -exec rm -rf {} +
+package: manuscript

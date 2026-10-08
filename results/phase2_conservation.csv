@@ -1,6 +1,0 @@
-module,total_components,conserved_components,conservation_index,user_module
-GIM,10,8,0.8,DNA repair and genome instability
-DCE,7,7,1.0,Central energy metabolism
-SPS,7,7,1.0,Cell-cycle regulation
-RCD,8,6,0.75,Programmed cell death and autophagy
-AID,5,3,0.6,Immune evasion (not prioritised)

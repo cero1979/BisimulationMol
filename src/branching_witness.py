@@ -1,6 +1,6 @@
 """Exact finite-trace checks and independently verifiable losing-game DAGs."""
 from collections import deque
-from .formal_revision_audit import game_relation, IndependentLTS
+from .formal_audit import game_relation, IndependentLTS
 
 
 class WeakAutomaton:

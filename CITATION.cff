@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite both the software and the article."
-title: "BisimulationMol: auditing observable behavior in qualitative biological network models"
+title: "BisimulationMol: Journal experiments for the accepted JBCB article"
 abstract: >-
   Reproducible implementation of a Petri-net framework that compares explicit
   qualitative biological network models under a declared observational
@@ -9,13 +9,14 @@ abstract: >-
   benchmarks, a direct 151-graphlet/592-slot PN-GDDA implementation and Holmes
   audit, an LTS graphlet comparator, asynchronous/synchronous sensitivity,
   an exhaustive simulation-game oracle, held-out HPN-DREAM validation,
-  scalability measurements and a curated Arabidopsis-animal illustration.
+  scalability measurements, a curated Arabidopsis-animal illustration and
+  fixed-interface death-receptor commitment experiments.
 type: software
 authors:
   - family-names: "Ramirez Ovalle"
     given-names: "Carlos"
-version: "2.3.0"
-date-released: "2026-08-13"
+version: "Journal"
+date-released: "2026-10-08"
 license: MIT
 repository-code: "https://github.com/cero1979/BisimulationMol"
 url: "https://github.com/cero1979/BisimulationMol"
@@ -37,4 +38,4 @@ preferred-citation:
       given-names: "Carlos"
   journal: "Journal of Bioinformatics and Computational Biology"
   year: 2026
-  notes: "Accepted on October 2, 2026; manuscript JBCB-1505R3. Publication details pending."
+  notes: "Accepted on October 2, 2026; manuscript JBCB-1505. Publication details pending."

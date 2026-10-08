@@ -1,4 +1,4 @@
-"""Pinned Calzone 2010 full-model variants for the fixed-interface R3 study."""
+"""Pinned Calzone 2010 full-model variants for the fixed-interface Journal study."""
 
 from dataclasses import asdict, replace
 import hashlib
