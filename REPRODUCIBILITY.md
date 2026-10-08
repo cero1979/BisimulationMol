@@ -354,10 +354,17 @@ so a reviewer can inspect the complete run without executing code first.
 make verify
 ```
 
-This regenerates `results/` and compares all deterministic tracked outputs with
-the committed versions. Runtime measurements are excluded from the byte-level
-check because performance cannot be identical across processors. The benchmark
-still asserts deterministic model sizes, relation sizes and formal outcomes.
+This regenerates `results/` and compares tracked outputs with HEAD using
+`scripts/verify_result_reproducibility.py`. Scalability runtime measurements
+are excluded. For the sustained/withdrawal comparison and trace-equivalence
+JSON files, and their combined trace record, only `subset_product_states`
+and `stored_subset_bytes` at the declared trace-analysis paths are excluded:
+the wall-clock cap can stop discovery at a different frontier. Resource limits,
+completion status, scientific verdicts, counterexamples, known-word prefix
+counts, model sizes and graph hashes are still compared strictly. All other
+tracked result files retain byte-level comparison. The run-dependent counters
+remain in the result files for transparency; a timeout is never treated as an
+equivalence decision.
 
 ## 7. Compile the JBCB manuscript
 

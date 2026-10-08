@@ -79,13 +79,10 @@ notebook:
 	$(PY) -m jupyter nbconvert --to notebook --execute --inplace \
 		notebooks/metodologia_multiescala.ipynb
 
-# Elapsed-time measurements are machine-dependent. All model structures,
-# relation outcomes and other result tables remain byte-level checks.
+# Run timings and bounded-search progress depend on the machine. Model
+# structures, decisions, witnesses and declared limits remain strict checks.
 verify: test figures jbcb-r2-audit jbcb-r3-analysis
-	@echo "Checking that tracked deterministic results are unchanged..."
-	@git diff --exit-code -- results ':(exclude)results/scalability_runtime.csv' \
-		&& echo "OK: deterministic results regenerated identically." \
-		|| { echo "ERROR: deterministic results changed after regeneration."; exit 1; }
+	$(PY) scripts/verify_result_reproducibility.py
 
 manuscript: jbcb-r3-manuscript
 

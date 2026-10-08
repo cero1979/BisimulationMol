@@ -74,8 +74,10 @@ and contact the source repositories only when a file is absent or invalid.
 `make verify` is the primary reproducibility check. It runs the complete test
 suite,
 regenerates the scientific outputs and fails if any deterministic tracked
-result differs. Runtime measurements are reported but excluded from byte-level
-comparison because they depend on hardware.
+result differs. Runtime measurements and the two bounded-search progress
+counters (`subset_product_states`, `stored_subset_bytes`) are reported but
+excluded from equality checks. Scientific verdicts, counterexample words,
+graph sizes/hashes, prefix counts and declared limits remain strict checks.
 
 ## Formal and computational safeguards
 
@@ -351,10 +353,13 @@ make verify
 ```
 
 This regenerates all tracked scientific tables and fails if deterministic
-outputs differ. `results/scalability_runtime.csv` is deliberately excluded from
-bit-for-bit comparison because elapsed time depends on hardware and system
-load. Its structural companion, `results/scalability_structure.csv`, remains
-deterministic and is checked.
+outputs differ. `results/scalability_runtime.csv` is deliberately excluded
+because elapsed time depends on hardware and system load. In the five R3
+trace-result JSON files, only `subset_product_states` and `stored_subset_bytes`
+at the declared trace-analysis paths are excluded; time-limited exploration
+can stop at a different frontier on another machine. Every other JSON field
+is compared, and all remaining result files are compared byte-for-byte.
+The structural companion `results/scalability_structure.csv` is checked.
 
 The public repository is <https://github.com/cero1979/BisimulationMol>.
 See [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for commands, expected outputs and
