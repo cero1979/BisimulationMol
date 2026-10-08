@@ -1,0 +1,71 @@
+[
+  {
+    "case": "weak_not_strong",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": true,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": true
+    },
+    "independent_oracle_agrees": true,
+    "left": "a.0",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "a.tau.0",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 3,
+    "weak_bisimilar": true
+  },
+  {
+    "case": "mutual_not_bisimilar",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": true,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "a.(b+c)+a.b",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "late-choice",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 5,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "traces_not_mutual",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": true,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "late-choice",
+    "left_only_trace": null,
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": true,
+    "right": "early-choice",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 5,
+    "weak_bisimilar": false
+  }
+]

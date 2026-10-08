@@ -1,0 +1,9 @@
+{
+  "date": "2026-09-23",
+  "parent_configuration_sha256": "408936bf397586897e72b73004084c7210a81084b9b74826ce7d7e6d637075c6",
+  "trigger": "Hidden-sink quotient exceeded both 200000 and diagnostic 1000000-state limits, before relation computation.",
+  "change": "Use compact Boolean encoding, compiled importer truth tables and CSR adjacency. Permit the finite Boolean universe, at most 2^23 states for the withdrawal protocol. Use mCRL2 branching-bisimulation minimization prior to weak-game and trace checks; branching bisimulation preserves weak bisimulation and finite weak traces.",
+  "unchanged": ["source model", "variant rule", "initial condition", "interface", "intervention", "unitary asynchronous semantics"],
+  "verification": "Compare compact states, edges and futures against the tuple executor on feedback/withdrawal/cycle fixtures; retain raw AUTs for external verification.",
+  "formal_results_available_when_amended": false
+}

@@ -1,0 +1,21 @@
+{
+  "configuration_sha256": "408936bf397586897e72b73004084c7210a81084b9b74826ce7d7e6d637075c6",
+  "command": "python scripts/run_branching_cases.py; repeated by executed notebook",
+  "deterministic_files_checked": 12,
+  "identical": true,
+  "changed": [],
+  "sha256": {
+    "results/death_receptor_branching_witness.json": "fcdd784934629fcd4dc06aca4795cb388c2219548c6d8e88d4fd001d85bb9c4a",
+    "results/death_receptor_execution_summary.json": "0a03d24cd9c3f2ac51b6ceb6cb736422d056c8f9d9c15ddb21efd55ccf6a29dc",
+    "results/death_receptor_independent_trace_audit.json": "c67df1cc2f0a0966a8a6de203e67c53a84caf338bd7e7d76f5491d9da789109a",
+    "results/death_receptor_interface.json": "757e7a4b107a228ea5b5ff49e446e46388e1057e30a07e8ad7f39346f3f14bff",
+    "results/death_receptor_sustained_comparison.json": "06161f76a1ea5f34b903d2860fe4334db8d9cea691c1185d966f3b8f224466a1",
+    "results/death_receptor_sustained_discovery.json": "a7185a8207fe105b0154585301ec9e2b7550cd92eaa4b0e170aa99b3aff90ffd",
+    "results/death_receptor_sustained_sparse_audit.json": "fa669f7f809f394f00135a9024d19eb3485fb262693460f72880e13efe28d5f0",
+    "results/death_receptor_sustained_trace_equivalence.json": "b140266a5768b6a8930dd1070a0213ada457520fb51731fc6a1ddbf2235ab31a",
+    "results/death_receptor_trace_equivalence.json": "b0f3e87dc5ed937ca86075f97e3c553bc01259310113f1755ffb9bcd1058b946",
+    "results/death_receptor_withdrawal_comparison.json": "48e59a14a9103006d191333f94a17a23f665c113865b879319c5c29e64fce5a0",
+    "results/death_receptor_withdrawal_trace_equivalence.json": "34e2369f062cf34e9d0101e341fa79e8153cfce65a2105d078ab443812eef258",
+    "results/death_receptor_commitment_scan.csv": "ce3bf4e9fb0b735d04a6f6277fc63331c333e859cb4d89c386b4d6ce636355a0"
+  }
+}

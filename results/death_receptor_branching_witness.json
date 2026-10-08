@@ -1,0 +1,3954 @@
+{
+  "amendments": [
+    "branching_case_amendment_01.json",
+    "branching_case_amendment_02.json",
+    "branching_case_amendment_03.json"
+  ],
+  "biological_interpretation": "Feedback supports persistent CASP3 after withdrawal at this shared state; without feedback the only reachable terminal fate is naive. The three-marker history alone does not identify the hidden state.",
+  "certificate": {
+    "bisimulation": false,
+    "nodes": [
+      {
+        "attacker_side": "left",
+        "label": "withdraw_TNF",
+        "pair": [
+          0,
+          0
+        ],
+        "possible_reply_pairs": [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            2,
+            7
+          ],
+          [
+            2,
+            8
+          ],
+          [
+            2,
+            9
+          ],
+          [
+            2,
+            10
+          ],
+          [
+            2,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 8,
+        "successor": 2
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          2,
+          2
+        ],
+        "possible_reply_pairs": [
+          [
+            5,
+            2
+          ],
+          [
+            5,
+            4
+          ],
+          [
+            5,
+            5
+          ],
+          [
+            5,
+            6
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            8
+          ],
+          [
+            5,
+            9
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            5,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 7,
+        "successor": 5
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          2,
+          4
+        ],
+        "possible_reply_pairs": [
+          [
+            5,
+            4
+          ],
+          [
+            5,
+            6
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            9
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            5,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 7,
+        "successor": 5
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          2,
+          5
+        ],
+        "possible_reply_pairs": [
+          [
+            5,
+            5
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            8
+          ],
+          [
+            5,
+            9
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            5,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 7,
+        "successor": 5
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          2,
+          6
+        ],
+        "possible_reply_pairs": [
+          [
+            5,
+            6
+          ],
+          [
+            5,
+            9
+          ],
+          [
+            5,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 7,
+        "successor": 5
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          2,
+          7
+        ],
+        "possible_reply_pairs": [
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            9
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            5,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 7,
+        "successor": 5
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          2,
+          8
+        ],
+        "possible_reply_pairs": [
+          [
+            5,
+            8
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            5,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 7,
+        "successor": 5
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          2,
+          9
+        ],
+        "possible_reply_pairs": [
+          [
+            5,
+            9
+          ],
+          [
+            5,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 7,
+        "successor": 5
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          2,
+          10
+        ],
+        "possible_reply_pairs": [
+          [
+            5,
+            10
+          ],
+          [
+            5,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 7,
+        "successor": 5
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          2,
+          11
+        ],
+        "possible_reply_pairs": [
+          [
+            5,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 7,
+        "successor": 5
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          5,
+          2
+        ],
+        "possible_reply_pairs": [
+          [
+            8,
+            2
+          ],
+          [
+            8,
+            4
+          ],
+          [
+            8,
+            5
+          ],
+          [
+            8,
+            6
+          ],
+          [
+            8,
+            7
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            8,
+            9
+          ],
+          [
+            8,
+            10
+          ],
+          [
+            8,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 6,
+        "successor": 8
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          5,
+          4
+        ],
+        "possible_reply_pairs": [
+          [
+            8,
+            4
+          ],
+          [
+            8,
+            6
+          ],
+          [
+            8,
+            7
+          ],
+          [
+            8,
+            9
+          ],
+          [
+            8,
+            10
+          ],
+          [
+            8,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 6,
+        "successor": 8
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          5,
+          5
+        ],
+        "possible_reply_pairs": [
+          [
+            8,
+            5
+          ],
+          [
+            8,
+            7
+          ],
+          [
+            8,
+            8
+          ],
+          [
+            8,
+            9
+          ],
+          [
+            8,
+            10
+          ],
+          [
+            8,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 6,
+        "successor": 8
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          5,
+          6
+        ],
+        "possible_reply_pairs": [
+          [
+            8,
+            6
+          ],
+          [
+            8,
+            9
+          ],
+          [
+            8,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 6,
+        "successor": 8
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          5,
+          7
+        ],
+        "possible_reply_pairs": [
+          [
+            8,
+            7
+          ],
+          [
+            8,
+            9
+          ],
+          [
+            8,
+            10
+          ],
+          [
+            8,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 6,
+        "successor": 8
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          5,
+          8
+        ],
+        "possible_reply_pairs": [
+          [
+            8,
+            8
+          ],
+          [
+            8,
+            10
+          ],
+          [
+            8,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 6,
+        "successor": 8
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          5,
+          9
+        ],
+        "possible_reply_pairs": [
+          [
+            8,
+            9
+          ],
+          [
+            8,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 6,
+        "successor": 8
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          5,
+          10
+        ],
+        "possible_reply_pairs": [
+          [
+            8,
+            10
+          ],
+          [
+            8,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 6,
+        "successor": 8
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          5,
+          11
+        ],
+        "possible_reply_pairs": [
+          [
+            8,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 6,
+        "successor": 8
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          8,
+          2
+        ],
+        "possible_reply_pairs": [
+          [
+            11,
+            2
+          ],
+          [
+            11,
+            4
+          ],
+          [
+            11,
+            5
+          ],
+          [
+            11,
+            6
+          ],
+          [
+            11,
+            7
+          ],
+          [
+            11,
+            8
+          ],
+          [
+            11,
+            9
+          ],
+          [
+            11,
+            10
+          ],
+          [
+            11,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 5,
+        "successor": 11
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          8,
+          4
+        ],
+        "possible_reply_pairs": [
+          [
+            11,
+            4
+          ],
+          [
+            11,
+            6
+          ],
+          [
+            11,
+            7
+          ],
+          [
+            11,
+            9
+          ],
+          [
+            11,
+            10
+          ],
+          [
+            11,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 5,
+        "successor": 11
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          8,
+          5
+        ],
+        "possible_reply_pairs": [
+          [
+            11,
+            5
+          ],
+          [
+            11,
+            7
+          ],
+          [
+            11,
+            8
+          ],
+          [
+            11,
+            9
+          ],
+          [
+            11,
+            10
+          ],
+          [
+            11,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 5,
+        "successor": 11
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          8,
+          6
+        ],
+        "possible_reply_pairs": [
+          [
+            11,
+            6
+          ],
+          [
+            11,
+            9
+          ],
+          [
+            11,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 5,
+        "successor": 11
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          8,
+          7
+        ],
+        "possible_reply_pairs": [
+          [
+            11,
+            7
+          ],
+          [
+            11,
+            9
+          ],
+          [
+            11,
+            10
+          ],
+          [
+            11,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 5,
+        "successor": 11
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          8,
+          8
+        ],
+        "possible_reply_pairs": [
+          [
+            11,
+            8
+          ],
+          [
+            11,
+            10
+          ],
+          [
+            11,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 5,
+        "successor": 11
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          8,
+          9
+        ],
+        "possible_reply_pairs": [
+          [
+            11,
+            9
+          ],
+          [
+            11,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 5,
+        "successor": 11
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          8,
+          10
+        ],
+        "possible_reply_pairs": [
+          [
+            11,
+            10
+          ],
+          [
+            11,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 5,
+        "successor": 11
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          8,
+          11
+        ],
+        "possible_reply_pairs": [
+          [
+            11,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 5,
+        "successor": 11
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          11,
+          2
+        ],
+        "possible_reply_pairs": [
+          [
+            14,
+            2
+          ],
+          [
+            14,
+            4
+          ],
+          [
+            14,
+            5
+          ],
+          [
+            14,
+            6
+          ],
+          [
+            14,
+            7
+          ],
+          [
+            14,
+            8
+          ],
+          [
+            14,
+            9
+          ],
+          [
+            14,
+            10
+          ],
+          [
+            14,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 4,
+        "successor": 14
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          11,
+          4
+        ],
+        "possible_reply_pairs": [
+          [
+            14,
+            4
+          ],
+          [
+            14,
+            6
+          ],
+          [
+            14,
+            7
+          ],
+          [
+            14,
+            9
+          ],
+          [
+            14,
+            10
+          ],
+          [
+            14,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 4,
+        "successor": 14
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          11,
+          5
+        ],
+        "possible_reply_pairs": [
+          [
+            14,
+            5
+          ],
+          [
+            14,
+            7
+          ],
+          [
+            14,
+            8
+          ],
+          [
+            14,
+            9
+          ],
+          [
+            14,
+            10
+          ],
+          [
+            14,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 4,
+        "successor": 14
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          11,
+          6
+        ],
+        "possible_reply_pairs": [
+          [
+            14,
+            6
+          ],
+          [
+            14,
+            9
+          ],
+          [
+            14,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 4,
+        "successor": 14
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          11,
+          7
+        ],
+        "possible_reply_pairs": [
+          [
+            14,
+            7
+          ],
+          [
+            14,
+            9
+          ],
+          [
+            14,
+            10
+          ],
+          [
+            14,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 4,
+        "successor": 14
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          11,
+          8
+        ],
+        "possible_reply_pairs": [
+          [
+            14,
+            8
+          ],
+          [
+            14,
+            10
+          ],
+          [
+            14,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 4,
+        "successor": 14
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          11,
+          9
+        ],
+        "possible_reply_pairs": [
+          [
+            14,
+            9
+          ],
+          [
+            14,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 4,
+        "successor": 14
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          11,
+          10
+        ],
+        "possible_reply_pairs": [
+          [
+            14,
+            10
+          ],
+          [
+            14,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 4,
+        "successor": 14
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          11,
+          11
+        ],
+        "possible_reply_pairs": [
+          [
+            14,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 4,
+        "successor": 14
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          14,
+          2
+        ],
+        "possible_reply_pairs": [
+          [
+            17,
+            2
+          ],
+          [
+            17,
+            4
+          ],
+          [
+            17,
+            5
+          ],
+          [
+            17,
+            6
+          ],
+          [
+            17,
+            7
+          ],
+          [
+            17,
+            8
+          ],
+          [
+            17,
+            9
+          ],
+          [
+            17,
+            10
+          ],
+          [
+            17,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 3,
+        "successor": 17
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          14,
+          4
+        ],
+        "possible_reply_pairs": [
+          [
+            17,
+            4
+          ],
+          [
+            17,
+            6
+          ],
+          [
+            17,
+            7
+          ],
+          [
+            17,
+            9
+          ],
+          [
+            17,
+            10
+          ],
+          [
+            17,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 3,
+        "successor": 17
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          14,
+          5
+        ],
+        "possible_reply_pairs": [
+          [
+            17,
+            5
+          ],
+          [
+            17,
+            7
+          ],
+          [
+            17,
+            8
+          ],
+          [
+            17,
+            9
+          ],
+          [
+            17,
+            10
+          ],
+          [
+            17,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 3,
+        "successor": 17
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          14,
+          6
+        ],
+        "possible_reply_pairs": [
+          [
+            17,
+            6
+          ],
+          [
+            17,
+            9
+          ],
+          [
+            17,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 3,
+        "successor": 17
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          14,
+          7
+        ],
+        "possible_reply_pairs": [
+          [
+            17,
+            7
+          ],
+          [
+            17,
+            9
+          ],
+          [
+            17,
+            10
+          ],
+          [
+            17,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 3,
+        "successor": 17
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          14,
+          8
+        ],
+        "possible_reply_pairs": [
+          [
+            17,
+            8
+          ],
+          [
+            17,
+            10
+          ],
+          [
+            17,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 3,
+        "successor": 17
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          14,
+          9
+        ],
+        "possible_reply_pairs": [
+          [
+            17,
+            9
+          ],
+          [
+            17,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 3,
+        "successor": 17
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          14,
+          10
+        ],
+        "possible_reply_pairs": [
+          [
+            17,
+            10
+          ],
+          [
+            17,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 3,
+        "successor": 17
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          14,
+          11
+        ],
+        "possible_reply_pairs": [
+          [
+            17,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 3,
+        "successor": 17
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          17,
+          2
+        ],
+        "possible_reply_pairs": [
+          [
+            20,
+            2
+          ],
+          [
+            20,
+            4
+          ],
+          [
+            20,
+            5
+          ],
+          [
+            20,
+            6
+          ],
+          [
+            20,
+            7
+          ],
+          [
+            20,
+            8
+          ],
+          [
+            20,
+            9
+          ],
+          [
+            20,
+            10
+          ],
+          [
+            20,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 2,
+        "successor": 20
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          17,
+          4
+        ],
+        "possible_reply_pairs": [
+          [
+            20,
+            4
+          ],
+          [
+            20,
+            6
+          ],
+          [
+            20,
+            7
+          ],
+          [
+            20,
+            9
+          ],
+          [
+            20,
+            10
+          ],
+          [
+            20,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 2,
+        "successor": 20
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          17,
+          5
+        ],
+        "possible_reply_pairs": [
+          [
+            20,
+            5
+          ],
+          [
+            20,
+            7
+          ],
+          [
+            20,
+            8
+          ],
+          [
+            20,
+            9
+          ],
+          [
+            20,
+            10
+          ],
+          [
+            20,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 2,
+        "successor": 20
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          17,
+          6
+        ],
+        "possible_reply_pairs": [
+          [
+            20,
+            6
+          ],
+          [
+            20,
+            9
+          ],
+          [
+            20,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 2,
+        "successor": 20
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          17,
+          7
+        ],
+        "possible_reply_pairs": [
+          [
+            20,
+            7
+          ],
+          [
+            20,
+            9
+          ],
+          [
+            20,
+            10
+          ],
+          [
+            20,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 2,
+        "successor": 20
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          17,
+          8
+        ],
+        "possible_reply_pairs": [
+          [
+            20,
+            8
+          ],
+          [
+            20,
+            10
+          ],
+          [
+            20,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 2,
+        "successor": 20
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          17,
+          9
+        ],
+        "possible_reply_pairs": [
+          [
+            20,
+            9
+          ],
+          [
+            20,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 2,
+        "successor": 20
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          17,
+          10
+        ],
+        "possible_reply_pairs": [
+          [
+            20,
+            10
+          ],
+          [
+            20,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 2,
+        "successor": 20
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          17,
+          11
+        ],
+        "possible_reply_pairs": [
+          [
+            20,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 2,
+        "successor": 20
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          20,
+          2
+        ],
+        "possible_reply_pairs": [
+          [
+            23,
+            2
+          ],
+          [
+            23,
+            4
+          ],
+          [
+            23,
+            5
+          ],
+          [
+            23,
+            6
+          ],
+          [
+            23,
+            7
+          ],
+          [
+            23,
+            8
+          ],
+          [
+            23,
+            9
+          ],
+          [
+            23,
+            10
+          ],
+          [
+            23,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 1,
+        "successor": 23
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          20,
+          4
+        ],
+        "possible_reply_pairs": [
+          [
+            23,
+            4
+          ],
+          [
+            23,
+            6
+          ],
+          [
+            23,
+            7
+          ],
+          [
+            23,
+            9
+          ],
+          [
+            23,
+            10
+          ],
+          [
+            23,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 1,
+        "successor": 23
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          20,
+          5
+        ],
+        "possible_reply_pairs": [
+          [
+            23,
+            5
+          ],
+          [
+            23,
+            7
+          ],
+          [
+            23,
+            8
+          ],
+          [
+            23,
+            9
+          ],
+          [
+            23,
+            10
+          ],
+          [
+            23,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 1,
+        "successor": 23
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          20,
+          6
+        ],
+        "possible_reply_pairs": [
+          [
+            23,
+            6
+          ],
+          [
+            23,
+            9
+          ],
+          [
+            23,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 1,
+        "successor": 23
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          20,
+          7
+        ],
+        "possible_reply_pairs": [
+          [
+            23,
+            7
+          ],
+          [
+            23,
+            9
+          ],
+          [
+            23,
+            10
+          ],
+          [
+            23,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 1,
+        "successor": 23
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          20,
+          8
+        ],
+        "possible_reply_pairs": [
+          [
+            23,
+            8
+          ],
+          [
+            23,
+            10
+          ],
+          [
+            23,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 1,
+        "successor": 23
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          20,
+          9
+        ],
+        "possible_reply_pairs": [
+          [
+            23,
+            9
+          ],
+          [
+            23,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 1,
+        "successor": 23
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          20,
+          10
+        ],
+        "possible_reply_pairs": [
+          [
+            23,
+            10
+          ],
+          [
+            23,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 1,
+        "successor": 23
+      },
+      {
+        "attacker_side": "left",
+        "label": "tau",
+        "pair": [
+          20,
+          11
+        ],
+        "possible_reply_pairs": [
+          [
+            23,
+            11
+          ]
+        ],
+        "reason": "all successor pairs already losing",
+        "round": 1,
+        "successor": 23
+      },
+      {
+        "attacker_side": "left",
+        "label": "CASP3_down",
+        "pair": [
+          23,
+          2
+        ],
+        "possible_reply_pairs": [],
+        "reason": "no matching action",
+        "round": 0,
+        "successor": 27
+      },
+      {
+        "attacker_side": "left",
+        "label": "CASP3_down",
+        "pair": [
+          23,
+          4
+        ],
+        "possible_reply_pairs": [],
+        "reason": "no matching action",
+        "round": 0,
+        "successor": 27
+      },
+      {
+        "attacker_side": "left",
+        "label": "CASP3_down",
+        "pair": [
+          23,
+          5
+        ],
+        "possible_reply_pairs": [],
+        "reason": "no matching action",
+        "round": 0,
+        "successor": 27
+      },
+      {
+        "attacker_side": "left",
+        "label": "CASP3_down",
+        "pair": [
+          23,
+          6
+        ],
+        "possible_reply_pairs": [],
+        "reason": "no matching action",
+        "round": 0,
+        "successor": 27
+      },
+      {
+        "attacker_side": "left",
+        "label": "CASP3_down",
+        "pair": [
+          23,
+          7
+        ],
+        "possible_reply_pairs": [],
+        "reason": "no matching action",
+        "round": 0,
+        "successor": 27
+      },
+      {
+        "attacker_side": "left",
+        "label": "CASP3_down",
+        "pair": [
+          23,
+          8
+        ],
+        "possible_reply_pairs": [],
+        "reason": "no matching action",
+        "round": 0,
+        "successor": 27
+      },
+      {
+        "attacker_side": "left",
+        "label": "CASP3_down",
+        "pair": [
+          23,
+          9
+        ],
+        "possible_reply_pairs": [],
+        "reason": "no matching action",
+        "round": 0,
+        "successor": 27
+      },
+      {
+        "attacker_side": "left",
+        "label": "CASP3_down",
+        "pair": [
+          23,
+          10
+        ],
+        "possible_reply_pairs": [],
+        "reason": "no matching action",
+        "round": 0,
+        "successor": 27
+      },
+      {
+        "attacker_side": "left",
+        "label": "CASP3_down",
+        "pair": [
+          23,
+          11
+        ],
+        "possible_reply_pairs": [],
+        "reason": "no matching action",
+        "round": 0,
+        "successor": 27
+      }
+    ],
+    "reversed_models": true,
+    "root": [
+      0,
+      0
+    ],
+    "selection": "first raw-edge challenge at minimum simultaneous elimination rank; not a globally shortest biological explanation"
+  },
+  "classification": "trace_mismatch",
+  "common_observable_prefix": [
+    "CASP3_up"
+  ],
+  "common_raw_history": {
+    "observable_prefix": [
+      "CASP3_up"
+    ],
+    "raw_depth": 8,
+    "raw_path": [
+      {
+        "action": "TNFR_up",
+        "source": 0,
+        "target": 1,
+        "visible": "tau"
+      },
+      {
+        "action": "DISC_TNF_up",
+        "source": 1,
+        "target": 2,
+        "visible": "tau"
+      },
+      {
+        "action": "CASP8_up",
+        "source": 2,
+        "target": 5,
+        "visible": "tau"
+      },
+      {
+        "action": "BAX_up",
+        "source": 5,
+        "target": 11,
+        "visible": "tau"
+      },
+      {
+        "action": "MOMP_up",
+        "source": 11,
+        "target": 21,
+        "visible": "tau"
+      },
+      {
+        "action": "Cyt_c_up",
+        "source": 21,
+        "target": 39,
+        "visible": "tau"
+      },
+      {
+        "action": "apoptosome_up",
+        "source": 39,
+        "target": 74,
+        "visible": "tau"
+      },
+      {
+        "action": "CASP3_up",
+        "source": 74,
+        "target": 136,
+        "visible": "CASP3_up"
+      }
+    ]
+  },
+  "conditioned_graphs_acyclic": [
+    true,
+    true
+  ],
+  "conditioned_sustained": {
+    "certificate": null,
+    "classification": "equivalent",
+    "exact_trace_equal": true,
+    "external_mcrl2": {
+      "mcrl2_strong_bisimilar": true,
+      "mcrl2_weak_bisimilar": true,
+      "mcrl2_weak_trace_equivalent": true
+    },
+    "graphs": [
+      {
+        "edges": 2,
+        "states": 3
+      },
+      {
+        "edges": 2,
+        "states": 3
+      }
+    ],
+    "left_simulated_by_right": true,
+    "right_simulated_by_left": true,
+    "strong_bisimilar": true,
+    "traces": {
+      "algorithm": "epsilon-NFA subset-product BFS, all states accepting",
+      "exact_trace_equal": true,
+      "left_only_trace": null,
+      "left_trace_included_in_right": true,
+      "max_subsets": 10000,
+      "right_only_trace": null,
+      "right_trace_included_in_left": true,
+      "status": "complete",
+      "subset_product_states": 1
+    },
+    "weak_bisimilar": true
+  },
+  "configuration_sha256": "408936bf397586897e72b73004084c7210a81084b9b74826ce7d7e6d637075c6",
+  "exact_trace_equal": false,
+  "external_mcrl2": {
+    "mcrl2_strong_bisimilar": false,
+    "mcrl2_weak_bisimilar": false,
+    "mcrl2_weak_trace_equivalent": false,
+    "version": "ltscompare mCRL2 toolset 202607.0 (Release)"
+  },
+  "failed_matching_action": "CASP3_down",
+  "failed_relation": "right_simulated_by_left",
+  "formal_relation_that_fails": "DR-FB- <=_w DR-FB+ for the conditioned continuations",
+  "future_options_FB_minus": [
+    "naive"
+  ],
+  "future_options_FB_plus": [
+    "apoptosis"
+  ],
+  "history_aggregated_futures": {
+    "DR-FB+": {
+      "compatible_states_before_withdrawal": 78,
+      "reachable_terminal_fates_after_withdrawal": [
+        "apoptosis",
+        "naive",
+        "necrosis"
+      ]
+    },
+    "DR-FB-": {
+      "compatible_states_before_withdrawal": 78,
+      "reachable_terminal_fates_after_withdrawal": [
+        "naive",
+        "necrosis"
+      ]
+    }
+  },
+  "intervention": "withdraw_TNF",
+  "left_simulated_by_right": true,
+  "left_state": 136,
+  "local_graphs": [
+    {
+      "edges": [
+        [
+          0,
+          "tau",
+          1
+        ],
+        [
+          0,
+          "withdraw_TNF",
+          2
+        ],
+        [
+          1,
+          "tau",
+          3
+        ],
+        [
+          1,
+          "withdraw_TNF",
+          4
+        ],
+        [
+          2,
+          "tau",
+          4
+        ],
+        [
+          2,
+          "tau",
+          5
+        ],
+        [
+          3,
+          "withdraw_TNF",
+          6
+        ],
+        [
+          4,
+          "tau",
+          6
+        ],
+        [
+          4,
+          "tau",
+          7
+        ],
+        [
+          5,
+          "tau",
+          7
+        ],
+        [
+          5,
+          "tau",
+          8
+        ],
+        [
+          6,
+          "tau",
+          9
+        ],
+        [
+          7,
+          "tau",
+          9
+        ],
+        [
+          7,
+          "tau",
+          10
+        ],
+        [
+          8,
+          "tau",
+          10
+        ],
+        [
+          9,
+          "tau",
+          11
+        ],
+        [
+          10,
+          "tau",
+          11
+        ]
+      ],
+      "name": "DR-FB+-withdrawal",
+      "states": 12,
+      "vectors": [
+        [
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "edges": [
+        [
+          0,
+          "tau",
+          1
+        ],
+        [
+          0,
+          "withdraw_TNF",
+          2
+        ],
+        [
+          1,
+          "tau",
+          3
+        ],
+        [
+          1,
+          "withdraw_TNF",
+          4
+        ],
+        [
+          2,
+          "tau",
+          4
+        ],
+        [
+          2,
+          "tau",
+          5
+        ],
+        [
+          3,
+          "withdraw_TNF",
+          6
+        ],
+        [
+          4,
+          "tau",
+          6
+        ],
+        [
+          4,
+          "tau",
+          7
+        ],
+        [
+          5,
+          "tau",
+          7
+        ],
+        [
+          5,
+          "tau",
+          8
+        ],
+        [
+          6,
+          "tau",
+          9
+        ],
+        [
+          7,
+          "tau",
+          9
+        ],
+        [
+          7,
+          "tau",
+          10
+        ],
+        [
+          8,
+          "tau",
+          10
+        ],
+        [
+          8,
+          "tau",
+          11
+        ],
+        [
+          9,
+          "tau",
+          12
+        ],
+        [
+          10,
+          "tau",
+          12
+        ],
+        [
+          10,
+          "tau",
+          13
+        ],
+        [
+          11,
+          "tau",
+          13
+        ],
+        [
+          11,
+          "tau",
+          14
+        ],
+        [
+          12,
+          "tau",
+          15
+        ],
+        [
+          13,
+          "tau",
+          15
+        ],
+        [
+          13,
+          "tau",
+          16
+        ],
+        [
+          14,
+          "tau",
+          16
+        ],
+        [
+          14,
+          "tau",
+          17
+        ],
+        [
+          15,
+          "tau",
+          18
+        ],
+        [
+          16,
+          "tau",
+          18
+        ],
+        [
+          16,
+          "tau",
+          19
+        ],
+        [
+          17,
+          "tau",
+          20
+        ],
+        [
+          18,
+          "tau",
+          21
+        ],
+        [
+          19,
+          "tau",
+          17
+        ],
+        [
+          19,
+          "tau",
+          21
+        ],
+        [
+          19,
+          "tau",
+          22
+        ],
+        [
+          20,
+          "tau",
+          23
+        ],
+        [
+          21,
+          "tau",
+          24
+        ],
+        [
+          21,
+          "tau",
+          25
+        ],
+        [
+          22,
+          "tau",
+          20
+        ],
+        [
+          22,
+          "tau",
+          25
+        ],
+        [
+          22,
+          "tau",
+          26
+        ],
+        [
+          23,
+          "CASP3_down",
+          27
+        ],
+        [
+          24,
+          "tau",
+          28
+        ],
+        [
+          25,
+          "tau",
+          28
+        ],
+        [
+          25,
+          "tau",
+          29
+        ],
+        [
+          26,
+          "CASP3_down",
+          30
+        ],
+        [
+          26,
+          "tau",
+          23
+        ],
+        [
+          26,
+          "tau",
+          29
+        ],
+        [
+          28,
+          "tau",
+          31
+        ],
+        [
+          29,
+          "CASP3_down",
+          32
+        ],
+        [
+          29,
+          "tau",
+          31
+        ],
+        [
+          30,
+          "tau",
+          27
+        ],
+        [
+          30,
+          "tau",
+          32
+        ],
+        [
+          31,
+          "CASP3_down",
+          33
+        ],
+        [
+          32,
+          "tau",
+          33
+        ]
+      ],
+      "name": "DR-FB--withdrawal",
+      "states": 34,
+      "vectors": [
+        [
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "omitted_hidden_sinks": [
+    "NonACD",
+    "Apoptosis",
+    "Survival"
+  ],
+  "production_predicates": {
+    "left_simulated_by_right": true,
+    "right_simulated_by_left": false,
+    "strong_bisimilar": false,
+    "weak_bisimilar": false
+  },
+  "right_simulated_by_left": false,
+  "right_state": 136,
+  "scope": "continuation systems rooted at a shared reachable hidden state, not the original initial states",
+  "shared_observations": {
+    "CASP3": 1,
+    "MPT": 0,
+    "NFkB": 0
+  },
+  "shared_retained_state": {
+    "ATP": 1,
+    "BAX": 1,
+    "BCL2": 0,
+    "CASP3": 1,
+    "CASP8": 1,
+    "Cyt_c": 1,
+    "DISC_FAS": 0,
+    "DISC_TNF": 1,
+    "FADD": 1,
+    "FASL": 0,
+    "IKK": 0,
+    "MOMP": 1,
+    "MPT": 0,
+    "NFkB": 0,
+    "RIP1": 0,
+    "RIP1K": 0,
+    "RIP1ub": 0,
+    "ROS": 0,
+    "SMAC": 0,
+    "TNF": 1,
+    "TNFR": 1,
+    "XIAP": 0,
+    "apoptosome": 1,
+    "cFLIP": 0,
+    "cIAP": 1
+  },
+  "strong_bisimilar": false,
+  "traces": {
+    "algorithm": "epsilon-NFA subset-product BFS, all states accepting",
+    "exact_trace_equal": false,
+    "left_only_trace": null,
+    "left_trace_included_in_right": true,
+    "max_subsets": 10000,
+    "right_only_trace": [
+      "withdraw_TNF",
+      "CASP3_down"
+    ],
+    "right_trace_included_in_left": false,
+    "status": "complete",
+    "subset_product_states": 4
+  },
+  "weak_bisimilar": false
+}

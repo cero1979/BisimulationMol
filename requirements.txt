@@ -12,6 +12,9 @@ networkx>=3.0
 pydot>=2.0
 notebook>=6.5
 nbconvert>=7.0
+# R3 compact Boolean execution and terminal-component analysis.
+numba>=0.58
+scipy>=1.10
 #
 # System dependency (NOT installable via pip): Graphviz -> provides the `dot`
 # binary. Install with `brew install graphviz` (macOS) or

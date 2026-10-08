@@ -1,0 +1,868 @@
+[
+  {
+    "case": "synthetic_identity",
+    "computed_class": "strong equivalence",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": true,
+    "expected_class": "strong equivalence",
+    "expected_class_matches": true,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": true,
+      "weak_bisimilar": true
+    },
+    "independent_oracle_agrees": true,
+    "left": "workflow-12",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "identical",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": true,
+    "subset_product_states": 14,
+    "trace_distance_k8": 0.0,
+    "weak_bisimilar": true
+  },
+  {
+    "case": "synthetic_silent refinement",
+    "computed_class": "weak equivalence",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": true,
+    "expected_class": "weak equivalence",
+    "expected_class_matches": true,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": true
+    },
+    "independent_oracle_agrees": true,
+    "left": "workflow-12",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "workflow-12+tau",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 14,
+    "trace_distance_k8": 0.0,
+    "weak_bisimilar": true
+  },
+  {
+    "case": "synthetic_label mismatch",
+    "computed_class": "not comparable",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "expected_class": "not comparable",
+    "expected_class_matches": true,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "workflow-12",
+    "left_only_trace": [
+      "a",
+      "b",
+      "c"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "workflow-12-c",
+    "right_only_trace": [
+      "a",
+      "b",
+      "c_mismatch"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 24,
+    "trace_distance_k8": 0.8,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "synthetic_label order swap",
+    "computed_class": "not comparable",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "expected_class": "not comparable",
+    "expected_class_matches": true,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "workflow-12",
+    "left_only_trace": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "a",
+      "b"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "workflow-12-reordered",
+    "right_only_trace": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "a",
+      "c"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 21,
+    "trace_distance_k8": 0.5,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "synthetic_added branch",
+    "computed_class": "reference simulated by candidate",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "expected_class": "reference simulated by candidate",
+    "expected_class_matches": true,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "workflow-12",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "workflow-12-branch",
+    "right_only_trace": [
+      "a",
+      "b",
+      "c",
+      "d",
+      "a",
+      "b",
+      "extra_outcome"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 15,
+    "trace_distance_k8": 0.09999999999999998,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "synthetic_trace-equivalent branching",
+    "computed_class": "candidate simulated by reference",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": true,
+    "expected_class": "candidate simulated by reference",
+    "expected_class_matches": true,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "late-choice",
+    "left_only_trace": null,
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": true,
+    "right": "early-choice",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 5,
+    "trace_distance_k8": 0.0,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "GIM_A",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": true,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": true
+    },
+    "independent_oracle_agrees": true,
+    "left": "GIM_animal_interface_A",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "GIM_plant_interface_A",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 7,
+    "weak_bisimilar": true
+  },
+  {
+    "case": "GIM_B",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": true,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": true
+    },
+    "independent_oracle_agrees": true,
+    "left": "GIM_animal_interface_B",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "GIM_plant_interface_B",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 11,
+    "weak_bisimilar": true
+  },
+  {
+    "case": "GIM_C",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "GIM_animal_interface_C",
+    "left_only_trace": [
+      "dsb_detection",
+      "atm_pathway_signal",
+      "checkpoint_activation",
+      "dsb_repair",
+      "apoptosis"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "GIM_plant_interface_C",
+    "right_only_trace": [
+      "dsb_detection",
+      "atm_pathway_signal",
+      "checkpoint_activation",
+      "dsb_repair",
+      "smr_induction"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 13,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "GIM",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": true,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": true
+    },
+    "independent_oracle_agrees": true,
+    "left": "GIM_animal",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "GIM_plant",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 7,
+    "weak_bisimilar": true
+  },
+  {
+    "case": "DCE",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": true,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": true
+    },
+    "independent_oracle_agrees": true,
+    "left": "DCE_animal",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "DCE_plant",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 7,
+    "weak_bisimilar": true
+  },
+  {
+    "case": "SPS",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": true,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": true
+    },
+    "independent_oracle_agrees": true,
+    "left": "SPS_animal",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "SPS_plant",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 7,
+    "weak_bisimilar": true
+  },
+  {
+    "case": "RCD",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "RCD_animal",
+    "left_only_trace": [
+      "stress",
+      "mtor_off",
+      "autophagy",
+      "pcd_commit",
+      "apoptosis"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "RCD_plant",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 8,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "AID",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "AID_animal",
+    "left_only_trace": [
+      "recognition",
+      "clonal_selection"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "AID_plant",
+    "right_only_trace": [
+      "recognition",
+      "cell_wall"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 8,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_asynchronous_mTORi_BT20_BT549",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT20_medoid:BT20",
+    "left_only_trace": [
+      "4EBP1_pS65=1"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "BT549_medoid:BT549",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 7,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_asynchronous_mTORi_BT20_MCF7",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT20_medoid:BT20",
+    "left_only_trace": [
+      "4EBP1_pS65=1"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "MCF7_medoid:MCF7",
+    "right_only_trace": [
+      "BAD_pS112=0"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 10,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_asynchronous_mTORi_BT549_MCF7",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT549_medoid:BT549",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "MCF7_medoid:MCF7",
+    "right_only_trace": [
+      "BAD_pS112=0"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 7,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_asynchronous_IGF1+mTORi_BT20_BT549",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT20_medoid:BT20",
+    "left_only_trace": [
+      "4EBP1_pS65=1"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "BT549_medoid:BT549",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 13,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_asynchronous_IGF1+mTORi_BT20_MCF7",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT20_medoid:BT20",
+    "left_only_trace": [
+      "4EBP1_pS65=1"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "MCF7_medoid:MCF7",
+    "right_only_trace": [
+      "BAD_pS112=0"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 22,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_asynchronous_IGF1+mTORi_BT549_MCF7",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT549_medoid:BT549",
+    "left_only_trace": [
+      "MAPK_pT202_Y204=1"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "MCF7_medoid:MCF7",
+    "right_only_trace": [
+      "BAD_pS112=0"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 14,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_asynchronous_4EBP1+mTORi_BT20_BT549",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT20_medoid:BT20",
+    "left_only_trace": [
+      "MEK1_pS217_S221=1"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "BT549_medoid:BT549",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 4,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_asynchronous_4EBP1+mTORi_BT20_MCF7",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT20_medoid:BT20",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "MCF7_medoid:MCF7",
+    "right_only_trace": [
+      "BAD_pS112=0"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 7,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_asynchronous_4EBP1+mTORi_BT549_MCF7",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT549_medoid:BT549",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "MCF7_medoid:MCF7",
+    "right_only_trace": [
+      "BAD_pS112=0"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 7,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_synchronous_mTORi_BT20_BT549",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT20_medoid:BT20:synchronous",
+    "left_only_trace": [
+      "sync[4EBP1_pS65=1|MEK1_pS217_S221=1]"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "BT549_medoid:BT549:synchronous",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 4,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_synchronous_mTORi_BT20_MCF7",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT20_medoid:BT20:synchronous",
+    "left_only_trace": [
+      "sync[4EBP1_pS65=1|MEK1_pS217_S221=1]"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "MCF7_medoid:MCF7:synchronous",
+    "right_only_trace": [
+      "sync[BAD_pS112=0|MEK1_pS217_S221=1]"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 6,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_synchronous_mTORi_BT549_MCF7",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT549_medoid:BT549:synchronous",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "MCF7_medoid:MCF7:synchronous",
+    "right_only_trace": [
+      "sync[BAD_pS112=0|MEK1_pS217_S221=1]"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 4,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_synchronous_IGF1+mTORi_BT20_BT549",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT20_medoid:BT20:synchronous",
+    "left_only_trace": [
+      "sync[4EBP1_pS65=1|MEK1_pS217_S221=1]"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "BT549_medoid:BT549:synchronous",
+    "right_only_trace": [
+      "sync[MAPK_pT202_Y204=1]"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 5,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_synchronous_IGF1+mTORi_BT20_MCF7",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT20_medoid:BT20:synchronous",
+    "left_only_trace": [
+      "sync[4EBP1_pS65=1|MEK1_pS217_S221=1]"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "MCF7_medoid:MCF7:synchronous",
+    "right_only_trace": [
+      "sync[BAD_pS112=0|MEK1_pS217_S221=1]"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 7,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_synchronous_IGF1+mTORi_BT549_MCF7",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT549_medoid:BT549:synchronous",
+    "left_only_trace": [
+      "sync[MAPK_pT202_Y204=1]"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "MCF7_medoid:MCF7:synchronous",
+    "right_only_trace": [
+      "sync[BAD_pS112=0|MEK1_pS217_S221=1]"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 6,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_synchronous_4EBP1+mTORi_BT20_BT549",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": true,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT20_medoid:BT20:synchronous",
+    "left_only_trace": [
+      "sync[MEK1_pS217_S221=1]"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "BT549_medoid:BT549:synchronous",
+    "right_only_trace": null,
+    "right_simulated_by_left": true,
+    "right_trace_included_in_left": true,
+    "strong_bisimilar": false,
+    "subset_product_states": 4,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_synchronous_4EBP1+mTORi_BT20_MCF7",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": false,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT20_medoid:BT20:synchronous",
+    "left_only_trace": [
+      "sync[MEK1_pS217_S221=1]"
+    ],
+    "left_simulated_by_right": false,
+    "left_trace_included_in_right": false,
+    "right": "MCF7_medoid:MCF7:synchronous",
+    "right_only_trace": [
+      "sync[BAD_pS112=0|MEK1_pS217_S221=1]"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 6,
+    "weak_bisimilar": false
+  },
+  {
+    "case": "HPN_synchronous_4EBP1+mTORi_BT549_MCF7",
+    "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+    "exact_trace_equal": false,
+    "independent": {
+      "left_simulated_by_right": true,
+      "right_simulated_by_left": false,
+      "strong_bisimilar": false,
+      "weak_bisimilar": false
+    },
+    "independent_oracle_agrees": true,
+    "left": "BT549_medoid:BT549:synchronous",
+    "left_only_trace": null,
+    "left_simulated_by_right": true,
+    "left_trace_included_in_right": true,
+    "right": "MCF7_medoid:MCF7:synchronous",
+    "right_only_trace": [
+      "sync[BAD_pS112=0|MEK1_pS217_S221=1]"
+    ],
+    "right_simulated_by_left": false,
+    "right_trace_included_in_left": false,
+    "strong_bisimilar": false,
+    "subset_product_states": 4,
+    "weak_bisimilar": false
+  }
+]

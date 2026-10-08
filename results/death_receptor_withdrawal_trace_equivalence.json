@@ -1,0 +1,37 @@
+{
+  "algorithm": "exact epsilon-NFA subset-product BFS on compact CSR; no depth cutoff",
+  "amendments": [
+    "branching_case_amendment_01.json",
+    "branching_case_amendment_02.json",
+    "branching_case_amendment_03.json"
+  ],
+  "configuration_sha256": "408936bf397586897e72b73004084c7210a81084b9b74826ce7d7e6d637075c6",
+  "exact_trace_equal": false,
+  "exploration_complete": false,
+  "left_only_trace": [
+    "withdraw_TNF",
+    "CASP3_up",
+    "CASP3_down",
+    "CASP3_up"
+  ],
+  "left_trace_included_in_right": false,
+  "max_bytes": 250000000,
+  "max_seconds": 180,
+  "max_subsets": 10000,
+  "omitted_hidden_sinks": [
+    "NonACD",
+    "Apoptosis",
+    "Survival"
+  ],
+  "reason": "both trace inclusions refuted by exact counterexamples",
+  "right_only_trace": [
+    "CASP3_up",
+    "withdraw_TNF",
+    "CASP3_down"
+  ],
+  "right_trace_included_in_left": false,
+  "scope": "exact hidden-sink quotient of the public full Boolean model",
+  "status": "disproved",
+  "stored_subset_bytes": 59707148,
+  "subset_product_states": 229
+}

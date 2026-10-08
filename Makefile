@@ -24,8 +24,12 @@ help:
 	@echo "  verify      Check deterministic results after regeneration"
 	@echo "  manuscript  Compile the current JBCB manuscript"
 	@echo "  package     Build and verify the self-contained JBCB submission ZIP"
-	@echo "  jbcb-manuscript  Compile the current JBCB manuscript explicitly"
-	@echo "  jbcb-package     Build the current JBCB submission ZIP explicitly"
+	@echo "  jbcb-manuscript  Compile the retained pre-R2 JBCB manuscript"
+	@echo "  jbcb-package     Build the retained R1 submission ZIP"
+	@echo "  jbcb-r2-audit    Recompute R2 independent quantifier/direction and mCRL2 checks"
+	@echo "  jbcb-r2-package  Assemble and clean-build all flat R2 archives"
+	@echo "  jbcb-r3-analysis Regenerate the fixed-interface death-receptor analysis"
+	@echo "  jbcb-r3-package  Assemble and clean-build all flat R3 archives"
 	@echo "  jmcs-manuscript  Compile the current JMCS manuscript explicitly"
 	@echo "  jmcs-package     Build the current JMCS submission ZIP explicitly"
 	@echo "  netmahib-manuscript  Compile the superseded Springer manuscript"
@@ -77,15 +81,45 @@ notebook:
 
 # Elapsed-time measurements are machine-dependent. All model structures,
 # relation outcomes and other result tables remain byte-level checks.
-verify: test figures
+verify: test figures jbcb-r2-audit jbcb-r3-analysis
 	@echo "Checking that tracked deterministic results are unchanged..."
 	@git diff --exit-code -- results ':(exclude)results/scalability_runtime.csv' \
 		&& echo "OK: deterministic results regenerated identically." \
 		|| { echo "ERROR: deterministic results changed after regeneration."; exit 1; }
 
-manuscript: jbcb-manuscript
+manuscript: jbcb-r3-manuscript
 
-package: jbcb-package
+package: jbcb-r3-package
+
+.PHONY: jbcb-r3-analysis jbcb-r3-manuscript jbcb-r3-package
+
+jbcb-r3-analysis:
+	$(PY) scripts/fetch_branching_models.py
+	$(PY) scripts/run_branching_cases.py
+
+jbcb-r3-manuscript:
+	$(PY) scripts/make_revision_R3_figures.py
+	$(PY) scripts/assemble_jbcb_R3.py
+	$(PY) scripts/build_jbcb_R3_package.py
+
+jbcb-r3-package: jbcb-r3-manuscript
+
+.PHONY: jbcb-r2-audit jbcb-r2-manuscript jbcb-r2-package
+
+jbcb-r2-audit:
+	$(PY) -m src.formal_revision_audit
+	$(PY) scripts/run_R2_external_audit.py
+	$(PY) scripts/write_R2_direction_inventory.py
+
+jbcb-r2-manuscript:
+	$(PY) scripts/assemble_jbcb_R2.py
+	$(PY) scripts/make_revision_R2_figures.py
+	$(PY) tools/check_jbcb_abstract.py revision_R2/main_jbcb_R2.tex
+	$(PY) tools/check_jbcb_english.py revision_R2/main_jbcb_R2.tex
+	cd revision_R2 && latexmk -pdf -interaction=nonstopmode -halt-on-error main_jbcb_R2.tex Supplementary_Validation_R2.tex response_to_reviewer_R2.tex
+
+jbcb-r2-package: jbcb-r2-manuscript
+	$(PY) scripts/build_jbcb_R2_package.py
 
 jbcb-manuscript:
 	$(PY) tools/check_jbcb_abstract.py paper/jbcb/main_jbcb.tex

@@ -1,0 +1,379 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\newcommand{\prew}{\mathrel{\preceq_w}}
+\begin{document}
+\begin{center}
+{\Large\bfseries Response to the Second-Round Review}\\[6pt]
+JBCB-1505, second major revision\\
+Carlos Ramirez Ovalle
+\end{center}
+
+\textbf{Revised title:} Locating resolution-dependent behavioral correspondence
+in qualitative DNA-damage response models.
+
+We thank the reviewer for the close mathematical examination and for identifying
+how the paper can better serve computational biologists. We audited definitions
+and directional conclusions independently and substantially restructured the
+presentation around DNA-damage response. The comment headings below summarize
+the issues addressed, rather than claiming to quote the report verbatim.
+Locations refer to the revised manuscript and its separate Supplementary
+Validation document. The reasoning, principal numerical results, and limitations
+needed to assess each response are included below; no local files or repository
+documents need to be consulted to follow the answers.
+
+\section*{R2.1. Example 1: whether both simulation directions hold}
+\textbf{Response.} We respectfully retain the original direction after a
+quantifier-level and independent computational audit. Definition 4 requires that,
+for every related pair $(x,y)$ and transition $x\xrightarrow{a}x'$, some matching
+successor $y'$ is chosen with $(x',y')$ itself in the simulation relation.
+The matching condition must continue recursively from that particular pair.
+
+To make the example explicit here, the late-choice system has initial state
+$\ell_0$ and exactly the transitions
+\[
+\ell_0\xrightarrow{a}\ell_1,\qquad
+\ell_1\xrightarrow{b}\ell_b,\qquad
+\ell_1\xrightarrow{c}\ell_c.
+\]
+The early-choice system has initial state $e_0$ and exactly the transitions
+\[
+e_0\xrightarrow{a}e_b,\quad e_0\xrightarrow{a}e_c,\quad
+e_b\xrightarrow{b}e'_b,\quad e_c\xrightarrow{c}e'_c.
+\]
+All remaining states are terminal, and neither system has silent transitions.
+Here $X\prew Y$ means that $Y$ simulates $X$: every step of $X$ must have
+a reply from $Y$. An explicit simulation from early to late is
+\[
+R_{E\to L}=\{(e_0,\ell_0),(e_b,\ell_1),(e_c,\ell_1),
+(e'_b,\ell_b),(e'_c,\ell_c)\}.
+\]
+Both early $a$-moves match the sole late $a$-move; the selected $b$-only or
+$c$-only continuation is matched by the late state offering both. Terminal
+pairs impose no further obligations.
+
+For the reverse direction, matching $\ell_0\xrightarrow{a}\ell_1$ requires
+either $(\ell_1,e_b)$ or $(\ell_1,e_c)$ to be related. The former cannot match
+$c$; the latter cannot match $b$. These exhaust the possible $a$-successors.
+Different transitions from a related pair may choose different replies, but
+the single initial late $a$-move cannot be matched by combining the two early
+successor states. Thus early$\prew$late holds, late$\not\prew$early holds,
+and weak bisimilarity fails. Both complete prefix-closed languages are
+$\{\epsilon,a,ab,ac\}$: trace matching may independently choose the two early
+branches for the two longer words.
+
+\textbf{Changes made.} Example 1 in Appendix A now lists all transitions, the
+witness relation, the two-case contradiction, and the distinction between
+trace choices and recursive pair obligations. Section 3 refers readers to this
+example. Definition 4 and the original direction are unchanged.
+
+\textbf{Verification.} Production predicates, the existing game oracle, a new
+game with independently constructed weak targets, and a direct supplied-relation
+checker agree. The deletion certificate removes the two failed successor pairs
+before the initial pair. Exact languages were checked by complete acyclic
+enumeration and finite subset-product traversal without a depth cutoff.
+mCRL2 independently confirms bisimulation and exact traces, and both simulation
+directions using its strong preorder on these tau-free inputs. This does not
+attribute arbitrary weak-preorder checking to mCRL2.
+Every check returns early$\prew$late true, late$\prew$early false,
+weak bisimilarity false, and exact trace equality true. The witness and
+failed-successor argument above establish these conclusions independently
+of access to any software output.
+
+\textbf{Status.} Respectfully clarified; original mathematical direction
+retained after audit. We agree that the previous exposition did not make the
+successor-pair quantifiers sufficiently explicit.
+
+\section*{R2.2. Proposition 2 and the roles of the strictness examples}
+\textbf{Response.} We agree that each failed converse must have a clearly
+identified witness. The hierarchy remains strong bisimilarity implies weak
+bisimilarity implies mutual weak simulation implies exact weak-trace equality.
+The forward implications follow from the transfer definitions and induction
+along concrete finite paths.
+
+\textbf{Changes made.} Proposition 2 and Table 5 in Appendix A distinguish:
+\begin{enumerate}
+\item Weak does not imply strong bisimilarity: $a.0$ versus $a.\tau.0$.
+The silent move can be ignored weakly but has no direct strong match.
+\item Mutual simulation does not imply weak bisimilarity:
+$a.(b+c)+a.b$ versus $a.(b+c)$. This is the example highlighted by the reviewer,
+already intended for the middle converse; its role is now explicit. Both
+directions have witnesses, but a bisimulation must also match the extra
+$b$-only successor against a state offering $c$.
+\item Exact trace equality does not imply mutual weak simulation:
+late choice versus early choice, with only early$\prew$late, as in Example 1.
+\end{enumerate}
+\textbf{Verification.} Explicit constructions, production code, independent
+games, and exact languages give the following results. In process notation,
+$a.P$ means an $a$-step followed by $P$, $+$ denotes a choice, $0$ is terminal,
+and $\tau$ is silent.
+\begin{center}
+\small
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Ordered pair $(X,Y)$ & Strong & Weak & $X\prew Y$ & $Y\prew X$ & Traces equal \\
+\midrule
+$(a.0,\,a.\tau.0)$ & No & Yes & Yes & Yes & Yes \\
+$(a.(b+c)+a.b,\,a.(b+c))$ & No & No & Yes & Yes & Yes \\
+$(\mathrm{late},\,\mathrm{early})$ & No & No & No & Yes & Yes \\
+\bottomrule
+\end{tabular}
+\end{center}
+Strong and Weak denote the two bisimilarities; the two simulation columns
+are evaluated separately. mCRL2 confirms all three equivalence columns
+and, for the two tau-free pairs, both simulation directions. No weak-preorder
+claim is made for its check of the pair containing $\tau$.
+\textbf{Status.} Addressed by clarification and independent audit.
+
+\section*{R2.3. Systematic audit of directions and reported classes}
+\textbf{Response.} We agree and extended the audit beyond Example 1.
+In $L_1\prew L_2$, the right-hand system always simulates the left-hand system.
+
+\textbf{Changes made.} A machine-readable audit records both directions for six
+synthetic pairs, three GIM interfaces, five curated pairs, and 18
+asynchronous/synchronous HPN pairs. The early/late benchmark retains the verified
+class \emph{candidate simulated by reference}. The GIM table names both organisms;
+RCD states that the animal model simulates the plant model, not conversely.
+HPN retains its two Boolean direction fields without numerical ranking.
+The notebook begins with GIM and includes the executable quantifier audit.
+
+\textbf{Verification.} All 32 ordered model-pair records and three hierarchy
+witnesses agree between production and independent calculations. All six
+construction-level classes remain correct; 6/6 is retained only as software
+verification. The expanded complete audit of 67,600 ordered pairs over 260
+named one-/two-state LTSs found no simulation or weak-bisimulation disagreement
+and no hierarchy or trace-inclusion violation. Reflexivity and transitivity
+also hold on that universe. Specifically, the enumeration uses initial state
+zero, alphabet $\{a,\tau\}$, and every edge subset on one or two named states:
+$2^2+2^8=260$ systems and $260^2=67{,}600$ ordered pairs. It includes
+41,080 weakly bisimilar pairs and 4,848 mutually simulated but non-bisimilar
+pairs. There is no one-way simulation with exact trace equality in this small
+universe; the larger Example 1 above supplies that witness. These finite
+checks do not replace general proofs. Supplementary Validation S4 reports
+the same scope and outcomes.
+
+\textbf{Status.} Fully addressed within the declared models and audit universe.
+No mathematical or directional correction was required.
+
+\section*{R2.4. Fixed-point argument and implementation semantics}
+\textbf{Response.} We agree that the fixed-point argument is sound and
+rechecked it rather than changing its statement because the examples were
+questioned. Enlarging a relation cannot remove matching witnesses, so each
+operator is monotone. The greatest fixed point stays contained in the current
+relation through every in-place deletion. At termination the retained pairs
+satisfy the operator, and deleted pairs cannot become valid in a smaller
+relation. The terminal relation is therefore the greatest fixed point.
+
+\textbf{Changes made.} Theorem 1, the controlled-refinement and label-blindness
+propositions, and their proofs remain in Appendix A. Definitions and the
+executable algorithm remain in Section 3; the article is self-contained.
+Silent moves continue to admit zero or more matching silent steps.
+
+\textbf{Verification.} The in-place production algorithm was contrasted with
+simultaneous least-losing-set rounds using independently built weak targets.
+Both retain the same relations in the audits summarized in R2.3.
+For completeness, let $\Phi$ be the matching operator and $R$ the current
+relation, initially the full state-pair set. The invariant $\nu\Phi\subseteq R$
+holds initially. If a pair in $\nu\Phi$ were deleted for lacking a witness
+in $R$, its fixed-point witness in $\nu\Phi\subseteq R$ would contradict that
+deletion. At termination, $R\subseteq\Phi(R)$, so $R\subseteq\nu\Phi$;
+together the inclusions establish equality. Each successful deletion removes
+one pair permanently, giving at most $n_1n_2$ deletions for systems with
+$n_1$ and $n_2$ states. Trace inclusion follows by matching successive
+observable steps and concatenating their weak replies. The independent audit
+therefore supports, rather than substitutes for, the fixed-point and
+path-induction arguments.
+\textbf{Status.} Addressed by clarification and independent audit.
+
+\section*{R2.5. A title better suited to computational biologists}
+\textbf{Response.} We agree. The previous title foregrounded a formal framework.
+The new title, \emph{Locating resolution-dependent behavioral correspondence in
+qualitative DNA-damage response models}, names the biological modeling problem
+without implying experimental validation or a universal law.
+
+\textbf{Changes made.} The title, running head, abstract, and opening sections
+are aligned with the GIM question.
+\textbf{Verification.} Title, abstract, and first pages were checked together
+for the models, readout question, principal result, and scope limitation.
+\textbf{Status.} Addressed by substantial restructuring.
+
+\section*{R2.6. Abstract emphasis on software metrics and inconclusive HPN}
+\textbf{Response.} We agree and rewrote the abstract from scratch around
+DNA-damage response, declared interfaces, constant structural similarity, and
+the change in executable correspondence.
+
+\textbf{Changes made.} The abstract omits 6/6, 42 decisions, 67,600 pairs, and
+HPN $p=0.25$. It reports PN-GDDA 0.9976, weak bisimilarity at A/B, and failure
+of both simulation directions at C, with an explicit model/interface limit.
+Independent verification occupies one short supporting sentence.
+
+\textbf{Verification.} The regenerated values are reproduced in the table in
+R2.8 below. The revised abstract contains 170 words and foregrounds the
+biological question, the A/B-to-C result, and its scope limitation.
+\textbf{Status.} Addressed by substantial restructuring.
+
+\section*{R2.7. Introduction and contribution statement}
+\textbf{Response.} We agree that the biological comparison problem should
+precede fixed-point operators.
+
+\textbf{Changes made.} Section 1 is completely rewritten: executable model
+comparison, concrete animal/plant DDR motivation, limits of structure and
+traces, intuitive recursive matching, GIM results, and a bounded contribution.
+Section 2 introduces models and literature-supported interfaces before
+Section 3 defines the method. The contribution is locating correspondence
+within declared biological readouts using established formal relations,
+not proposing a new equivalence relation.
+
+\textbf{Verification.} Software-validation counts are absent from the abstract
+and early introduction; biological motivation precedes formal definitions.
+\textbf{Status.} Addressed by substantial restructuring.
+
+\section*{R2.8. Results organization and GIM as the principal result}
+\textbf{Response.} We agree that GIM should lead the results rather than follow
+an extended software-verification narrative.
+
+\textbf{Changes made.} Section 4 now leads with fixed structure, coarse function,
+pathway distinctions, terminal mechanisms, and the interpretation of changed
+observability. Figure 2 places the biological abstractions and A/B/C outcomes
+together. Supporting curated cases follow in Section 5; exploratory HPN follows
+in Section 6.
+
+\textbf{Verification.} Regeneration retains 13/14 states and PN-GDDA
+0.9975845917160132. A/B retain weak bisimilarity and both simulations; C
+retains neither simulation. The depth-six diagnostic changes from zero to
+0.3529411764705882. The nets and initial markings are unchanged.
+Here the two genome-integrity maintenance (GIM) models describe animal/human
+and Arabidopsis DNA-damage responses. Interface A groups shared functions,
+including a coarse terminal loss of proliferative capacity. B additionally
+distinguishes damage channels, ATM/ATR pathways, and repair while retaining
+a shared terminal label. C retains these pathway distinctions and separates
+animal apoptosis from the encoded plant terminal mechanism. The latter
+contains a combined differentiation/endoreduplication transition, not two
+independent alternatives.
+\begin{center}
+\small
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Interface & PN-GDDA & Weak & Animal$\prew$plant & Plant$\prew$animal & $d_6$ \\
+\midrule
+A: coarse & 0.9976 & Yes & Yes & Yes & 0 \\
+B: pathway & 0.9976 & Yes & Yes & Yes & 0 \\
+C: terminal & 0.9976 & No & No & No & 0.3529 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Weak denotes weak bisimilarity. Strong bisimilarity fails at all three
+interfaces. The diagnostic $d_6$ is the Jaccard distance between observable
+trace sets truncated at six events; it is not an exact-trace decision.
+The interpretation is a correspondence boundary between the declared B and C
+readouts, conditional on these models. This is neither a new discovery of the
+terminal mechanisms nor evidence of organism-level equivalence.
+\textbf{Status.} Addressed by substantial restructuring.
+
+\section*{R2.9. Verification should support, not dominate, the story}
+\textbf{Response.} We agree and retained rigor while changing its location.
+
+\textbf{Changes made.} Section 7 now provides a compact evidence summary in
+Table 4, identifying each check, its independent basis, and the observed result:
+6/6 constructed classes recovered; 42/42 external strong/weak decisions in
+agreement; no disagreement on 32 model pairs and three hierarchy witnesses;
+no discrepancy across 67,600 ordered small-system pairs; and PN-GDDA agreement
+with Holmes to 12 decimal places on the stated control. The text defines the
+scope of each check, distinguishes mathematical proof from finite testing,
+and does not attribute general weak-preorder checking to mCRL2.
+The full benchmark table/figure, comparator details, public-model controls, mCRL2
+agreement, exhaustive finite checks, and scaling details are in Supplementary
+Validation. Long proofs and quantifier examples are in Appendix A; full GIM
+Petri nets remain in Appendix B. No underlying analysis or net diagram was
+deleted.
+
+\textbf{Verification.} Main and supplement compile separately with inline
+bibliographies and resolved cross-references. Controls were regenerated, not
+manually relabeled.
+\textbf{Status.} Addressed by substantial restructuring.
+
+\section*{R2.10. HPN-DREAM/CASPOTS remains exploratory}
+\textbf{Response.} We agree. HPN does not validate predictive utility or the
+GIM observational boundary.
+
+\textbf{Changes made.} HPN is absent from the abstract and explicitly
+exploratory in Section 6. Full methods, the direction-preserving plot, and
+negative results remain in Supplementary Validation S3. The nine observations,
+nominal direction categories, inconclusive diagnostic associations, and native
+$p=0.25$ are retained. No more favorable statistical test was substituted.
+
+\textbf{Verification.} Selection remains structure-only; hashes and directions
+were checked. Asynchronous and synchronous analyses and exact permutations were
+regenerated. Existing CASPOTS compatibility scores were retained, not
+reinterpreted as unique time-series predictions; the CASPOTS optimizer was
+not rerun for this revision. For transparency, the retained numerical evidence
+is as follows. Of nine asynchronous pair--condition comparisons, three have
+left-model-in-right-model simulation, three the reverse, and three neither;
+none is weakly bisimilar. Median experimental profile RMSE in those nominal
+categories is 0.2757, 0.1919, and 0.2071, respectively, with only three
+observations per category. Synchronous updating preserves seven of nine classes.
+Truncated-trace distance has Spearman $\rho=-0.596$ and exact one-sided
+$p=0.556$; LTS-GDA distance has $\rho=0.669$ and $p=0.097$, using all
+216 condition-stratified permutations. The CASPOTS native-context advantage
+over mean cross-cell medoids is 0.00212 excess-RMSE units, not established
+by the exact three-cell sign test ($p=0.25$). No ordinal ranking of formal
+classes or predictive conclusion is supported by these results.
+\textbf{Status.} Fully addressed in presentation and interpretation; small
+sample size and inconclusive biological evidence remain substantive limits.
+
+\section*{R2.11. Encoded mechanistic distinctions are not a discovery}
+\textbf{Response.} We agree. Interfaces informed by known biology do not provide
+a blinded discovery of the same mechanisms.
+
+\textbf{Changes made.} Sections 2, 4.4--4.5, and 8.3 distinguish prior knowledge
+of terminal mechanisms, the PN-GDDA structural description, the computed
+survival/failure of recursive correspondence, and the unvalidated experimental
+implication. The boundary is between B and C within three declared interfaces,
+not a unique or globally minimal biological resolution. The combined plant
+terminal transition is not described as two independent alternatives.
+
+\textbf{Verification.} Only labels change between interfaces. Claim auditing
+does not permit inference of organism-level equivalence, mechanistic identity,
+prognosis, or experimental confirmation.
+\textbf{Status.} Fully addressed by bounded interpretation. Experimental
+validation remains future work, not an accomplished result.
+
+\section*{R2.12. Figures should foreground the biological question}
+\textbf{Response.} We agree.
+\textbf{Changes made.} Figure 1 starts from the biological question, moves
+through readout selection and executable comparison, and ends at a conditional
+compatibility interpretation. Verification is a supporting layer. Figure 2
+places animal/human and Arabidopsis functions above the A/B/C outcomes.
+The benchmark and HPN plot become Supplementary Figures S1 and S2.
+Detailed Petri nets remain main Figures 3 and 4 in Appendix B.
+\textbf{Verification.} Figure 2 uses the regenerated values reproduced in R2.8.
+Its functional categories are not presented as a required causal sequence.
+The two complete Petri-net diagrams are preserved and remain legible in
+the revised manuscript.
+\textbf{Status.} Addressed by substantial restructuring.
+
+\section*{R2.13. Discussion, conclusion, and accessible biological language}
+\textbf{Response.} We agree that biological/computational meaning should lead
+the interpretation.
+
+\textbf{Changes made.} Section 8 asks what structural similarity tells us, what
+behavioral comparison adds, and what interface refinement means biologically,
+then treats execution assumptions, evidence limits, and computational scope.
+The conclusion starts with the GIM A/B-to-C result. Biological sections explain
+step/choice matching before formal names. Fixed-point correctness is no longer
+the conclusion's opening claim.
+
+\textbf{Verification.} The final narrative separates formal correctness,
+implementation verification, support for executable models, and independent
+biological evidence. Negative and inconclusive outcomes remain visible.
+The manuscript and supplement follow the same interpretation summarized in
+this response.
+\textbf{Status.} Addressed by substantial restructuring.
+
+\end{document}

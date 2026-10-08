@@ -1,0 +1,87 @@
+\section{Exploratory confrontation with HPN-DREAM data}\label{sec:hpn-method}
+
+An independent-data check is retained as a secondary, exploratory analysis,
+not as validation of the GIM resolution boundary. Public HPN-DREAM/CASPOTS
+families contain 72 BT20, 191 BT549, and 21 MCF7 Boolean networks.
+Structure-only medoid selection, fixed before test-response access, chooses
+zero-based rows 24, 137, and 9.\cite{Hill2016,Razzaq2018} The common interface
+contains seven measured PI3K/MAPK/mTOR readouts under three shared held-out
+mTOR-inhibitor conditions. Initial values, clamping, and update conventions
+are specified in Supplementary Validation, Section~S3.
+
+The nine asynchronous pair--condition comparisons contain six one-way
+simulations and three non-comparable pairs. The six directions comprise three
+left-model-in-right-model and three right-model-in-left-model relations, not
+positions on an ordinal similarity scale. Direction is preserved in the result
+fields; no scalar formal-class test is performed. Median profile RMSE is
+0.2757, 0.1919, and 0.2071 in those three nominal categories, respectively,
+with only three observations per category. Synchronous updating preserves
+seven of the nine classes. These summaries cannot establish predictive value.
+
+The retained continuous diagnostics are inconclusive: truncated-trace distance
+has Spearman $\rho=-0.596$, exact one-sided $p=0.556$; LTS-GDA distance has
+$\rho=0.669$, $p=0.097$, using all 216 condition-stratified permutations.
+The CASPOTS native-context advantage over cross-cell medoids is 0.00212
+excess-RMSE units and is not established by the exact three-cell sign test
+($p=0.25$). No more favorable statistic was substituted. The full methods,
+negative results, and plot remain in Supplementary Validation, Section~S3;
+they show a route to data confrontation without claiming prognosis, native
+cell-line specificity, or experimental equivalence.
+
+\section{Supporting formal and implementation checks}
+\label{sec:computational-validation}
+
+Definitions and the executed relation-deletion method are supported by the
+proofs in \ref{app:formal}. Table~\ref{tab:validation-summary} states
+the checks, independent bases, and observed outcomes in the main article.
+These checks address whether the implemented relations and structural score
+behave as specified; they do not establish biological validity.
+
+\begin{table}[!htbp]
+\tbl{Main implementation-verification results. Agreement refers to the declared
+inputs and predicates, not predictive accuracy on biological data.
+\label{tab:validation-summary}}{
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.205\textwidth}%
+>{\raggedright\arraybackslash}p{0.37\textwidth}%
+>{\raggedright\arraybackslash}p{0.37\textwidth}@{}}
+\toprule
+Check & Independent basis and scope & Observed result \\
+\colrule
+Constructed cases & Six pairs with classes fixed before classification & 6/6 classes and 6/6 binary weak-equivalence decisions recovered. \\
+External equivalence & mCRL2 on six synthetic, six public-model controls, and nine HPN pairs & 42/42 strong/weak-bisimilarity decisions agree. \\
+Directional audit & Raw-edge attacker--defender game on 32 model pairs and three hierarchy witnesses & No disagreement on either weak-simulation direction or strong/weak bisimilarity. \\
+Exhaustive finite check & All 260 one-/two-state LTSs over $\{a,\tau\}$; 67,600 ordered pairs & No simulation or weak-bisimulation discrepancy; no hierarchy or trace-inclusion violation. \\
+Structural score & Holmes 1.1.1: 151 graphlets, 592 slots; four-node net and one-arc-deletion control & PN-GDDA agrees to 12 decimal places; absolute difference $3.33\times10^{-16}$. \\
+\botrule
+\end{tabular}}
+\end{table}
+
+The public cell-cycle and p53--Mdm2 controls test SBML-qual and GINML imports;
+all six copy, silent-refinement, and label-perturbation controls recover their
+predeclared outcomes.\cite{Naldi2018,Chaouiya2013SBML,Traynard2016,AbouJaoude2009}
+Holmes supplies an external reference for the PN-GDDA implementation.
+\cite{Radom2017} mCRL2 supplies the external equivalence checks.
+\cite{Bunte2019} Its simulation-preorder checks are used only for the two
+tau-free hierarchy witnesses, where strong and weak simulation coincide;
+no general weak-preorder verification is attributed to that tool.
+
+For directional checks, the independent game constructs weak targets directly
+from raw edges without calling the production closure or relation routines.
+The 32 pairs comprise six synthetic, three GIM-interface, five curated, and
+18 asynchronous/synchronous HPN comparisons. The exhaustive universe fixes
+initial state zero and enumerates every edge subset; it is not a proof for
+arbitrary finite systems. In particular, Example~\ref{ex:branching} separately
+establishes early-to-late simulation, failure of the reverse, and exact trace
+equality using an explicit witness and a failed-successor argument. No exact
+trace conclusion is inferred from a truncated distance.
+
+The evidence layers remain distinct: proofs establish mathematical claims;
+tests establish implementation agreement on tested inputs; model provenance
+and import checks establish executable assumptions; biological literature and
+held-out data support or limit biological interpretation. Formal agreement alone
+does not calibrate a curated net against experiments. Supplementary Validation
+S1--S2 and S4 retain per-case outputs, comparator definitions, tool procedures,
+and scaling details; the principal GIM evidence remains in Section~4.

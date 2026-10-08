@@ -41,9 +41,16 @@ def main() -> int:
         return 2
 
     found = 0
+    in_bibliography = False
     pattern = re.compile(r"\b(" + "|".join(map(re.escape, REPLACEMENTS)) + r")\b", re.IGNORECASE)
     for number, raw_line in enumerate(lines, start=1):
         line = re.sub(r"(?<!\\)%.*", "", raw_line)
+        if r"\begin{thebibliography}" in line:
+            in_bibliography = True
+        if in_bibliography:
+            if r"\end{thebibliography}" in line:
+                in_bibliography = False
+            continue
         for match in pattern.finditer(line):
             word = match.group(0)
             print(f"{args.manuscript}:{number}: {word} -> {REPLACEMENTS[word.lower()]}")

@@ -1,0 +1,42 @@
+[
+  {
+    "case": "weak_not_strong",
+    "mcrl2_version": "ltscompare mCRL2 toolset 202607.0 (Release)",
+    "mcrl2_strong_bisimilar": false,
+    "mcrl2_weak_bisimilar": true,
+    "mcrl2_weak_trace_equivalent": true,
+    "strong_agrees": true,
+    "weak_agrees": true,
+    "exact_trace_agrees": true
+  },
+  {
+    "case": "mutual_not_bisimilar",
+    "mcrl2_version": "ltscompare mCRL2 toolset 202607.0 (Release)",
+    "mcrl2_strong_bisimilar": false,
+    "mcrl2_weak_bisimilar": false,
+    "mcrl2_weak_trace_equivalent": true,
+    "strong_agrees": true,
+    "weak_agrees": true,
+    "exact_trace_agrees": true,
+    "mcrl2_left_simulated_by_right": true,
+    "left_simulated_by_right_agrees": true,
+    "mcrl2_right_simulated_by_left": true,
+    "right_simulated_by_left_agrees": true,
+    "simulation_scope": "Strong simulation equals weak simulation here because both inputs are tau-free"
+  },
+  {
+    "case": "traces_not_mutual",
+    "mcrl2_version": "ltscompare mCRL2 toolset 202607.0 (Release)",
+    "mcrl2_strong_bisimilar": false,
+    "mcrl2_weak_bisimilar": false,
+    "mcrl2_weak_trace_equivalent": true,
+    "strong_agrees": true,
+    "weak_agrees": true,
+    "exact_trace_agrees": true,
+    "mcrl2_left_simulated_by_right": false,
+    "left_simulated_by_right_agrees": true,
+    "mcrl2_right_simulated_by_left": true,
+    "right_simulated_by_left_agrees": true,
+    "simulation_scope": "Strong simulation equals weak simulation here because both inputs are tau-free"
+  }
+]

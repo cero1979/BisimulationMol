@@ -1,0 +1,66 @@
+{
+  "builds": [
+    {
+      "master": "main_jbcb_R3.tex",
+      "engine": "pdflatex",
+      "passes": 3,
+      "clean_build": true,
+      "warnings": []
+    },
+    {
+      "master": "Supplementary_Validation_R3.tex",
+      "engine": "pdflatex",
+      "passes": 3,
+      "clean_build": true,
+      "warnings": []
+    },
+    {
+      "master": "response_to_reviewer_R3.tex",
+      "engine": "pdflatex",
+      "passes": 3,
+      "clean_build": true,
+      "warnings": []
+    }
+  ],
+  "archives": [
+    {
+      "archive": "JBCB-1505-R3-manuscript-only.zip",
+      "files": [
+        "main_jbcb_R3.tex",
+        "ws-jbcb.cls",
+        "R3_Fig1.pdf",
+        "R3_Fig2.pdf",
+        "R3_Fig3.pdf",
+        "R3_Fig4.pdf"
+      ],
+      "flat": true,
+      "sha256": "be94a6715c5830d803366531f35dee3ec2c13618736fe6cb266cf7c653288c6f"
+    },
+    {
+      "archive": "JBCB-1505-R3-supplement.zip",
+      "files": [
+        "Supplementary_Validation_R3.tex",
+        "ws-jbcb.cls",
+        "R3_SFig1.pdf",
+        "R3_SFig2.pdf"
+      ],
+      "flat": true,
+      "sha256": "f189e8da25ceea032301d2a29f7afb71377a4df44532c075c5100060f44cc57e"
+    },
+    {
+      "archive": "JBCB-1505-R3.zip",
+      "files": [
+        "main_jbcb_R3.tex",
+        "ws-jbcb.cls",
+        "R3_Fig1.pdf",
+        "R3_Fig2.pdf",
+        "R3_Fig3.pdf",
+        "R3_Fig4.pdf",
+        "Supplementary_Validation_R3.pdf",
+        "response_to_reviewer_R3.pdf"
+      ],
+      "flat": true,
+      "sha256": "e376da26afa9d20261f08a843088345e3fd817d26b75d78e1e540384727d3ef9"
+    }
+  ]
+}

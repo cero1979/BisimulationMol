@@ -1,0 +1,76 @@
+{
+  "checks": [
+    {
+      "equivalence": "bisim",
+      "input_sha256": [
+        "98a2732d9e1b8e3d60f395254b20cbc29a523461e9572b08f41a0f6d697f1273",
+        "f0e205feb64bd9d20b31467ad9665c0e4cead005485dfb97edf14e6ab2b69aa7"
+      ],
+      "protocol": "sustained",
+      "status": "complete",
+      "timeout_seconds": 180,
+      "value": false
+    },
+    {
+      "equivalence": "weak-bisim",
+      "input_sha256": [
+        "98a2732d9e1b8e3d60f395254b20cbc29a523461e9572b08f41a0f6d697f1273",
+        "f0e205feb64bd9d20b31467ad9665c0e4cead005485dfb97edf14e6ab2b69aa7"
+      ],
+      "protocol": "sustained",
+      "reason": "180-second limit",
+      "status": "inconclusive",
+      "timeout_seconds": 180,
+      "value": null
+    },
+    {
+      "equivalence": "weak-trace",
+      "input_sha256": [
+        "98a2732d9e1b8e3d60f395254b20cbc29a523461e9572b08f41a0f6d697f1273",
+        "f0e205feb64bd9d20b31467ad9665c0e4cead005485dfb97edf14e6ab2b69aa7"
+      ],
+      "protocol": "sustained",
+      "reason": "180-second limit",
+      "status": "inconclusive",
+      "timeout_seconds": 180,
+      "value": null
+    },
+    {
+      "equivalence": "bisim",
+      "input_sha256": [
+        "e9813c02c0628074f23a00988de1e79979a01a1ea2865df974217bc8bbccb800",
+        "109ec6a626790bbaf447fdac9983f302e95c54890097b3c2f559ab2166c19106"
+      ],
+      "protocol": "withdrawal",
+      "status": "complete",
+      "timeout_seconds": 180,
+      "value": false
+    },
+    {
+      "equivalence": "weak-bisim",
+      "input_sha256": [
+        "e9813c02c0628074f23a00988de1e79979a01a1ea2865df974217bc8bbccb800",
+        "109ec6a626790bbaf447fdac9983f302e95c54890097b3c2f559ab2166c19106"
+      ],
+      "protocol": "withdrawal",
+      "reason": "180-second limit",
+      "status": "inconclusive",
+      "timeout_seconds": 180,
+      "value": null
+    },
+    {
+      "equivalence": "weak-trace",
+      "input_sha256": [
+        "e9813c02c0628074f23a00988de1e79979a01a1ea2865df974217bc8bbccb800",
+        "109ec6a626790bbaf447fdac9983f302e95c54890097b3c2f559ab2166c19106"
+      ],
+      "protocol": "withdrawal",
+      "reason": "180-second limit",
+      "status": "inconclusive",
+      "timeout_seconds": 180,
+      "value": null
+    }
+  ],
+  "scope": "hidden-sink quotient; weak relations are preserved, strong is quotient-specific",
+  "version": "ltscompare mCRL2 toolset 202607.0 (Release)"
+}

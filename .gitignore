@@ -104,3 +104,18 @@ build*.log
 !submission_jbcb/JBCB_EditorialManager.zip
 !audit/jbcb_final/
 !audit/jbcb_final/*.log
+
+# R2 delivery and immutable supplied R1 baseline; previews remain generated.
+!revision_R2/*.pdf
+!revision_R2/original_R1/*.pdf
+revision_R2/*.png
+revision_R2/validation_R1_extract.tex
+
+# R3 delivery; downloaded source literature and rendered previews stay local.
+!revision_R3/*.pdf
+revision_R3/*.png
+revision_R3/literature/
+
+# Public production artifacts; correspondence and build products stay local.
+!production_jbcb_R3/*.pdf
+production_jbcb_R3/email_to_production.txt

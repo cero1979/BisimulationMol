@@ -1,0 +1,185 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+@@NUMBERS@@
+\begin{document}
+\begin{center}
+{\Large\bfseries Response to the Third-Round Review}\\[6pt]
+JBCB-1505, third major revision\\Carlos Ramirez Ovalle
+\end{center}
+\textbf{Manuscript title:} Locating resolution-dependent behavioral correspondence
+in qualitative DNA-damage response models.
+
+We thank the reviewer for accepting the mathematical development, which
+remains unchanged. This revision focuses on the biological demonstration:
+the death-receptor comparison is now the principal case and GIM a secondary
+illustration. The answers below state the models, results and limitations
+without requiring local documentation.
+
+\section*{1. The GIM result is largely predetermined by the labels}
+
+We agree with the substance of this concern. Interface C exposes mechanistic
+differences already specified in the models; the method does not discover
+those terminal mechanisms. Section 5 is now entitled ``GIM illustration:
+interface-conditioned behavioral correspondence.'' It reports weak
+correspondence at A/B and its first loss at C among the three tested
+interfaces, with unchanged PN-GDDA similarity 0.9976. The abstract,
+Introduction, Discussion and Conclusion no longer present GIM as the principal
+scientific demonstration or as locating a unique biological resolution.
+The full Petri-net diagrams and supporting evidence remain in the article.
+
+\section*{2. Models should agree on ordinary predictions but differ in future choices}
+
+We added a fixed-interface comparison derived from the public original model
+of Calzone et al., \emph{Mathematical Modelling of Cell-Fate Decision in
+Response to Death Receptor Engagement}, PLoS Computational Biology 6:e1000702
+(2010), DOI: \href{https://doi.org/10.1371/journal.pcbi.1000702}{10.1371/journal.pcbi.1000702}.
+Its original publication and Figures S2/S3 explicitly study removal of
+CASP3-to-CASP8 feedback and the effect of transient versus sustained ligand.
+DR-FB+ retains the published rules. DR-FB- removes only the CASP3 contribution
+to CASP8 activation; CASP3 itself remains dynamic. The shared initial condition
+has TNF=FADD=ATP=cIAP=1 and all other nodes zero. Updates are unitary
+asynchronous. NFkB, CASP3 and MPT activation/deactivation are the fixed
+observable events, and withdrawal changes only TNF from one to zero with
+identical availability in both models. No interface was retuned to obtain
+a desired relation.
+
+\textbf{Ordinary baseline.} Complete reachable-state enumeration gives exactly
+the same three stable-fate predictions under sustained TNF: survival,
+apoptosis and necrosis. However, global sustained trace equality is now
+refuted, not merely unresolved. An expanded search found the 12-action word
+\[
+\begin{split}
+&\mathrm{MPT}\!\uparrow,\ \mathrm{CASP3}\!\uparrow,\
+\mathrm{CASP3}\!\downarrow,\ \mathrm{NFkB}\!\uparrow,\\
+&\mathrm{NFkB}\!\downarrow,\ \mathrm{MPT}\!\downarrow,\
+(\mathrm{CASP3}\!\uparrow,\ \mathrm{CASP3}\!\downarrow)^3,
+\end{split}
+\]
+where the superscript repeats the pair three times. It occurs in DR-FB+
+but not DR-FB-. Independent sparse reachability and mCRL2 confirm this
+decision; a 53-update accepting path was also checked against the full
+28-node rules. Consequently DR-FB- cannot weakly simulate DR-FB+, and the
+global baseline systems are not weakly bisimilar. The reverse trace inclusion
+remains undecided. These findings are stated in the abstract, Figure 1, main
+Results and Discussion. The word is a model prediction, not experimental evidence.
+
+\textbf{Specific shared history.} The automatic search identifies a jointly
+reachable retained state after eight updates: TNFR, DISC\_TNF, CASP8, BAX,
+MOMP, Cyt\_c, apoptosome and CASP3 activation. Only the last update is visible
+at the declared interface, so the common observable history is
+$h=\texttt{CASP3\_up}$. At this state, TNF, FADD, ATP, cIAP and all eight
+listed components are one; the other retained components are zero.
+The three omitted nodes, NonACD, Apoptosis and Survival, are unobserved
+output-only copies with no feedback. Their deletion preserves weak behavior,
+and the full 28-node conditioned systems were also checked directly.
+
+\textbf{Exact conditioned baseline and intervention result.} From the
+specified shared state, the two sustained continuations each have three
+states and two silent edges. Their exact observable language is
+$\{\epsilon\}$, and they are strongly and weakly bisimilar. Once withdrawal
+is permitted, the continuations have \DRLocalPlusStates{}/\DRLocalPlusEdges{}
+and \DRLocalMinusStates{}/\DRLocalMinusEdges{} states/edges. Writing them
+$K_+$ and $K_-$, with $X\preceq_wY$ meaning that $Y$ simulates $X$, we find
+\[
+K_+\preceq_wK_-,\qquad K_-\not\preceq_wK_+,\qquad K_+\not\sim_wK_-.
+\]
+The word \texttt{withdraw\_TNF, CASP3\_down} occurs only in $K_-$. The
+independent game certificate eliminates the initial pair only after covering
+all possible defending weak replies. It does not infer a failed global
+relation from one arbitrarily chosen successor pair. Production predicates,
+the independent game and mCRL2 equivalence checks agree.
+
+After immediate withdrawal from this shared state, $K_+$ retains CASP3 on
+every continuation and has only an apoptotic terminal fate. $K_-$ has only
+the naive terminal signature. Both continuation graphs are acyclic; their
+post-withdrawal outcome does not require an added fairness assumption.
+``Naive'' is a logical marker signature, not evidence that a cell can recover
+after executing apoptosis.
+
+\textbf{Visible history versus hidden state.} The history $h$ is compatible
+with 78 internal states in each model, not just the selected state. Complete
+aggregation after immediate withdrawal yields
+\[
+\begin{split}
+\mathrm{Futures}_+(h)&=\{\mathrm{apoptosis},\mathrm{naive},\mathrm{necrosis}\},\\
+\mathrm{Futures}_-(h)&=\{\mathrm{naive},\mathrm{necrosis}\}.
+\end{split}
+\]
+Thus a future-set difference also exists at the shared-history level, but
+CASP3 activation alone does not establish unique commitment in every compatible
+feedback-positive state. Section 4 distinguishes this aggregate claim from
+the fully specified state's persistent-CASP3 certificate.
+
+\textbf{What is not established.} The complete intervention-aware languages
+are unequal: exact counterexamples refute both global trace inclusions and,
+consequently, both global weak simulations. For example,
+\texttt{CASP3\_up, withdraw\_TNF, CASP3\_down} is possible only in DR-FB-.
+In the other direction, \texttt{withdraw\_TNF, CASP3\_up, CASP3\_down,
+CASP3\_up} is possible only in DR-FB+.
+Trace comparison can therefore distinguish the models both before and after
+withdrawal is included. We do not present this case as proving that branching alone
+distinguishes globally trace-equivalent biological models. It supplies the
+weaker, biologically grounded result of matching baseline endpoints and exact
+conditioned sustained continuations, followed by different intervention
+futures. The stronger biological counterpart of the accepted early/late-choice
+example remains an open limitation.
+
+\section*{3. Identify a meaningful perturbation or observation}
+
+The new Figure 1 and Section 4 identify the logic of a pulse/withdrawal
+comparison at a CASP3-positive stage. Subsequent joint readout of CASP3,
+NFkB and MPT can distinguish persistent apoptotic activity from deactivation
+or movement toward the necrotic branch; ATP supports terminal classification.
+Monitoring all three matters because a path with MPT activation before CASP3
+loss is not the same as isolated CASP3 deactivation after withdrawal.
+The history alone does not identify the internal witness, so the state-specific
+prediction would require additional state assessment. We provide neither
+unsupported physical timings nor an invented selective inhibitor protocol.
+
+The source publication already studied ligand withdrawal and the feedback
+mechanism. Our contribution is the reproducible shared-state/history
+construction, future-set comparison and checked relational explanation.
+This is a recovery and characterization of a published phenomenon, not a new
+wet-lab discovery. No new experimental confirmation is claimed.
+
+\section*{4. Qualify the claimed biological boundary}
+
+The GIM interpretation is now centrally restricted to the first loss of
+correspondence among Interfaces A, B and C. It is not a unique, globally
+minimal or experimentally established biological boundary. No exhaustive
+search over observational interfaces was performed. Section 8 separates this
+interface-change question from the fixed-interface withdrawal question.
+
+\section*{5. Distinguish specified knowledge from computed findings}
+
+The main article now includes an explicit evidence-status table:
+the feedback mechanism is a published assumption; the marker interface and
+withdrawal semantics are declared inputs; stable-fate sets, relation
+decisions and witness histories are computed outputs; the discriminating
+observation is model-derived; wet-lab confirmation is absent. The local
+prospective configuration is not presented as externally registered.
+Resource-driven changes remove only provably unobserved output sinks and use
+compact storage; they do not change observables or biological rules.
+
+\section*{6. Preserve the accepted mathematics and ensure reproducibility}
+
+All accepted definitions, propositions, proofs, the fixed-point algorithm and
+the early/late-choice example are retained, with an automated source comparison
+checking their preservation. The new witness engine is tested on the accepted
+example, including rejection of a certificate that omits a defending reply.
+The new biological computation independently verifies compact execution,
+terminal reachability, marker persistence and both simulation directions.
+The eight-update commitment state is found by an exhaustive depth scan; at
+that depth, one of 73 states has persistent CASP3 and a unique apoptotic
+terminal fate after withdrawal. Counts are not biological probabilities,
+and update depth is not physical time.
+
+Section 7 and Supplementary Validation report the computational checks,
+source provenance, semantics, limits and certificates.
+\end{document}

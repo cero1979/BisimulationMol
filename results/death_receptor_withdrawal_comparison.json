@@ -1,0 +1,121 @@
+{
+  "amendments": [
+    "branching_case_amendment_01.json",
+    "branching_case_amendment_02.json",
+    "branching_case_amendment_03.json"
+  ],
+  "configuration_sha256": "408936bf397586897e72b73004084c7210a81084b9b74826ce7d7e6d637075c6",
+  "graphs": {
+    "DR-FB+": {
+      "edges": 32980090,
+      "graph_sha256": "cd2f973cffa0188484e712c7d0543e8b7445aeb44b47f68b5cf0f2161721fbf9",
+      "initial_reachable_terminal_fates": [
+        "apoptosis",
+        "naive",
+        "necrosis"
+      ],
+      "states": 3133393,
+      "terminal_components": [
+        {
+          "fate": "naive",
+          "size": 1,
+          "states": [
+            2
+          ]
+        },
+        {
+          "fate": "necrosis",
+          "size": 1,
+          "states": [
+            7251
+          ]
+        },
+        {
+          "fate": "naive",
+          "size": 1,
+          "states": [
+            6667
+          ]
+        },
+        {
+          "fate": "apoptosis",
+          "size": 1,
+          "states": [
+            4090
+          ]
+        }
+      ]
+    },
+    "DR-FB-": {
+      "edges": 21544296,
+      "graph_sha256": "4c986095876e4d83c4c57e30839d2408877a12043ce54e4075e3cda24e84920d",
+      "initial_reachable_terminal_fates": [
+        "naive",
+        "necrosis"
+      ],
+      "states": 2140569,
+      "terminal_components": [
+        {
+          "fate": "naive",
+          "size": 1,
+          "states": [
+            2
+          ]
+        },
+        {
+          "fate": "necrosis",
+          "size": 1,
+          "states": [
+            7126
+          ]
+        },
+        {
+          "fate": "naive",
+          "size": 1,
+          "states": [
+            6594
+          ]
+        }
+      ]
+    }
+  },
+  "omitted_hidden_sinks": [
+    "NonACD",
+    "Apoptosis",
+    "Survival"
+  ],
+  "relation_basis": "weak simulation implies weak trace inclusion; direct game exceeds pair cap",
+  "scope": "exact hidden-sink quotient of the public full Boolean model",
+  "strong_bisimilar": false,
+  "trace_analysis": {
+    "algorithm": "exact epsilon-NFA subset-product BFS on compact CSR; no depth cutoff",
+    "exact_trace_equal": false,
+    "exploration_complete": false,
+    "left_only_trace": [
+      "withdraw_TNF",
+      "CASP3_up",
+      "CASP3_down",
+      "CASP3_up"
+    ],
+    "left_trace_included_in_right": false,
+    "max_bytes": 250000000,
+    "max_seconds": 180,
+    "max_subsets": 10000,
+    "reason": "both trace inclusions refuted by exact counterexamples",
+    "right_only_trace": [
+      "CASP3_up",
+      "withdraw_TNF",
+      "CASP3_down"
+    ],
+    "right_trace_included_in_left": false,
+    "status": "disproved",
+    "stored_subset_bytes": 59707148,
+    "subset_product_states": 229
+  },
+  "weak_bisimilar": false,
+  "weak_simulations": {
+    "left_simulated_by_right": false,
+    "right_simulated_by_left": false,
+    "status": "exact trace counterexamples refute the indicated simulations; null means inconclusive"
+  }
+}

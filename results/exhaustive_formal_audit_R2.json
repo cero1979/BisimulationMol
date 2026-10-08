@@ -1,0 +1,68 @@
+{
+  "all_checks_pass": true,
+  "alphabet": [
+    "a",
+    "tau"
+  ],
+  "disagreements_or_hierarchy_failures": [],
+  "first_witnesses": {
+    "equal_traces_without_bisimulation": {
+      "left": "exhaustive-1-1",
+      "left_edges": [
+        [
+          0,
+          "a",
+          0
+        ]
+      ],
+      "right": "exhaustive-2-3",
+      "right_edges": [
+        [
+          0,
+          "a",
+          0
+        ],
+        [
+          0,
+          "a",
+          1
+        ]
+      ]
+    },
+    "mutual_without_bisimulation": {
+      "left": "exhaustive-1-1",
+      "left_edges": [
+        [
+          0,
+          "a",
+          0
+        ]
+      ],
+      "right": "exhaustive-2-3",
+      "right_edges": [
+        [
+          0,
+          "a",
+          0
+        ],
+        [
+          0,
+          "a",
+          1
+        ]
+      ]
+    }
+  },
+  "initial_state": 0,
+  "number_of_lts": 260,
+  "ordered_lts_pairs": 67600,
+  "scope": "All edge subsets on named one/two-state systems; not all finite systems",
+  "search_counts": {
+    "equal_traces_without_bisimulation": 4848,
+    "mutual_without_bisimulation": 4848,
+    "one_way_with_equal_traces": 0
+  },
+  "simulation_reflexive": true,
+  "simulation_transitive": true,
+  "weak_bisimilar_pairs": 41080
+}

@@ -1,0 +1,152 @@
+{
+  "amendments": [
+    "branching_case_amendment_01.json",
+    "branching_case_amendment_02.json",
+    "branching_case_amendment_03.json"
+  ],
+  "configuration_sha256": "408936bf397586897e72b73004084c7210a81084b9b74826ce7d7e6d637075c6",
+  "graphs": {
+    "DR-FB+": {
+      "edges": 10296917,
+      "graph_sha256": "717121f42db42e39fd94832f200a2bcc31977156bb3c17f279d9476edf17ce19",
+      "initial_reachable_terminal_fates": [
+        "apoptosis",
+        "necrosis",
+        "survival"
+      ],
+      "states": 1044457,
+      "terminal_components": [
+        {
+          "fate": "necrosis",
+          "size": 1,
+          "states": [
+            4380
+          ]
+        },
+        {
+          "fate": "apoptosis",
+          "size": 1,
+          "states": [
+            400
+          ]
+        },
+        {
+          "fate": "survival",
+          "size": 1,
+          "states": [
+            275
+          ]
+        }
+      ]
+    },
+    "DR-FB-": {
+      "edges": 5062632,
+      "graph_sha256": "6d14628f638573172ba1bda7f156a9bdfd2ce56a42d8f7348c61b9e6e36035f7",
+      "initial_reachable_terminal_fates": [
+        "apoptosis",
+        "necrosis",
+        "survival"
+      ],
+      "states": 547021,
+      "terminal_components": [
+        {
+          "fate": "necrosis",
+          "size": 1,
+          "states": [
+            4284
+          ]
+        },
+        {
+          "fate": "apoptosis",
+          "size": 1,
+          "states": [
+            400
+          ]
+        },
+        {
+          "fate": "survival",
+          "size": 1,
+          "states": [
+            275
+          ]
+        }
+      ]
+    }
+  },
+  "omitted_hidden_sinks": [
+    "NonACD",
+    "Apoptosis",
+    "Survival"
+  ],
+  "relation_basis": "weak simulation implies weak trace inclusion; direct game exceeds pair cap",
+  "scope": "exact hidden-sink quotient of the public full Boolean model",
+  "strong_bisimilar": false,
+  "trace_analysis": {
+    "algorithm": "exact epsilon-NFA subset-product BFS on compact CSR; no depth cutoff",
+    "decision_basis": "exact finite-word acceptance, not resource exhaustion",
+    "exact_trace_equal": false,
+    "exploration_complete": false,
+    "known_word_prefix_counts": [
+      [
+        305,
+        584,
+        468,
+        356,
+        5056,
+        4064,
+        38460,
+        14998,
+        11688,
+        9076,
+        8264,
+        7936,
+        8064
+      ],
+      [
+        305,
+        584,
+        264,
+        88,
+        1528,
+        1664,
+        16330,
+        5614,
+        3784,
+        2060,
+        744,
+        120,
+        0
+      ]
+    ],
+    "left_only_trace": [
+      "MPT_up",
+      "CASP3_up",
+      "CASP3_down",
+      "NFkB_up",
+      "NFkB_down",
+      "MPT_down",
+      "CASP3_up",
+      "CASP3_down",
+      "CASP3_up",
+      "CASP3_down",
+      "CASP3_up",
+      "CASP3_down"
+    ],
+    "left_trace_included_in_right": false,
+    "max_bytes": 2000000000,
+    "max_seconds": 600,
+    "max_subsets": 100000,
+    "reason": "subset/time/memory budget exhausted",
+    "right_only_trace": null,
+    "right_trace_included_in_left": null,
+    "status": "inconclusive",
+    "stored_subset_bytes": 1999975480,
+    "subset_product_states": 6158
+  },
+  "weak_bisimilar": false,
+  "weak_simulations": {
+    "left_simulated_by_right": false,
+    "right_simulated_by_left": null,
+    "status": "exact trace counterexamples refute the indicated simulations; null means inconclusive"
+  }
+}

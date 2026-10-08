@@ -1,0 +1,313 @@
+{
+  "candidate_witness_early_to_late": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      4,
+      3
+    ]
+  ],
+  "case": "Example 1 (left=late; right=early)",
+  "direct_witness_check": {
+    "contains_initial_pair": true,
+    "valid": true,
+    "violations": []
+  },
+  "direction_convention": "left_simulated_by_right means left <=_w right; right matches left",
+  "early_simulated_by_late": true,
+  "early_state_names": [
+    "q0",
+    "qb",
+    "qc",
+    "qbt",
+    "qct"
+  ],
+  "exact_early_language": [
+    [],
+    [
+      "a"
+    ],
+    [
+      "a",
+      "b"
+    ],
+    [
+      "a",
+      "c"
+    ]
+  ],
+  "exact_late_language": [
+    [],
+    [
+      "a"
+    ],
+    [
+      "a",
+      "b"
+    ],
+    [
+      "a",
+      "c"
+    ]
+  ],
+  "exact_trace_equal": true,
+  "existing_game_agrees": true,
+  "independent": {
+    "left_simulated_by_right": false,
+    "right_simulated_by_left": true,
+    "strong_bisimilar": false,
+    "weak_bisimilar": false
+  },
+  "independent_oracle_agrees": true,
+  "late_simulated_by_early": false,
+  "late_state_names": [
+    "r0",
+    "r1",
+    "rb",
+    "rc"
+  ],
+  "late_to_early_deletion_certificate": [
+    {
+      "attacker_side": "left",
+      "label": "a",
+      "pair": [
+        0,
+        1
+      ],
+      "possible_reply_pairs": [],
+      "reason": "no matching action",
+      "round": 0,
+      "successor": 1
+    },
+    {
+      "attacker_side": "left",
+      "label": "a",
+      "pair": [
+        0,
+        2
+      ],
+      "possible_reply_pairs": [],
+      "reason": "no matching action",
+      "round": 0,
+      "successor": 1
+    },
+    {
+      "attacker_side": "left",
+      "label": "a",
+      "pair": [
+        0,
+        3
+      ],
+      "possible_reply_pairs": [],
+      "reason": "no matching action",
+      "round": 0,
+      "successor": 1
+    },
+    {
+      "attacker_side": "left",
+      "label": "a",
+      "pair": [
+        0,
+        4
+      ],
+      "possible_reply_pairs": [],
+      "reason": "no matching action",
+      "round": 0,
+      "successor": 1
+    },
+    {
+      "attacker_side": "left",
+      "label": "b",
+      "pair": [
+        1,
+        0
+      ],
+      "possible_reply_pairs": [],
+      "reason": "no matching action",
+      "round": 0,
+      "successor": 2
+    },
+    {
+      "attacker_side": "left",
+      "label": "c",
+      "pair": [
+        1,
+        1
+      ],
+      "possible_reply_pairs": [],
+      "reason": "no matching action",
+      "round": 0,
+      "successor": 3
+    },
+    {
+      "attacker_side": "left",
+      "label": "b",
+      "pair": [
+        1,
+        2
+      ],
+      "possible_reply_pairs": [],
+      "reason": "no matching action",
+      "round": 0,
+      "successor": 2
+    },
+    {
+      "attacker_side": "left",
+      "label": "b",
+      "pair": [
+        1,
+        3
+      ],
+      "possible_reply_pairs": [],
+      "reason": "no matching action",
+      "round": 0,
+      "successor": 2
+    },
+    {
+      "attacker_side": "left",
+      "label": "b",
+      "pair": [
+        1,
+        4
+      ],
+      "possible_reply_pairs": [],
+      "reason": "no matching action",
+      "round": 0,
+      "successor": 2
+    },
+    {
+      "attacker_side": "left",
+      "label": "a",
+      "pair": [
+        0,
+        0
+      ],
+      "possible_reply_pairs": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "reason": "all successor pairs already losing",
+      "round": 1,
+      "successor": 1
+    }
+  ],
+  "left": "late-choice",
+  "left_only_trace": null,
+  "left_simulated_by_right": false,
+  "left_trace_included_in_right": true,
+  "right": "early-choice",
+  "right_only_trace": null,
+  "right_simulated_by_left": true,
+  "right_trace_included_in_left": true,
+  "strong_bisimilar": false,
+  "subset_product_states": 5,
+  "surviving_relation_early_to_late": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      0
+    ],
+    [
+      3,
+      1
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      3,
+      3
+    ],
+    [
+      4,
+      0
+    ],
+    [
+      4,
+      1
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      4,
+      3
+    ]
+  ],
+  "surviving_relation_late_to_early": [
+    [
+      2,
+      0
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      2,
+      2
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      3,
+      0
+    ],
+    [
+      3,
+      1
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      3,
+      3
+    ],
+    [
+      3,
+      4
+    ]
+  ],
+  "weak_bisimilar": false
+}

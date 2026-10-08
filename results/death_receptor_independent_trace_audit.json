@@ -1,0 +1,53 @@
+{
+  "checks": [
+    {
+      "accepted": true,
+      "model": "DR-FB+",
+      "status": "witness found",
+      "trace": [
+        "withdraw_TNF",
+        "CASP3_up",
+        "CASP3_down",
+        "CASP3_up"
+      ],
+      "visited_product_states": 5356
+    },
+    {
+      "accepted": false,
+      "model": "DR-FB-",
+      "status": "exhausted exact product",
+      "trace": [
+        "withdraw_TNF",
+        "CASP3_up",
+        "CASP3_down",
+        "CASP3_up"
+      ],
+      "visited_product_states": 3747
+    },
+    {
+      "accepted": false,
+      "model": "DR-FB+",
+      "status": "exhausted exact product",
+      "trace": [
+        "CASP3_up",
+        "withdraw_TNF",
+        "CASP3_down"
+      ],
+      "visited_product_states": 929
+    },
+    {
+      "accepted": true,
+      "model": "DR-FB-",
+      "status": "witness found",
+      "trace": [
+        "CASP3_up",
+        "withdraw_TNF",
+        "CASP3_down"
+      ],
+      "visited_product_states": 1124
+    }
+  ],
+  "configuration_sha256": "408936bf397586897e72b73004084c7210a81084b9b74826ce7d7e6d637075c6",
+  "method": "independent full 28-node tuple/product search using original rules, without compact execution or sink reduction",
+  "scope": "original full 28-node models; no sink reduction"
+}

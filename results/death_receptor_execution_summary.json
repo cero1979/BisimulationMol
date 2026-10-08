@@ -1,0 +1,167 @@
+{
+  "amendments": [
+    "branching_case_amendment_01.json",
+    "branching_case_amendment_02.json",
+    "branching_case_amendment_03.json"
+  ],
+  "candidate_2_status": "subsequent separate feasibility probe found unequal traces for the 2006/2016 cell-cycle pair; not used as branching-only biological evidence",
+  "common_observable_prefix": [
+    "CASP3_up"
+  ],
+  "common_raw_depth": 8,
+  "configuration_sha256": "408936bf397586897e72b73004084c7210a81084b9b74826ce7d7e6d637075c6",
+  "models": {
+    "DR-FB+": {
+      "sustained": {
+        "edges": 10296917,
+        "graph_sha256": "717121f42db42e39fd94832f200a2bcc31977156bb3c17f279d9476edf17ce19",
+        "initial_reachable_terminal_fates": [
+          "apoptosis",
+          "necrosis",
+          "survival"
+        ],
+        "states": 1044457,
+        "terminal_components": [
+          {
+            "fate": "necrosis",
+            "size": 1,
+            "states": [
+              4380
+            ]
+          },
+          {
+            "fate": "apoptosis",
+            "size": 1,
+            "states": [
+              400
+            ]
+          },
+          {
+            "fate": "survival",
+            "size": 1,
+            "states": [
+              275
+            ]
+          }
+        ]
+      },
+      "withdrawal": {
+        "edges": 32980090,
+        "graph_sha256": "cd2f973cffa0188484e712c7d0543e8b7445aeb44b47f68b5cf0f2161721fbf9",
+        "initial_reachable_terminal_fates": [
+          "apoptosis",
+          "naive",
+          "necrosis"
+        ],
+        "states": 3133393,
+        "terminal_components": [
+          {
+            "fate": "naive",
+            "size": 1,
+            "states": [
+              2
+            ]
+          },
+          {
+            "fate": "necrosis",
+            "size": 1,
+            "states": [
+              7251
+            ]
+          },
+          {
+            "fate": "naive",
+            "size": 1,
+            "states": [
+              6667
+            ]
+          },
+          {
+            "fate": "apoptosis",
+            "size": 1,
+            "states": [
+              4090
+            ]
+          }
+        ]
+      }
+    },
+    "DR-FB-": {
+      "sustained": {
+        "edges": 5062632,
+        "graph_sha256": "6d14628f638573172ba1bda7f156a9bdfd2ce56a42d8f7348c61b9e6e36035f7",
+        "initial_reachable_terminal_fates": [
+          "apoptosis",
+          "necrosis",
+          "survival"
+        ],
+        "states": 547021,
+        "terminal_components": [
+          {
+            "fate": "necrosis",
+            "size": 1,
+            "states": [
+              4284
+            ]
+          },
+          {
+            "fate": "apoptosis",
+            "size": 1,
+            "states": [
+              400
+            ]
+          },
+          {
+            "fate": "survival",
+            "size": 1,
+            "states": [
+              275
+            ]
+          }
+        ]
+      },
+      "withdrawal": {
+        "edges": 21544296,
+        "graph_sha256": "4c986095876e4d83c4c57e30839d2408877a12043ce54e4075e3cda24e84920d",
+        "initial_reachable_terminal_fates": [
+          "naive",
+          "necrosis"
+        ],
+        "states": 2140569,
+        "terminal_components": [
+          {
+            "fate": "naive",
+            "size": 1,
+            "states": [
+              2
+            ]
+          },
+          {
+            "fate": "necrosis",
+            "size": 1,
+            "states": [
+              7126
+            ]
+          },
+          {
+            "fate": "naive",
+            "size": 1,
+            "states": [
+              6594
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "omitted_hidden_sinks": [
+    "NonACD",
+    "Apoptosis",
+    "Survival"
+  ],
+  "scan_horizon": 40,
+  "scan_semantics": "all histories with exactly k internal-component updates before withdrawal; terminal states are not artificially padded; complete reachable futures after withdrawal",
+  "scope": "exact hidden-sink quotient of the public full Boolean model",
+  "selected_state": 136,
+  "selection": "Pattern B: exact baseline terminal-fate agreement, intervention-dependent continuations; not an established equal-global-trace/different-branching example"
+}

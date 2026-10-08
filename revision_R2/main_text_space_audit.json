@@ -1,0 +1,38 @@
+[
+  {
+    "section": "Introduction",
+    "approximate_words_including_captions": 558
+  },
+  {
+    "section": "Biological comparison problem and models",
+    "approximate_words_including_captions": 402
+  },
+  {
+    "section": "Computational comparison method",
+    "approximate_words_including_captions": 942
+  },
+  {
+    "section": "Main result: a resolution boundary in GIM",
+    "approximate_words_including_captions": 623
+  },
+  {
+    "section": "Supporting curated comparisons",
+    "approximate_words_including_captions": 383
+  },
+  {
+    "section": "Exploratory confrontation with HPN-DREAM data",
+    "approximate_words_including_captions": 237
+  },
+  {
+    "section": "Supporting formal and implementation checks",
+    "approximate_words_including_captions": 438
+  },
+  {
+    "section": "Discussion",
+    "approximate_words_including_captions": 643
+  },
+  {
+    "section": "Conclusion",
+    "approximate_words_including_captions": 119
+  }
+]

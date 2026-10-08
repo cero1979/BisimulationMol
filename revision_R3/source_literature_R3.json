@@ -1,0 +1,20 @@
+[
+  {
+    "source_url": "https://journals.plos.org/ploscompbiol/article/file?id=10.1371/journal.pcbi.1000702.s002&type=supplementary",
+    "filename": "Calzone2010_S2.pdf",
+    "sha256": "e1ffbc42468173e57995ec2e42dd5bc02c1c62c567171bb150a78b92528222e1",
+    "status": "inspected locally; not redistributed in the code archive"
+  },
+  {
+    "source_url": "https://journals.plos.org/ploscompbiol/article/file?id=10.1371/journal.pcbi.1000702.s003&type=supplementary",
+    "filename": "Calzone2010_S3.pdf",
+    "sha256": "2f70f665d72c85c16a5c883d58e84387056ffcfe785f4a196619d9044467b86e",
+    "status": "inspected locally; not redistributed in the code archive"
+  },
+  {
+    "source_url": "https://journals.plos.org/ploscompbiol/article/file?id=10.1371/journal.pcbi.1000702.s008&type=supplementary",
+    "filename": "Calzone2010_TextS1.pdf",
+    "sha256": "14f95ad8b7e22015b9e7485d6f060ca748c539a877b2ff32da1039a1c4d55de7",
+    "status": "inspected locally; not redistributed in the code archive"
+  }
+]

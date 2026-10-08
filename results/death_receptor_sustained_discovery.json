@@ -1,0 +1,30 @@
+{
+  "status": "inconclusive",
+  "exploration_complete": false,
+  "reason": "subset/time/memory budget exhausted",
+  "algorithm": "exact epsilon-NFA subset-product BFS on compact CSR; no depth cutoff",
+  "exact_trace_equal": false,
+  "left_trace_included_in_right": false,
+  "right_trace_included_in_left": null,
+  "left_only_trace": [
+    "MPT_up",
+    "CASP3_up",
+    "CASP3_down",
+    "NFkB_up",
+    "NFkB_down",
+    "MPT_down",
+    "CASP3_up",
+    "CASP3_down",
+    "CASP3_up",
+    "CASP3_down",
+    "CASP3_up",
+    "CASP3_down"
+  ],
+  "right_only_trace": null,
+  "subset_product_states": 6158,
+  "stored_subset_bytes": 1999975480,
+  "max_subsets": 100000,
+  "max_bytes": 2000000000,
+  "max_seconds": 600,
+  "elapsed_seconds": 98.53083679099655
+}

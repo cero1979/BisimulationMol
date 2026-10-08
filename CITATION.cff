@@ -30,11 +30,11 @@ keywords:
 preferred-citation:
   type: article
   title: >-
-    A formal and reproducible framework for auditing observable behavior in
-    qualitative biological network models
+    Locating resolution-dependent behavioral correspondence in qualitative
+    DNA-damage response models
   authors:
     - family-names: "Ramirez Ovalle"
       given-names: "Carlos"
   journal: "Journal of Bioinformatics and Computational Biology"
   year: 2026
-  notes: "Manuscript prepared for submission."
+  notes: "Accepted on October 2, 2026; manuscript JBCB-1505R3. Publication details pending."

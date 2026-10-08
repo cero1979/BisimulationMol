@@ -15,8 +15,8 @@ NOTEBOOK = ROOT / "notebooks" / "metodologia_multiescala.ipynb"
 TAG = "netmahib-benchmark"
 
 
-TITLE = """# Auditing observable behaviour in qualitative biological network models
-### JBCB major revision: reproducible verification and multi-interface GIM case study
+TITLE = """# Locating resolution-dependent correspondence in DNA-damage response models
+### JBCB second major revision: GIM first, formal verification as support
 
 This notebook executes the computational framework reported in the revised JBCB
 manuscript. The primary object of inference is a **pair of explicit qualitative
@@ -24,7 +24,14 @@ models under a declared observational interface**. Formal equivalence between
 those models is not interpreted as organism-level or experimental biological
 equivalence.
 
-The notebook has two logically separate parts:
+The principal result holds the animal/human and Arabidopsis Petri-net structures
+fixed: PN-GDDA remains 0.9976, while recursive correspondence holds at interfaces
+A/B and fails in both directions at C. This locates a boundary **within the three
+declared interfaces**, not a unique minimal biological resolution. Known terminal
+mechanisms motivate the interfaces; the computation does not discover those
+differences or experimentally validate their consequences.
+
+The notebook distinguishes two evidence layers (the GIM cells appear first):
 
 1. **Formal/software verification independent of the biological case study.** Six synthetic
    model pairs have construction-level ground truth. Strong and weak results are
@@ -43,6 +50,8 @@ The notebook has two logically separate parts:
    lose behavioral correspondence. Supporting curated modules remain secondary.
    Every result is conditional on the encoded models, semantics, and interface.
 
+R2 adds explicit quantifier witnesses, failure certificates, independently
+constructed weak targets, and exact trace inclusion without a depth cutoff.
 Additional diagnostics audit transition provenance, interface sensitivity,
 silent-refinement invariance, label-permutation nulls, seed sensitivity and trace
 depth. All generated tables and figures are reproducible from the public
@@ -52,6 +61,11 @@ repository: <https://github.com/cero1979/BisimulationMol>.
 
 SUMMARY = """## Summary
 
+- Central GIM result: fixed PN-GDDA 0.9976; weak bisimilarity at A/B; neither
+  simulation direction at C. This is a conditional model/readout boundary.
+- The second-round quantifier audit retains Example 1: early is simulated by
+  late, not conversely, despite exact trace equality. All three hierarchy
+  witnesses agree with independent computations; no false correction was made.
 - The independent synthetic suite recovers all six predeclared formal relations.
 - The Python engine and mCRL2 202607.0 agree on all strong and weak decisions in
   the synthetic and public-model controls. Exact mCRL2 weak-trace outcomes also
@@ -395,13 +409,121 @@ ax.legend(frameon=False)
 plt.show()"""
         )),
     ]
-    nb.cells[setup_index + 1:setup_index + 1] = benchmark_cells
+    gim_index = next(i for i, cell in enumerate(benchmark_cells)
+                     if cell.cell_type == "markdown" and "### GIM as" in cell.source)
+    gim_cells = benchmark_cells[gim_index:gim_index + 2]
+    del benchmark_cells[gim_index:gim_index + 2]
+    audit_cells = [
+        tag(nbformat.v4.new_markdown_cell(
+            """### R2 quantifier and direction audit
+
+`left_simulated_by_right` means that the right system matches the left.
+The oracle below builds weak targets from raw edges independently of production
+helpers. Exact trace equality uses complete path enumeration for the acyclic
+example and a finite subset-product algorithm without a depth cutoff in general.
+This verifies mathematics/software, not biological truth.""")),
+        tag(nbformat.v4.new_code_cell(
+            """sys.path.insert(0, str(PROJECT_ROOT))
+from src import formal_revision_audit as r2_audit
+
+example1 = r2_audit.example1_audit()
+assert example1["exact_trace_equal"]
+assert example1["early_simulated_by_late"]
+assert not example1["late_simulated_by_early"]
+assert not example1["weak_bisimilar"]
+assert example1["direct_witness_check"]["valid"]
+assert example1["independent_oracle_agrees"]
+display(example1)
+
+r2_hierarchy = [r2_audit.pair_audit(*pair) for pair in r2_audit.hierarchy_pairs()]
+assert all(row["independent_oracle_agrees"] for row in r2_hierarchy)
+display(pd.DataFrame(r2_hierarchy).drop(columns=["independent"]))
+r2_biology = [r2_audit.pair_audit(*pair) for pair in r2_audit.biological_pairs()]
+assert all(row["independent_oracle_agrees"] for row in r2_biology)
+display(pd.DataFrame(r2_biology)[[
+    "case", "left_simulated_by_right", "right_simulated_by_left",
+    "weak_bisimilar", "exact_trace_equal", "independent_oracle_agrees"
+]])
+r2_exhaustive = r2_audit.exhaustive_audit()
+assert r2_exhaustive["all_checks_pass"]
+display(r2_exhaustive)""")),
+    ]
+    r3_cells = [
+        tag(nbformat.v4.new_markdown_cell("""## R3: fixed-interface death-receptor commitment
+
+The original Calzone model and its documented feedback-deletion variant share
+stable-fate predictions under sustained TNF. A selected shared-state continuation
+has exact baseline agreement but different withdrawal futures. Global sustained
+trace equality is refuted by a verified 12-action word; reverse inclusion is
+still undecided. With withdrawal, global traces also differ: this
+is not a globally equal-trace/different-branching biological example.
+
+The following cell regenerates the large graphs and all new results. It needs
+several GiB of memory, Numba/SciPy and mCRL2; raw AUT export is optional. Earlier
+GIM/HPN/formal analyses are retained below as supporting evidence.""")),
+        tag(nbformat.v4.new_code_cell("""import subprocess
+import json
+sys.path.insert(0, str(PROJECT_ROOT))
+subprocess.run([sys.executable, 'scripts/fetch_branching_models.py'], cwd=PROJECT_ROOT, check=True)
+subprocess.run([sys.executable, 'scripts/run_branching_cases.py'], cwd=PROJECT_ROOT, check=True)
+subprocess.run([sys.executable, 'scripts/run_R3_external_audit.py', '--sustained-word-only'], cwd=PROJECT_ROOT, check=True)
+r3_baseline = json.loads((PROJECT_ROOT / 'results/death_receptor_sustained_comparison.json').read_text())
+r3_external_word = json.loads((PROJECT_ROOT / 'results/death_receptor_sustained_external_word.json').read_text())
+assert r3_baseline['trace_analysis']['exact_trace_equal'] is False
+assert r3_baseline['weak_simulations']['left_simulated_by_right'] is False
+assert r3_baseline['weak_simulations']['right_simulated_by_left'] is None
+assert r3_external_word['confirmed']
+display(r3_baseline['trace_analysis'])
+display(r3_external_word)
+r3_summary = json.loads((PROJECT_ROOT / 'results/death_receptor_execution_summary.json').read_text())
+r3_witness = json.loads((PROJECT_ROOT / 'results/death_receptor_branching_witness.json').read_text())
+display(r3_summary)
+display(r3_witness['conditioned_sustained'])
+display(r3_witness['history_aggregated_futures'])
+display(pd.read_csv(PROJECT_ROOT / 'results/death_receptor_commitment_scan.csv').head(12))
+display(json.loads((PROJECT_ROOT / 'results/death_receptor_independent_trace_audit.json').read_text()))
+subprocess.run([sys.executable, 'scripts/make_revision_R3_figures.py'], cwd=PROJECT_ROOT, check=True)
+from IPython.display import Image
+display(Image(filename=str(PROJECT_ROOT / 'revision_R3/R3_Fig1.png')))""")),
+        tag(nbformat.v4.new_code_cell("""from dataclasses import replace
+from src.death_receptor_analysis import load_variants, OBSERVABLES
+from src.controlled_interventions import generate
+from src.branching_witness import find_branching_witness, verify_branching_witness
+r3_models = load_variants()
+shared = tuple(r3_witness['shared_retained_state'].get(v, 0) for v in r3_models[0].variables)
+full_continuations = [generate(replace(m, initial=shared), OBSERVABLES, withdraw='TNF') for m in r3_models]
+checked = find_branching_witness(full_continuations[0].lts, full_continuations[1].lts)
+assert verify_branching_witness(full_continuations[0].lts, full_continuations[1].lts, checked)
+assert checked['left_simulated_by_right'] and not checked['right_simulated_by_left']
+assert not checked['weak_bisimilar'] and not checked['exact_trace_equal']
+display({k:v for k,v in checked.items() if k != 'certificate'})""")),
+    ]
+    nb.cells[setup_index + 1:setup_index + 1] = r3_cells + gim_cells + benchmark_cells + audit_cells
 
     summary_index = next(
         i for i, cell in reversed(list(enumerate(nb.cells)))
         if cell.cell_type == "markdown" and cell.source.lstrip().startswith("## Summary")
     )
-    nb.cells[summary_index].source = SUMMARY
+    nb.cells[summary_index].source = SUMMARY.replace('## Summary',
+        '## Summary\n\nR3: endpoint-matched death-receptor variants have different withdrawal futures; '
+        'global sustained trace equality is refuted; reverse inclusion remains undecided. '
+        'The earlier supporting results follow.', 1).replace(
+            'Central GIM result:', 'Secondary GIM result:')
+    nb.cells[0].source = """# Locating resolution-dependent behavioral correspondence in qualitative DNA-damage response models
+### JBCB R3: death-receptor comparison first; GIM and formal audits retained
+
+R3 separates endpoint agreement, conditioned exact trace equality, and
+intervention-dependent futures. Global sustained trace equality is refuted;
+the reverse trace inclusion remains undecided. The 12-action counterexample
+and mCRL2 checks are reproduced below from the original model rules;
+no new experimental validation or uniquely observed hidden state is claimed.
+
+The earlier GIM, HPN and formal audits follow as supporting analyses. All
+biological claims are conditional on the encoded models, fixed interface,
+initial conditions and update semantics. The feedback/withdrawal phenomenon
+was already reported by Calzone et al. (2010); this notebook reconstructs its
+relational and reachable-future interpretation.
+"""
     nbformat.write(nb, NOTEBOOK)
 
 

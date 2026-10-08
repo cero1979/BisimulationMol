@@ -1,0 +1,41 @@
+{
+  "checks": [
+    {
+      "expected": true,
+      "input_sha256": "98a2732d9e1b8e3d60f395254b20cbc29a523461e9572b08f41a0f6d697f1273",
+      "model": "DR-FB+",
+      "preorder": "weak-trace-ac",
+      "status": "complete",
+      "strategy": "breadth",
+      "timeout_seconds": 180,
+      "value": true
+    },
+    {
+      "expected": false,
+      "input_sha256": "f0e205feb64bd9d20b31467ad9665c0e4cead005485dfb97edf14e6ab2b69aa7",
+      "model": "DR-FB-",
+      "preorder": "weak-trace-ac",
+      "status": "complete",
+      "strategy": "breadth",
+      "timeout_seconds": 180,
+      "value": false
+    }
+  ],
+  "confirmed": true,
+  "scope": "regenerated hidden-sink quotients; weak properties preserved",
+  "version": "ltscompare mCRL2 toolset 202607.0 (Release)",
+  "word": [
+    "MPT_up",
+    "CASP3_up",
+    "CASP3_down",
+    "NFkB_up",
+    "NFkB_down",
+    "MPT_down",
+    "CASP3_up",
+    "CASP3_down",
+    "CASP3_up",
+    "CASP3_down",
+    "CASP3_up",
+    "CASP3_down"
+  ]
+}

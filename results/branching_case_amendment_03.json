@@ -1,0 +1,10 @@
+{
+  "date": "2026-09-23",
+  "type": "post-discovery correction and resource amendment",
+  "reason": "The feasibility probe refuted sustained global trace equality with an independently checked finite word.",
+  "unchanged": ["source model", "feedback deletion", "initial state", "observables", "asynchronous semantics", "hidden-sink projection"],
+  "sustained_discovery_limits": {"max_subsets": 100000, "max_bytes": 2000000000, "max_seconds": 600},
+  "verification": "Recheck the discovered 12-action word on regenerated graphs; keep reverse inclusion unknown unless separately decided.",
+  "external_check": "mCRL2 weak-trace antichain inclusion of the finite prefix-language in each regenerated graph, 180 seconds per command.",
+  "interpretation": "A counterexample decides inequality without complete language exploration. A timeout never decides a relation. This is not a prospective registration."
+}

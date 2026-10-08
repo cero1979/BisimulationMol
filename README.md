@@ -1,18 +1,62 @@
-# Auditing observable behavior in qualitative biological network models
+# Locating resolution-dependent behavioral correspondence in qualitative DNA-damage response models
 
 [![Reproducibility](https://github.com/cero1979/BisimulationMol/actions/workflows/reproduce.yml/badge.svg)](https://github.com/cero1979/BisimulationMol/actions/workflows/reproduce.yml)
 
 This repository is the end-to-end reproducibility package for the manuscript:
 
-> *A formal and reproducible framework for auditing observable behavior in
-> qualitative biological network models*
+> *Locating resolution-dependent behavioral correspondence in qualitative DNA-damage response models*
 
-The current manuscript is prepared for the **Journal of Bioinformatics and
-Computational Biology (JBCB)** using the author-supplied World Scientific class.
-Its contribution is a formal and computational framework for reporting the
-strongest supported behavioral relation between two finite labeled models under
-a declared interface. It does **not** infer experimental
-or organism-level biological equivalence from graph structure.
+The manuscript was accepted by the **Journal of Bioinformatics and
+Computational Biology (JBCB)** on October 2, 2026 (JBCB-1505R3).
+The current **third major revision (R3)** is in `revision_R3/` and uses the
+author-supplied World Scientific class. Production materials are in
+`production_jbcb_R3/` and `JBCB-1505-R3-production.zip`.
+The repository includes the accepted-version sources, results, executed notebook,
+and production files. This does not imply that a production email has been sent.
+
+Read the [main manuscript](revision_R3/main_jbcb_R3.pdf),
+[supplement](revision_R3/Supplementary_Validation_R3.pdf), and
+[executed notebook](notebooks/metodologia_multiescala.ipynb).
+The [production ZIP](JBCB-1505-R3-production.zip) contains both editable
+documents, compiled PDFs, all six figures, the class, and the author biography.
+
+R3 makes a fixed-interface Calzone death-receptor comparison the principal case:
+
+- Sustained TNF: both variants reach survival, apoptosis and necrosis.
+- A shared state after eight updates has exactly equal sustained continuations.
+- Withdrawal from that state preserves CASP3/apoptosis with feedback, but permits
+  CASP3 loss and only the model's naive terminal signature without feedback.
+- Global sustained trace equality is **refuted** by a verified 12-action word.
+  FB- cannot weakly simulate FB+; reverse trace inclusion remains undecided.
+  The conditioned sustained equality above is unchanged. With withdrawal included,
+  exact counterexamples refute both global
+  trace inclusions and weak-simulation directions.
+- This is Pattern B (endpoint agreement plus intervention divergence), **not**
+  a globally equal-trace/different-branching biological example. The phenomenon
+  and withdrawal perturbation were already described by Calzone et al. (2010).
+  No wet-lab validation or recovery of an apoptotic cell is claimed.
+
+Run `make jbcb-r3-analysis PY=python` to regenerate all new graphs, futures,
+trace certificates and the scan; `make jbcb-r3-package PY=python` builds flat
+submission ZIPs with embedded bibliography. The notebook regenerates R3 first
+and retains the earlier GIM, HPN and formal audits. See
+[candidate selection](revision_R3/candidate_selection.md) and the
+[reproducibility guide](REPRODUCIBILITY.md).
+
+The **second major revision (R2)** remains unchanged in `revision_R2/`; the supplied R1 is
+preserved unchanged in `revision_R2/original_R1/` with SHA-256 hashes.
+The retained secondary GIM result asks where encoded animal/human and Arabidopsis DNA-damage
+responses stop matching under three declared readouts. PN-GDDA stays
+`0.9975845917160132`; A/B are weakly bisimilar, while C has neither simulation
+direction. This locates a model-dependent boundary between B and C, not a
+unique minimal biological resolution or an experimentally validated difference.
+
+The R2 mathematical audit retains Example 1: early is simulated by late, not
+conversely, despite exact trace equality. A new raw-edge independent oracle,
+explicit witness/deletion certificates, and mCRL2 on the tau-free example agree.
+See [formal audit](revision_R2/formal_audit_report.md),
+[reviewer matrix](revision_R2/reviewer_comment_matrix.md), and
+[change log](revision_R2/manuscript_changes_R2.md).
 
 ## Reproduction levels
 
@@ -23,8 +67,9 @@ and contact the source repositories only when a file is absent or invalid.
 | Level | Purpose | Command | Additional requirements |
 |---|---|---|---|
 | Inspect | Read the executed analysis and committed outputs | Open `notebooks/metodologia_multiescala.ipynb` and `results/` | None |
-| Core | Re-run formal tests, figures and deterministic tables | `make public-models hpn-data verify` | Python, Graphviz, mCRL2 |
-| Full | Recompute CASPOTS scores, notebook, manuscript and upload ZIPs | `make caspots-validation notebook manuscript package` | Core tools, Conda, LaTeX |
+| Core | Check source hashes and run regression/formal tests | `make public-models hpn-data test` | Python; mCRL2 for the two external-oracle tests |
+| Full | Regenerate and compare deterministic results, including the large R3 graphs | `make verify` | Python, Graphviz, mCRL2; several GiB RAM (tested with 18 GiB) |
+| Extended | Recompute CASPOTS scores, notebook, manuscript and upload ZIPs | `make caspots-validation notebook manuscript package` | Full tools, Conda, LaTeX |
 
 `make verify` is the primary reproducibility check. It runs the complete test
 suite,
@@ -55,7 +100,7 @@ The study addresses five recurring validity risks:
    The negative specificity result is retained rather than converted into a
    biological-equivalence claim.
 
-A second adversarial pass adds four targeted safeguards:
+Further verification adds these safeguards:
 
 1. **Direct graphlet comparison.** PN-GDDA is now executed with the published
    151-graphlet/592-slot Holmes catalog on canonical Petri-net encodings and on
@@ -70,14 +115,19 @@ A second adversarial pass adds four targeted safeguards:
 4. **Evidence taxonomy.** Formal correctness, software verification,
    executable-model support and independent biological interpretation are
    reported as four separate layers.
-5. **Current positioning.** The manuscript now cites direct Petri-net graphlet,
-   most-permissive Boolean-network, model-checking and data-informed inference
-   literature, with an explicit novelty matrix and stated residual limits.
+5. **R2 positioning.** GIM and the biological readout question lead the article;
+   formal proofs remain in an appendix and detailed software validation in the
+   supplement. Prior biological knowledge, computed model relations, and
+   unvalidated experimental consequences are explicitly separated.
 
 ## Main results
 
 | Evidence item | Result | Supported interpretation |
 |---|---|---|
+| R3 death-receptor baseline | Same three stable fates; global trace equality refuted | A verified 12-action counterexample; reverse inclusion remains undecided |
+| R3 conditioned withdrawal | FB+ is simulated by FB-, not conversely; sustained continuations exactly equivalent | A shared reachable state has different future options after the same intervention |
+| R3 global withdrawal | Two exact counterexample traces, independently verified with all 28 nodes | Both global trace inclusions and weak simulations fail; not a trace-equal/branching-only distinction |
+| Secondary GIM comparison | A/B: weak bisimulation; C: neither direction; PN-GDDA unchanged at 0.9976 | Correspondence is conditional on the declared biological readout, not organism-level equivalence |
 | Six construction-ground-truth pairs | 6/6 formal classes recovered | The implementation distinguishes equivalence, directional simulation and non-comparability |
 | Independent mCRL2 oracle | 42/42 synthetic, public-model and HPN strong/weak decisions agree | The principal formal decisions are not specific to the Python implementation |
 | Exhaustive simulation-game oracle | 67,600/67,600 ordered pairs agree | Directional simulation has an independent audit on the declared finite universe |
@@ -177,7 +227,7 @@ The current reference scalability run reached 129 x 145 states and approximately
 0.6 s on an Apple M3 Pro. Timings are machine-dependent; model sizes,
 relations and classifications are deterministic.
 
-In the central GIM case, the unchanged structures have PN-GDDA `0.9976`.
+In the retained secondary GIM case, the unchanged structures have PN-GDDA `0.9976`.
 Interfaces A (coarse) and B (pathway-resolved with terminal fate collapsed) are
 weakly bisimilar; Interface C distinguishes apoptosis, SMR induction and the
 encoded plant terminal outcome and is non-comparable in both directions. RCD is
@@ -208,9 +258,23 @@ notebooks/metodologia_multiescala.ipynb
 make_figures.py                   Regenerates figures and machine-readable results
 results/                          CSV and LaTeX result tables
 figs/                             Regenerated figures (git-ignored)
-paper/jbcb/main_jbcb.tex          Current manuscript in the official JBCB class
-paper/jbcb/references_jbcb.bib    Verified World Scientific bibliography
-scripts/build_jbcb_package.py     Builds and checks the clean JBCB upload ZIP
+revision_R3/main_jbcb_R3.tex      Current R3 manuscript with inline bibliography
+revision_R3/sections/            R3 biological results and self-contained response
+revision_R3/FINAL_REPORT_R3.md    Findings, limitations and verification report
+src/death_receptor_analysis.py   Pinned source and predeclared variant/interface
+src/compact_execution.py         Compact Boolean graphs and exact trace search
+src/branching_witness.py          All-defender losing-game certificate
+src/independent_trace_witness.py Full-source-rule trace counterexample audit
+scripts/run_branching_cases.py   Rebuilds R3 scientific outputs from source rules
+scripts/build_jbcb_R3_package.py  Clean-builds current flat R3 archives
+revision_R2/main_jbcb_R2.tex      Retained R2 manuscript with inline bibliography
+revision_R2/sections/            Reviewed replacement sections for R2 assembly
+revision_R2/original_R1/         Immutable supplied R1 baseline
+revision_R2/Supplementary_Validation_R2.tex  Detailed supporting validation
+src/formal_revision_audit.py     Raw-edge independent game and exact-trace audit
+scripts/build_jbcb_R2_package.py  Builds and clean-checks retained flat R2 archives
+paper/jbcb/main_jbcb.tex          Retained pre-R2 manuscript source
+paper/jbcb/references_jbcb.bib    Historical verified bibliography source
 CLAIM_AUDIT_JBCB.md               Evidence status for manuscript claims
 REFERENCE_AUDIT_JBCB.md           Per-reference metadata and DOI audit
 REPRODUCIBILITY.md                Reviewer-oriented reproduction guide
@@ -254,17 +318,31 @@ make manuscript
 make package
 ```
 
-The upload archive is `JBCB-1505-revised.zip`. It contains
-`main_jbcb.tex`, a prebuilt `bibliography_jbcb.bbl`, the BibTeX database, the
-unmodified `ws-jbcb.cls` and `ws-jbcb.bst`, and the six vector figure files.
-All eleven files are stored at the ZIP root because Editorial Manager rejects
-LaTeX archives containing subfolders. The local preview PDF is deliberately not
-inside the ZIP: Editorial Manager warns against uploading a PDF and TeX source
-with the same basename. The builder verifies the exact `.bbl`-based upload
-source, rejects broken references, box overflow, and nested archive entries,
-removes auxiliary files, and checks ZIP integrity.
+The combined flat archive is `JBCB-1505-R3.zip` (one manuscript master plus
+the supplementary and response PDFs). For the portal, prefer
+`JBCB-1505-R3-manuscript-only.zip` as
+**Manuscript**, with only one master, the class, and four figures. Attach
+`revision_R3/Supplementary_Validation_R3.pdf` separately as **Supplemental
+Material** and `revision_R3/response_to_reviewer_R3.pdf` as **Reply to Referee's
+Comments**. A separate supplemental source ZIP is also produced. Do not upload
+both the complete source archive and the manuscript-only archive together.
+
+Both masters contain inline bibliographies; no `.bib`, `.bbl`, or `.bst` is
+needed by the submission system. R3 figure names prevent collisions with R2;
+remove or deselect all superseded submission files rather than carrying them forward.
+The builder verifies exact archives in empty directories using three
+`pdflatex` passes without BibTeX/cache, rejecting unresolved references and
+overflow. Details and build hashes are in `revision_R3/package_validation_R3.json`.
+Follow [R3 upload instructions](revision_R3/UPLOAD_R3.md). Earlier packages
+and `paper/jbcb/` remain historical; `make manuscript` and `make package` now
+target R3. Run `make jbcb-r2-audit` to regenerate the extended mathematical audit.
 Code, public models, tests, result tables, and the executed notebook remain in
 this repository as the reproducibility package.
+The separate `JBCB-1505-R3-reproducibility.zip` provides a portable snapshot of
+the R3 analysis and manuscript artifacts; it is a code/data supplement, not a
+LaTeX manuscript archive. Its file hashes are recorded in
+`revision_R3/reproducibility_archive_R3.json`. The repository may contain newer
+documentation than this dated snapshot; use a Git commit to pin a checkout.
 
 ## Reproducibility contract
 
